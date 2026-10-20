@@ -12,12 +12,6 @@
   <meta name="apple-mobile-web-app-title" content="리햅프로">
   <meta name="description" content="현장 트레이너를 위한 40가지 재활 증상 4단계 컨디셔닝 솔루션">
   
-  <!-- Manifest (Data URI) -->
-  <link rel="manifest" href="data:application/manifest+json;utf-8,%7B%22name%22%3A%22%EB%A6%AC%ED%95%B5%ED%94%84%EB%A1%9C%20Rehab%20Pro%2040%22%2C%22short_name%22%3A%22%EB%A6%AC%ED%95%B5%ED%94%84%EB%A1%9C%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23121212%22%2C%22theme_color%22%3A%22%23121212%22%7D">
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='25' fill='%23121212'/%3E%3Cpath d='M30 25 h25 a15 15 0 0 1 0 30 h-25 z' fill='none' stroke='%23CCFF00' stroke-width='8'/%3E%3Cpath d='M50 55 l20 25' stroke='%2300E5FF' stroke-width='8' stroke-linecap='round'/%3E%3Ccircle cx='70' cy='30' r='6' fill='%23CCFF00'/%3E%3C/svg%3E">
-
   <style>
     :root {
       --bg-main: #121212;
@@ -51,7 +45,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg-main); }
     ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
@@ -80,7 +73,6 @@
     }
     .btn-header:hover { border-color: var(--cyan); color: var(--cyan); }
     .btn-header.primary { background: var(--lime); color: #121212; border-color: var(--lime); }
-    .btn-header.primary:hover { background: #b3e600; color: #121212; }
 
     .main-container { max-width: 1200px; margin: 0 auto; padding: 16px; }
 
@@ -186,7 +178,7 @@
 
     .modal-box {
       background: var(--bg-surface); border: 1px solid var(--border-color);
-      border-radius: 18px; width: 100%; max-width: 820px; max-height: 92vh;
+      border-radius: 18px; width: 100%; max-width: 860px; max-height: 92vh;
       display: flex; flex-direction: column; overflow: hidden;
       box-shadow: 0 20px 60px rgba(0,0,0,0.8);
       animation: modalSlideUp 0.2s ease-out;
@@ -239,17 +231,21 @@
     }
     .detail-desc { font-size: 0.92rem; color: #eee; line-height: 1.55; white-space: pre-line; }
 
-    /* Webp Asset Image Container */
+    /* Webp Asset / SVG Fallback Banner */
     .asset-img-container {
       margin-top: 12px; border-radius: 10px; overflow: hidden;
       border: 1px solid var(--border-color); background: #141414; text-align: center;
     }
     .asset-img-container img {
-      width: 100%; max-height: 220px; object-fit: cover; display: block;
+      width: 100%; max-height: 180px; object-fit: cover; display: block;
     }
-    .asset-img-caption {
-      font-size: 0.72rem; color: var(--text-gray); padding: 6px; background: #111;
+    .asset-placeholder {
+      padding: 20px; background: linear-gradient(135deg, #182016, #141414);
+      border: 1px dashed rgba(204,255,0,0.3); border-radius: 10px; text-align: center; margin-top: 12px;
     }
+    .asset-placeholder svg { width: 48px; height: 48px; fill: var(--lime); margin-bottom: 6px; }
+    .asset-placeholder p { font-size: 0.78rem; color: var(--text-gray); }
+    .asset-placeholder b { color: #fff; font-size: 0.85rem; display: block; margin-bottom: 2px; }
 
     .tp-box {
       background: rgba(255, 145, 0, 0.1); border-left: 4px solid var(--orange);
@@ -330,7 +326,6 @@
       border-radius: 12px; padding: 14px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 6px;
     }
 
-    /* Toast */
     .toast-box {
       position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
       background: #222; border: 1px solid var(--lime); color: #fff;
@@ -403,9 +398,15 @@
           <div class="tp-box" id="mTpBox">
             <strong>📍 트리거포인트(압통점) 랜드마크 위치:</strong>
             <div id="mTpText" style="margin-top:4px;">-</div>
-            <div class="asset-img-container" id="mTpImageWrap" style="display:none;">
-              <img id="mTpImage" src="" alt="압통점 랜드마크 가이드" loading="lazy">
-              <div class="asset-img-caption">압통점(TP) 촉지 위치 가이드 이미지 (.webp 최적화)</div>
+            
+            <!-- Webp Image with Fallback Placeholder -->
+            <div class="asset-img-container" id="mTpImageWrap">
+              <img id="mTpImage" src="" alt="압통점 랜드마크" onerror="this.style.display='none'; document.getElementById('tpFallback').style.display='block';">
+            </div>
+            <div class="asset-placeholder" id="tpFallback" style="display:none;">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+              <b>해부학 랜드마크 포인트 가이드</b>
+              <p>정확한 촉지 위치를 트레이너 핸즈온 가이드에 따라 압박하세요.</p>
             </div>
           </div>
 
@@ -418,9 +419,14 @@
         <div class="detail-card">
           <div class="detail-title" style="color:var(--lime);">🩺 기능 검사 및 통증 확인 방법 (TEST)</div>
           <div class="detail-desc" id="mTestDesc">-</div>
-          <div class="asset-img-container" id="mTestImageWrap" style="display:none;">
-            <img id="mTestImage" src="" alt="기능 검사 가이드" loading="lazy">
-            <div class="asset-img-caption">기능 검사 및 양성 판정 가이드 이미지 (.webp 최적화)</div>
+          
+          <div class="asset-img-container" id="mTestImageWrap" style="margin-top:12px;">
+            <img id="mTestImage" src="" alt="기능 검사법" onerror="this.style.display='none'; document.getElementById('testFallback').style.display='block';">
+          </div>
+          <div class="asset-placeholder" id="testFallback" style="display:none;">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <b>기능 검사 및 양성 판정 가이드</b>
+            <p>환자의 자세 세팅 후 움직임 유도 및 통증 발생 여부를 체크하세요.</p>
           </div>
         </div>
 
@@ -556,16 +562,16 @@
   <div class="toast-box" id="toastBox"></div>
 
   <script>
-    // 40가지 전체 증상 데이터베이스 (표준 JSON 스키마 완벽 연동 & .webp 에셋 경로 포함)
+    // 40가지 전체 증상 데이터베이스 (이미지 경로 및 상세 가이드 포함)
     const SYMPTOM_DATA = [
       {
         "id": 1,
         "title": "상완골 전방활주 증후군",
         "category": "상체",
         "keywords": ["어깨 찝힘", "어깨 통증", "상완골", "전방활주", "소흉근"],
-        "test": "어깨 90도 외회전 찝힘 검사 / Anterior Apprehension Test\n1. 환자를 앙와위(누운 자세) 또는 싯팅 자세 세팅\n2. 어깨 90도 외전 및 외회전 유도\n3. 전방부 불안정성 및 통증 발생 시 양성",
+        "test": "어깨 90도 외회전 찝힘 검사 / Anterior Apprehension Test\n1. 환자를 앙와위 또는 싯팅 자세 세팅\n2. 어깨 90도 외전 및 외회전 유도\n3. 전방부 불안정성 및 통증 발생 시 양성",
         "test_img": "/assets/images/db/symptom_01_test.webp",
-        "trigger_points": "1) 소흉근 TP: 쇄골 아래 중앙에서 외하방으로 약 2~3cm 지점 (3~5번 늑골 부착부 외측)\n2) 견갑하근 TP: 겨드랑이 안쪽(견갑골 늑골면) 깊숙한 곳",
+        "trigger_points": "1) 소흉근 TP: 쇄골 아래 중앙에서 외하방으로 약 2~3cm 지점\n2) 견갑하근 TP: 겨드랑이 안쪽(견갑골 늑골면) 깊숙한 곳",
         "tp_img": "/assets/images/db/symptom_01_tp.webp",
         "direct": "소흉근, 상완이두근 장두, 후면 회전근개",
         "indirect": "광배근, 전거근, 후두하근",
@@ -1223,13 +1229,14 @@
     const mStepTitle = document.getElementById("mStepTitle");
     const mStepDesc = document.getElementById("mStepDesc");
     const mTpText = document.getElementById("mTpText");
-    const mTpImageWrap = document.getElementById("mTpImageWrap");
     const mTpImage = document.getElementById("mTpImage");
+    const tpFallback = document.getElementById("tpFallback");
     const mDirect = document.getElementById("mDirect");
     const mIndirect = document.getElementById("mIndirect");
     const mTestDesc = document.getElementById("mTestDesc");
-    const mTestImageWrap = document.getElementById("mTestImageWrap");
     const mTestImage = document.getElementById("mTestImage");
+    const testFallback = document.getElementById("testFallback");
+
     const timerDisplay = document.getElementById("timerDisplay");
     const btnTimer = document.getElementById("btnTimer");
     const btnTimerReset = document.getElementById("btnTimerReset");
@@ -1264,7 +1271,6 @@
     const btnClearAllLogs = document.getElementById("btnClearAllLogs");
     const toastBox = document.getElementById("toastBox");
 
-    /* Audio alert for timer */
     function playBeep() {
       try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -1379,13 +1385,16 @@
       mTitle.textContent = currentItem.title;
       mCategory.textContent = currentItem.category;
       
-      // Detailed guides & Webp images setup
       mTestDesc.textContent = currentItem.test;
+      
+      // Test Image handling with fallback
       if (currentItem.test_img) {
+        mTestImage.style.display = "block";
+        testFallback.style.display = "none";
         mTestImage.src = currentItem.test_img;
-        mTestImageWrap.style.display = "block";
       } else {
-        mTestImageWrap.style.display = "none";
+        mTestImage.style.display = "none";
+        testFallback.style.display = "block";
       }
 
       mDirect.textContent = currentItem.direct;
@@ -1400,11 +1409,15 @@
       });
 
       mTpText.textContent = currentItem.trigger_points;
+      
+      // TP Landmark Image handling with fallback
       if (currentItem.tp_img) {
+        mTpImage.style.display = "block";
+        tpFallback.style.display = "none";
         mTpImage.src = currentItem.tp_img;
-        mTpImageWrap.style.display = "block";
       } else {
-        mTpImageWrap.style.display = "none";
+        mTpImage.style.display = "none";
+        tpFallback.style.display = "block";
       }
 
       if (currentStep === 1) {
@@ -1546,7 +1559,7 @@
       clientRegModal.classList.remove("show");
     });
 
-    /* Member Session Memo (LocalStorage) */
+    /* Member Session Memo */
     function openMemoModal(preselectedId = null) {
       const clients = getClients();
       clientNameInput.innerHTML = clients.map(c => `
@@ -1669,7 +1682,6 @@
       }
     });
 
-    // Close on backdrop click
     [sessionModal, clientRegModal, memoModal, logsModal].forEach(m => {
       m.addEventListener("click", (e) => {
         if (e.target === m) {
@@ -1679,7 +1691,6 @@
       });
     });
 
-    /* Init Badges & Grid */
     function init() {
       const bAll = document.getElementById("bAll");
       const bUpper = document.getElementById("bUpper");
