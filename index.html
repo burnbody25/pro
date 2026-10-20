@@ -1239,10 +1239,10 @@ item.direct.toLowerCase().includes(q);
 });
 resultCount.textContent = filtered.length;
 if (filtered.length === 0) {
-symptomsGrid.innerHTML = ⁠<div style="grid-column: 1/-1; text-align: center; padding: 50px 20px; color: #777;"> 검색 결과가 없습니다. </div>⁠;
+symptomsGrid.innerHTML = <div style="grid-column: 1/-1; text-align: center; padding: 50px 20px; color: #777;"> 검색 결과가 없습니다. </div>;
 return;
 }
-symptomsGrid.innerHTML = filtered.map(item => ⁠<div class="symptom-card" data-id="${item.id}" data-cat="${item.category}"> <div> <div class="card-top"> <span class="card-badge ${item.category}">${item.category}</span> <span class="card-id">#${String(item.id).padStart(2,'0')}</span> </div> <div class="card-title">${item.title}</div> </div> <div class="card-box"> <strong>🩺 검사법 (TEST)</strong> ${item.test} </div> <button class="card-btn"> 4단계 매뉴얼 시작 ➔ </button> </div>⁠).join("");
+symptomsGrid.innerHTML = filtered.map(item => <div class="symptom-card" data-id="${item.id}" data-cat="${item.category}"> <div> <div class="card-top"> <span class="card-badge ${item.category}">${item.category}</span> <span class="card-id">#${String(item.id).padStart(2,'0')}</span> </div> <div class="card-title">${item.title}</div> </div> <div class="card-box"> <strong>🩺 검사법 (TEST)</strong> ${item.test} </div> <button class="card-btn"> 4단계 매뉴얼 시작 ➔ </button> </div>).join("");
 }
 symptomsGrid.addEventListener("click", (e) => {
 const card = e.target.closest(".symptom-card");
@@ -1306,17 +1306,17 @@ if (!currentItem) return;
 let title = "";
 let desc = "";
 if (currentStep === 1) {
-title = ⁠[1단계 MFR 상세 핸즈온 가이드] - ${currentItem.title}⁠;
-desc = ⁠• 목표 압통점: ${currentItem.trigger_points}\n• 적용 방법: ${currentItem.mfr}\n• 트레이너 팁: 환자의 호흡(들숨에 대기, 날숨에 압박)에 맞춰 천천히 수직 압박을 가하세요. 과도한 통증 호소 시 압력을 50% 줄이세요.⁠;
+title = [1단계 MFR 상세 핸즈온 가이드] - ${currentItem.title};
+desc = • 목표 압통점: ${currentItem.trigger_points}\n• 적용 방법: ${currentItem.mfr}\n• 트레이너 팁: 환자의 호흡(들숨에 대기, 날숨에 압박)에 맞춰 천천히 수직 압박을 가하세요. 과도한 통증 호소 시 압력을 50% 줄이세요.;
 } else if (currentStep === 2) {
-title = ⁠[2단계 관절가동술 상세 가이드] - ${currentItem.title}⁠;
-desc = ⁠• 적용 방법: ${currentItem.mobilization}\n• 트레이너 팁: 관절의 생리학적 장벽(Barrier) 직전까지 부드럽게 글라이딩을 유도하며, 저항감이 느껴질 때 강도를 높이지 마세요.⁠;
+title = [2단계 관절가동술 상세 가이드] - ${currentItem.title};
+desc = • 적용 방법: ${currentItem.mobilization}\n• 트레이너 팁: 관절의 생리학적 장벽(Barrier) 직전까지 부드럽게 글라이딩을 유도하며, 저항감이 느껴질 때 강도를 높이지 마세요.;
 } else if (currentStep === 3) {
-title = ⁠[3단계 액티브 활성화 상세 가이드] - ${currentItem.title}⁠;
-desc = ⁠• 적용 방법: ${currentItem.active}\n• 트레이너 팁: 타겟 근육의 고립 수축을 확인하고, 대상자가 보상 작용(다른 관절의 개입)을 하지 않는지 측면에서 모니터링하세요.⁠;
+title = [3단계 액티브 활성화 상세 가이드] - ${currentItem.title};
+desc = • 적용 방법: ${currentItem.active}\n• 트레이너 팁: 타겟 근육의 고립 수축을 확인하고, 대상자가 보상 작용(다른 관절의 개입)을 하지 않는지 측면에서 모니터링하세요.;
 } else if (currentStep === 4) {
-title = ⁠[4단계 패시브 스트레칭 상세 가이드] - ${currentItem.title}⁠;
-desc = ⁠• 적용 방법: ${currentItem.passive}\n• 트레이너 팁: 반동을 절대 주지 말고, 최종 지점에서 30초 이상 등척성 혹은 정적 신전을 유지하도록 지도하세요.⁠;
+title = [4단계 패시브 스트레칭 상세 가이드] - ${currentItem.title};
+desc = • 적용 방법: ${currentItem.passive}\n• 트레이너 팁: 반동을 절대 주지 말고, 최종 지점에서 30초 이상 등척성 혹은 정적 신전을 유지하도록 지도하세요.;
 }
 sdModalTitle.textContent = title;
 sdModalContent.textContent = desc;
@@ -1336,7 +1336,7 @@ btnTimer.textContent = "▶ 시작";
 function updateTimerUI() {
 const m = Math.floor(timerSec / 60);
 const s = timerSec % 60;
-timerDisplay.textContent = ⁠${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}⁠;
+timerDisplay.textContent = ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')};
 }
 btnTimer.addEventListener("click", () => {
 if (timerInterval) {
@@ -1431,15 +1431,15 @@ date: new Date().toLocaleDateString("ko-KR")
 saveClients(clients);
 renderClientList();
 addClientFormWrapper.style.display = "none";
-showToast(⁠✅ ${name} 회원이 등록되었습니다.⁠);
+showToast(✅ ${name} 회원이 등록되었습니다.);
 });
 function renderClientList() {
 const clients = getClients();
 if (clients.length === 0) {
-clientListContainer.innerHTML = ⁠<div style="text-align:center; padding:20px; color:#777;">등록된 회원이 없습니다. 상단에서 신규 회원을 등록해주세요.</div>⁠;
+clientListContainer.innerHTML = <div style="text-align:center; padding:20px; color:#777;">등록된 회원이 없습니다. 상단에서 신규 회원을 등록해주세요.</div>;
 return;
 }
-clientListContainer.innerHTML = clients.map(c => ⁠<div class="client-item-card"> <div> <strong style="color:#fff; font-size:1.02rem;">👤 ${c.name}</strong> <span style="font-size:0.78rem; color:var(--text-gray); margin-left:8px;">${c.phone}</span> <div style="font-size:0.7rem; color:#666; margin-top:2px;">등록일: ${c.date}</div> </div> <div style="display:flex; gap:6px;"> <button class="btn-memo-record" style="padding:6px 12px; font-size:0.78rem;" onclick="openProgramBuilder(${c.id})">🎯 60분 프로그램</button> <button class="btn-header" style="color:var(--red); font-size:0.75rem; padding:6px 8px;" onclick="deleteClient(${c.id})">삭제</button> </div> </div>⁠).join("");
+clientListContainer.innerHTML = clients.map(c => <div class="client-item-card"> <div> <strong style="color:#fff; font-size:1.02rem;">👤 ${c.name}</strong> <span style="font-size:0.78rem; color:var(--text-gray); margin-left:8px;">${c.phone}</span> <div style="font-size:0.7rem; color:#666; margin-top:2px;">등록일: ${c.date}</div> </div> <div style="display:flex; gap:6px;"> <button class="btn-memo-record" style="padding:6px 12px; font-size:0.78rem;" onclick="openProgramBuilder(${c.id})">🎯 60분 프로그램</button> <button class="btn-header" style="color:var(--red); font-size:0.75rem; padding:6px 8px;" onclick="deleteClient(${c.id})">삭제</button> </div> </div>).join("");
 }
 window.deleteClient = function(id) {
 if (!confirm("이 회원 정보를 삭제하시겠습니까?")) return;
@@ -1452,11 +1452,11 @@ window.openProgramBuilder = function(clientId) {
 const clients = getClients();
 activeProgramClient = clients.find(c => c.id === clientId);
 if (!activeProgramClient) return;
-pgModalTitle.textContent = ⁠${activeProgramClient.name} 회원님 맞춤 60분 프로그램⁠;
-pgModalSub.textContent = ⁠회원 특이사항: ${activeProgramClient.phone}⁠;
+pgModalTitle.textContent = ${activeProgramClient.name} 회원님 맞춤 60분 프로그램;
+pgModalSub.textContent = 회원 특이사항: ${activeProgramClient.phone};
 // Render Checkboxes for 40 symptoms
-symptomCheckGrid.innerHTML = SYMPTOM_DATA.map(s => ⁠<label class="symptom-checkbox-label"> <input type="checkbox" value="${s.id}" data-cat="${s.category}"> <span>[${s.category}] #${String(s.id).padStart(2,'0')} ${s.title}</span> </label>⁠).join("");
-programTimelineContainer.innerHTML = ⁠<div style="text-align:center; padding:30px; color:#666; font-size:0.85rem;"> 원하시는 증상을 1개 이상 체크한 후 [60분 프로그램 생성] 버튼을 클릭하세요. </div>⁠;
+symptomCheckGrid.innerHTML = SYMPTOM_DATA.map(s => <label class="symptom-checkbox-label"> <input type="checkbox" value="${s.id}" data-cat="${s.category}"> <span>[${s.category}] #${String(s.id).padStart(2,'0')} ${s.title}</span> </label>).join("");
+programTimelineContainer.innerHTML = <div style="text-align:center; padding:30px; color:#666; font-size:0.85rem;"> 원하시는 증상을 1개 이상 체크한 후 [60분 프로그램 생성] 버튼을 클릭하세요. </div>;
 generatedProgramData = null;
 clientManagerModal.classList.remove("show");
 programModal.classList.add("show");
@@ -1476,10 +1476,10 @@ const selectedSymptoms = SYMPTOM_DATA.filter(s => selectedIds.includes(s.id));
 // 2540분 (15분): 2단계 관절가동술 (Mobilization)
 // 4052분 (12분): 3단계 액티브 활성화 (Active Exercise)
 // 52~60분 (8분): 4단계 패시브 스트레칭 & 홈워크 티칭 (Passive & Feedback)
-const mfrList = selectedSymptoms.map(s => ⁠• ${s.title}: ${s.mfr}⁠).join("\n");
-const mobList = selectedSymptoms.map(s => ⁠• ${s.title}: ${s.mobilization}⁠).join("\n");
-const actList = selectedSymptoms.map(s => ⁠• ${s.title}: ${s.active}⁠).join("\n");
-const pasList = selectedSymptoms.map(s => ⁠• ${s.title}: ${s.passive}⁠).join("\n");
+const mfrList = selectedSymptoms.map(s => • ${s.title}: ${s.mfr}).join("\n");
+const mobList = selectedSymptoms.map(s => • ${s.title}: ${s.mobilization}).join("\n");
+const actList = selectedSymptoms.map(s => • ${s.title}: ${s.active}).join("\n");
+const pasList = selectedSymptoms.map(s => • ${s.title}: ${s.passive}).join("\n");
 generatedProgramData = {
 clientName: activeProgramClient.name,
 symptoms: selectedSymptoms.map(s => s.title).join(", "),
@@ -1523,7 +1523,7 @@ if (!generatedProgramData) {
 showToast("⚠️ 먼저 [60분 프로그램 생성]을 진행해주세요.");
 return;
 }
-const text = ⁠[리햅프로 60분 맞춤 컨디셔닝 리포트]\n\n👤 회원명: ${generatedProgramData.clientName} 회원님\n🎯 타겟 복합 증상: ${generatedProgramData.symptoms}\n\n[1단계 MFR 이완]\n${generatedProgramData.mfr}\n\n[2단계 관절가동]\n${generatedProgramData.mobilization}\n\n[3단계 액티브]\n${generatedProgramData.active}\n\n[4단계 패시브]\n${generatedProgramData.passive}\n\n💡 오늘의 세션이 성공적으로 완료되었습니다!⁠;
+const text = [리햅프로 60분 맞춤 컨디셔닝 리포트]\n\n👤 회원명: ${generatedProgramData.clientName} 회원님\n🎯 타겟 복합 증상: ${generatedProgramData.symptoms}\n\n[1단계 MFR 이완]\n${generatedProgramData.mfr}\n\n[2단계 관절가동]\n${generatedProgramData.mobilization}\n\n[3단계 액티브]\n${generatedProgramData.active}\n\n[4단계 패시브]\n${generatedProgramData.passive}\n\n💡 오늘의 세션이 성공적으로 완료되었습니다!;
 navigator.clipboard.writeText(text).then(() => showToast("📋 60분 프로그램 브리핑이 복사되었습니다!"));
 });
 btnSaveProgramLog.addEventListener("click", () => {
@@ -1534,16 +1534,16 @@ return;
 const newLog = {
 id: Date.now(),
 clientName: generatedProgramData.clientName,
-symptomTitle: ⁠[60분 종합] ${generatedProgramData.symptoms}⁠,
+symptomTitle: [60분 종합] ${generatedProgramData.symptoms},
 symptomCategory: "맞춤60분",
 vasScore: 5,
-notes: ⁠MFR/관절가동/액티브/패시브 복합 60분 프로그램 수행 완료.⁠,
+notes: MFR/관절가동/액티브/패시브 복합 60분 프로그램 수행 완료.,
 date: new Date().toLocaleString("ko-KR", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })
 };
 const logs = getLogs();
 logs.unshift(newLog);
 saveLogs(logs);
-showToast(⁠💾 ${generatedProgramData.clientName} 회원님의 60분 세션 기록이 저장되었습니다!⁠);
+showToast(💾 ${generatedProgramData.clientName} 회원님의 60분 세션 기록이 저장되었습니다!);
 programModal.classList.remove("show");
 });
 /* Member Session Memo (LocalStorage) */
@@ -1558,14 +1558,14 @@ function saveLogs(logs) {
 try { localStorage.setItem(STORAGE_KEY, JSON.stringify(logs)); } catch (e) {}
 }
 function openMemoModal(preselectedId = null) {
-sessionSymptomSelect.innerHTML = SYMPTOM_DATA.map(item => ⁠<option value="${item.id}" ${item.id === preselectedId ? 'selected' : ''}> [${item.category}] #${String(item.id).padStart(2,'0')} ${item.title} </option>⁠).join("");
+sessionSymptomSelect.innerHTML = SYMPTOM_DATA.map(item => <option value="${item.id}" ${item.id === preselectedId ? 'selected' : ''}> [${item.category}] #${String(item.id).padStart(2,'0')} ${item.title} </option>).join("");
 setVas(5);
 memoNotesInput.value = "";
 memoModal.classList.add("show");
 }
 function setVas(v) {
 selectedVas = v;
-vasValText.textContent = ⁠${v}점⁠;
+vasValText.textContent = ${v}점;
 document.querySelectorAll(".vas-btn").forEach(btn => {
 const val = parseInt(btn.getAttribute("data-v"), 10);
 btn.classList.toggle("selected", val === v);
@@ -1594,7 +1594,7 @@ date: new Date().toLocaleString("ko-KR", { month: "2-digit", day: "2-digit", hou
 const logs = getLogs();
 logs.unshift(newLog);
 saveLogs(logs);
-showToast(⁠✅ ${clientName} 회원 세션 메모가 저장되었습니다!⁠);
+showToast(✅ ${clientName} 회원 세션 메모가 저장되었습니다!);
 memoModal.classList.remove("show");
 });
 btnOpenMemoFromModal.addEventListener("click", () => {
@@ -1606,10 +1606,10 @@ function renderLogs(q = "") {
 const logs = getLogs();
 const filtered = logs.filter(l => !q || l.clientName.toLowerCase().includes(q.toLowerCase()));
 if (filtered.length === 0) {
-logsContainer.innerHTML = ⁠<div style="text-align:center; padding:30px; color:#666;">저장된 세션 기록이 없습니다.</div>⁠;
+logsContainer.innerHTML = <div style="text-align:center; padding:30px; color:#666;">저장된 세션 기록이 없습니다.</div>;
 return;
 }
-logsContainer.innerHTML = filtered.map(l => ⁠<div class="log-card"> <div style="display:flex; justify-content:space-between; align-items:center;"> <strong style="color:#fff; font-size:1rem;">👤 ${l.clientName} 회원님</strong> <span style="font-size:0.75rem; color:#888;">${l.date}</span> </div> <div style="color:var(--lime); font-size:0.85rem; font-weight:700;">${l.symptomTitle}</div> <div style="font-size:0.8rem; color:#ddd;">통증 자각 척도(VAS): <b>${l.vasScore}/10</b></div> ${l.notes ?⁠<div style="background:#141414; padding:8px 10px; border-radius:6px; font-size:0.8rem; color:#ccc; margin-top:4px;">${l.notes}</div>⁠: ''} <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:6px;"> <button class="btn-header" style="font-size:0.72rem; padding:4px 8px; color:var(--cyan);" onclick="copyLogShare(${l.id})">💬 브리핑 복사</button> <button class="btn-header" style="font-size:0.72rem; padding:4px 8px; color:var(--red);" onclick="deleteLogItem(${l.id})">삭제</button> </div> </div>⁠).join("");
+logsContainer.innerHTML = filtered.map(l => <div class="log-card"> <div style="display:flex; justify-content:space-between; align-items:center;"> <strong style="color:#fff; font-size:1rem;">👤 ${l.clientName} 회원님</strong> <span style="font-size:0.75rem; color:#888;">${l.date}</span> </div> <div style="color:var(--lime); font-size:0.85rem; font-weight:700;">${l.symptomTitle}</div> <div style="font-size:0.8rem; color:#ddd;">통증 자각 척도(VAS): <b>${l.vasScore}/10</b></div> ${l.notes ?<div style="background:#141414; padding:8px 10px; border-radius:6px; font-size:0.8rem; color:#ccc; margin-top:4px;">${l.notes}</div>: ''} <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:6px;"> <button class="btn-header" style="font-size:0.72rem; padding:4px 8px; color:var(--cyan);" onclick="copyLogShare(${l.id})">💬 브리핑 복사</button> <button class="btn-header" style="font-size:0.72rem; padding:4px 8px; color:var(--red);" onclick="deleteLogItem(${l.id})">삭제</button> </div> </div>).join("");
 }
 window.deleteLogItem = function(id) {
 if (!confirm("이 기록을 삭제하시겠습니까?")) return;
@@ -1621,7 +1621,7 @@ showToast("삭제되었습니다.");
 window.copyLogShare = function(id) {
 const log = getLogs().find(l => l.id === id);
 if (!log) return;
-const text = ⁠[리햅프로 컨디셔닝 세션 리포트]\n\n👤 회원명: ${log.clientName} 회원님\n📅 일시: ${log.date}\n🎯 프로토콜: ${log.symptomTitle}\n🩺 통증점수(VAS): ${log.vasScore}/10\n\n📝 피드백 메모:\n${log.notes || '4단계 컨디셔닝을 성공적으로 수행하였습니다.'}⁠;
+const text = [리햅프로 컨디셔닝 세션 리포트]\n\n👤 회원명: ${log.clientName} 회원님\n📅 일시: ${log.date}\n🎯 프로토콜: ${log.symptomTitle}\n🩺 통증점수(VAS): ${log.vasScore}/10\n\n📝 피드백 메모:\n${log.notes || '4단계 컨디셔닝을 성공적으로 수행하였습니다.'};
 navigator.clipboard.writeText(text).then(() => showToast("📋 회원 카톡 전송용 브리핑 문구가 복사되었습니다!"));
 };
 btnOpenLogs.addEventListener("click", () => {
@@ -1666,4 +1666,3 @@ init();
 </script>
 </body>
 </html>
-
