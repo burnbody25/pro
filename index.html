@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>리햅프로 (Rehab Pro) - 40대 증상 통합 스마트 상담/컨디셔닝</title>
+  <title>리햅프로 (Rehab Pro) - 40대 증상 통합 스마트 상담/자세분석</title>
   
   <!-- PWA Meta -->
   <meta name="theme-color" content="#121212">
@@ -125,7 +125,7 @@
 
     .modal-box {
       background: var(--bg-surface); border: 1px solid var(--border-color);
-      border-radius: 18px; width: 100%; max-width: 860px; max-height: 92vh;
+      border-radius: 18px; width: 100%; max-width: 900px; max-height: 94vh;
       display: flex; flex-direction: column; overflow: hidden;
     }
 
@@ -171,7 +171,7 @@
     }
     .timer-btn.running { background: var(--orange); color: #fff; }
 
-    /* 회원 등록 및 그리드 사진 분석 스타일 */
+    /* 회원 등록 및 2분할 비교 분석 스타일 */
     .form-group { margin-bottom: 14px; }
     .form-label { display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-gray); margin-bottom: 6px; }
     .form-input, .form-select, .form-textarea {
@@ -182,7 +182,7 @@
     
     .symptom-checkbox-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px;
-      max-height: 200px; overflow-y: auto; background: #141414; padding: 10px; border-radius: 8px;
+      max-height: 180px; overflow-y: auto; background: #141414; padding: 10px; border-radius: 8px;
       border: 1px solid var(--border-color); margin-top: 6px;
     }
     .symptom-check-item {
@@ -196,31 +196,48 @@
     }
     .recommend-title { font-size: 0.9rem; font-weight: 800; color: var(--lime); margin-bottom: 8px; }
 
-    /* 자세 분석 그리드 사진 뷰어 */
-    .photo-grid-container {
-      position: relative; width: 100%; max-height: 320px; background: #111; border-radius: 10px;
-      overflow: hidden; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center;
-      margin-top: 8px;
+    /* 2분할 비교 레이아웃 */
+    .compare-container {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px;
     }
-    .photo-grid-container img {
-      max-width: 100%; max-height: 300px; object-fit: contain; display: block;
+    .compare-card {
+      background: #111; border: 1px solid var(--border-color); border-radius: 10px; padding: 10px; display: flex; flex-direction: column; gap: 6px;
     }
-    /* 가로 세로 그리드 오버레이 라인 */
+    .compare-title { font-size: 0.8rem; font-weight: 700; color: var(--cyan); display: flex; justify-content: space-between; align-items: center; }
+    
+    /* 이동형 그리드 사진 뷰어 */
+    .photo-frame {
+      position: relative; width: 100%; height: 260px; background: #000; border-radius: 8px;
+      overflow: hidden; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center;
+      touch-action: none;
+    }
+    .photo-frame img {
+      max-width: 100%; max-height: 100%; object-fit: contain; display: block; pointer-events: none;
+    }
     .grid-overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
       background-image: 
-        linear-gradient(to right, rgba(0, 229, 255, 0.25) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 229, 255, 0.25) 1px, transparent 1px);
-      background-size: 40px 40px;
+        linear-gradient(to right, rgba(0, 229, 255, 0.2) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 229, 255, 0.2) 1px, transparent 1px);
+      background-size: 35px 35px;
     }
-    .grid-center-cross {
+    /* 드래그 가능한 십자선 */
+    .draggable-crosshair {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
     }
-    .grid-center-cross::before {
-      content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: rgba(204, 255, 0, 0.6);
+    .draggable-h-line {
+      position: absolute; left: 0; width: 100%; height: 2px; background: var(--lime); box-shadow: 0 0 4px var(--lime); top: 50%;
     }
-    .grid-center-cross::after {
-      content: ''; position: absolute; top: 0; left: 50%; width: 2px; height: 100%; background: rgba(204, 255, 0, 0.6);
+    .draggable-v-line {
+      position: absolute; top: 0; width: 2px; height: 100%; background: var(--lime); box-shadow: 0 0 4px var(--lime); left: 50%;
+    }
+    .crosshair-handle {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 24px; height: 24px; background: rgba(204, 255, 0, 0.3); border: 2px solid var(--lime);
+      border-radius: 50%; cursor: move; pointer-events: auto; display: flex; align-items: center; justify-content: center;
+    }
+    .crosshair-handle::after {
+      content: ''; width: 6px; height: 6px; background: var(--lime); border-radius: 50%;
     }
   </style>
 </head>
@@ -229,10 +246,10 @@
   <header class="app-header">
     <div class="brand-title-wrap">
       <h1>REHAB <span>PRO</span></h1>
-      <p>40대 증상 통합 스마트 상담/자세분석</p>
+      <p>40대 증상 통합 스마트 상담/자세비교</p>
     </div>
     <div class="header-actions">
-      <button class="btn-header primary" id="btnOpenClientMgmt">👥 회원등록 & 자세분석</button>
+      <button class="btn-header primary" id="btnOpenClientMgmt">👥 회원등록 & 전후비교</button>
       <button class="btn-header" id="btnOpenLogs">📋 세션 기록</button>
     </div>
   </header>
@@ -258,22 +275,22 @@
     <div class="card-grid" id="symptomsGrid"></div>
   </main>
 
-  <!-- 회원 등록 및 자세분석 모달 -->
+  <!-- 회원 등록 및 전후 비교 분석 모달 -->
   <div class="modal-backdrop" id="clientMgmtModal">
-    <div class="modal-box" style="max-width: 860px;">
+    <div class="modal-box" style="max-width: 900px;">
       <div class="modal-header">
         <div>
-          <h3 style="color:#fff; font-size:1.1rem;">👥 사전 회원 등록 & 그리드 자세 분석</h3>
-          <p style="font-size:0.75rem; color:var(--cyan);">회원 사진 업로드 시 가로/세로 격자선이 자동 세팅되어 체형 비교 분석이 가능합니다.</p>
+          <h3 style="color:#fff; font-size:1.1rem;">👥 사전 회원 등록 & Before/After 전후 비교 분석</h3>
+          <p style="font-size:0.75rem; color:var(--cyan);">전/후 사진을 좌우로 비교하고, 중앙 십자선을 드래그하여 정렬 상태를 진단하세요.</p>
         </div>
         <button class="modal-close-btn" id="clientMgmtClose">&times;</button>
       </div>
 
       <div class="modal-body">
-        <!-- 1. 신규 회원 등록 및 사진 업로드 폼 -->
+        <!-- 1. 신규 회원 등록 및 2분할 사진 비교 업로드 폼 -->
         <div style="background:#1e1e1e; padding:14px; border-radius:12px; margin-bottom:16px; border:1px solid var(--border-color);">
-          <h4 style="font-size:0.88rem; color:var(--lime); margin-bottom:10px;">➕ 신규 회원 등록 및 체형 사진 업로드</h4>
-          <form id="regClientForm" style="display:grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap:8px; margin-bottom:10px;">
+          <h4 style="font-size:0.88rem; color:var(--lime); margin-bottom:10px;">➕ 신규 회원 등록 및 Before / After 사진 업로드</h4>
+          <form id="regClientForm" style="display:grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap:8px; margin-bottom:12px;">
             <input type="text" id="regName" class="form-input" placeholder="회원 성함 *" required>
             <input type="number" id="regAge" class="form-input" placeholder="나이">
             <select id="regGender" class="form-select">
@@ -283,18 +300,45 @@
             <button type="submit" class="btn-header primary" style="justify-content:center;">회원저장</button>
           </form>
           
-          <div style="display:flex; flex-direction:column; gap:6px;">
-            <label class="form-label">체형 분석 사진 업로드 (전면/측면/후면)</label>
-            <input type="file" id="clientPhotoInput" accept="image/*" class="form-input" style="padding:6px; font-size:0.8rem;">
-            
-            <!-- 가로세로 그리드가 적용된 사진 비교 뷰어 -->
-            <div class="photo-grid-container" id="photoViewerBox" style="display:none;">
-              <img id="uploadedPhotoPreview" src="" alt="자세 분석 사진">
-              <div class="grid-overlay"></div>
-              <div class="grid-center-cross"></div>
+          <!-- 좌우 2분할 비교 뷰어 -->
+          <div class="compare-container">
+            <!-- Before 카드 -->
+            <div class="compare-card">
+              <div class="compare-title">
+                <span>🔴 BEFORE (교정 전)</span>
+                <input type="file" id="beforePhotoInput" accept="image/*" style="font-size:0.7rem; width:130px; color:#aaa;">
+              </div>
+              <div class="photo-frame" id="beforeFrame">
+                <img id="beforeImg" src="" alt="Before 사진" style="display:none;">
+                <span id="beforePlaceholder" style="font-size:0.75rem; color:#666;">사진을 업로드하세요</span>
+                <div class="grid-overlay"></div>
+                <div class="draggable-crosshair">
+                  <div class="draggable-h-line" id="bHL"></div>
+                  <div class="draggable-v-line" id="bVL"></div>
+                  <div class="crosshair-handle" id="bHandle" style="top:50%; left:50%;"></div>
+                </div>
+              </div>
             </div>
-            <span style="font-size:0.72rem; color:var(--text-gray);">* 파란색 모눈종이 격자와 초록색 십자 중심선을 통해 정렬 상태 및 비대칭을 즉시 확인할 수 있습니다.</span>
+
+            <!-- After 카드 -->
+            <div class="compare-card">
+              <div class="compare-title">
+                <span>🟢 AFTER (교정 후)</span>
+                <input type="file" id="afterPhotoInput" accept="image/*" style="font-size:0.7rem; width:130px; color:#aaa;">
+              </div>
+              <div class="photo-frame" id="afterFrame">
+                <img id="afterImg" src="" alt="After 사진" style="display:none;">
+                <span id="afterPlaceholder" style="font-size:0.75rem; color:#666;">사진을 업로드하세요</span>
+                <div class="grid-overlay"></div>
+                <div class="draggable-crosshair">
+                  <div class="draggable-h-line" id="aHL"></div>
+                  <div class="draggable-v-line" id="aVL"></div>
+                  <div class="crosshair-handle" id="aHandle" style="top:50%; left:50%;"></div>
+                </div>
+              </div>
+            </div>
           </div>
+          <span style="font-size:0.72rem; color:var(--text-gray); display:block; margin-top:6px;">* 중앙 초록색 원형 핸들을 드래그하면 십자 중심선이 자유롭게 이동합니다.</span>
         </div>
 
         <!-- 2. 회원 선택 및 상담 진단 -->
@@ -309,8 +353,8 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">자세 분석 및 체형 상담 메모</label>
-            <textarea id="consultNotes" class="form-textarea" rows="2" placeholder="예: 그리드 분석 결과 우측 골반이 낮고 어깨가 전방으로 말려있음."></textarea>
+            <label class="form-label">전후 비교 분석 및 상담 메모</label>
+            <textarea id="consultNotes" class="form-textarea" rows="2" placeholder="예: Before 대비 After에서 어깨 높이 대칭 및 골반 정렬 개선됨."></textarea>
           </div>
 
           <div class="form-group">
@@ -556,8 +600,55 @@
       timerInterval = null;
     });
 
-    // 회원 관리 및 자세분석 그리드 로직
-    const CLIENT_STORAGE_KEY = "rehab_pro_clients_v3";
+    // 드래그 가능한 십자선 제어 로직
+    function initDraggableCrosshair(frameId, hLineId, vLineId, handleId) {
+      const frame = document.getElementById(frameId);
+      const hLine = document.getElementById(hLineId);
+      const vLine = document.getElementById(vLineId);
+      const handle = document.getElementById(handleId);
+
+      let isDragging = false;
+
+      function moveAt(clientX, clientY) {
+        const rect = frame.getBoundingClientRect();
+        let x = clientX - rect.left;
+        let y = clientY - rect.top;
+
+        // 경계 제한
+        if (x < 0) x = 0; if (x > rect.width) x = rect.width;
+        if (y < 0) y = 0; if (y > rect.height) y = rect.height;
+
+        const xPercent = (x / rect.width) * 100;
+        const yPercent = (y / rect.height) * 100;
+
+        hLine.style.top = yPercent + '%';
+        vLine.style.left = xPercent + '%';
+        handle.style.top = yPercent + '%';
+        handle.style.left = xPercent + '%';
+      }
+
+      handle.addEventListener('pointerdown', (e) => {
+        isDragging = true;
+        handle.setPointerCapture(e.pointerId);
+        e.stopPropagation();
+      });
+
+      handle.addEventListener('pointermove', (e) => {
+        if (!isDragging) return;
+        moveAt(e.clientX, e.clientY);
+      });
+
+      handle.addEventListener('pointerup', (e) => {
+        isDragging = false;
+        try { handle.releasePointerCapture(e.pointerId); } catch(err){}
+      });
+    }
+
+    initDraggableCrosshair('beforeFrame', 'bHL', 'bVL', 'bHandle');
+    initDraggableCrosshair('afterFrame', 'aHL', 'aVL', 'aHandle');
+
+    // 회원 관리 및 2분할 사진 업로드 로직
+    const CLIENT_STORAGE_KEY = "rehab_pro_clients_v4";
     function getClients() { return JSON.parse(localStorage.getItem(CLIENT_STORAGE_KEY) || "[]"); }
     function saveClients(cls) { localStorage.setItem(CLIENT_STORAGE_KEY, JSON.stringify(cls)); }
 
@@ -569,20 +660,34 @@
     });
     document.getElementById("clientMgmtClose").addEventListener("click", () => clientMgmtModal.classList.remove("show"));
 
-    // 사진 업로드 및 그리드 뷰어 연동
-    const clientPhotoInput = document.getElementById("clientPhotoInput");
-    const photoViewerBox = document.getElementById("photoViewerBox");
-    const uploadedPhotoPreview = document.getElementById("uploadedPhotoPreview");
-    let currentUploadedPhotoBase64 = "";
+    let beforePhotoBase64 = "";
+    let afterPhotoBase64 = "";
 
-    clientPhotoInput.addEventListener("change", (e) => {
+    document.getElementById("beforePhotoInput").addEventListener("change", (e) => {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = function(event) {
-          currentUploadedPhotoBase64 = event.target.result;
-          uploadedPhotoPreview.src = currentUploadedPhotoBase64;
-          photoViewerBox.style.display = "flex";
+          beforePhotoBase64 = event.target.result;
+          const img = document.getElementById("beforeImg");
+          img.src = beforePhotoBase64;
+          img.style.display = "block";
+          document.getElementById("beforePlaceholder").style.display = "none";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById("afterPhotoInput").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          afterPhotoBase64 = event.target.result;
+          const img = document.getElementById("afterImg");
+          img.src = afterPhotoBase64;
+          img.style.display = "block";
+          document.getElementById("afterPlaceholder").style.display = "none";
         };
         reader.readAsDataURL(file);
       }
@@ -602,20 +707,25 @@
         name, 
         age, 
         gender, 
-        photo: currentUploadedPhotoBase64,
+        beforePhoto: beforePhotoBase64,
+        afterPhoto: afterPhotoBase64,
         regDate: new Date().toLocaleDateString("ko-KR") 
       });
       saveClients(clients);
 
       document.getElementById("regName").value = "";
       document.getElementById("regAge").value = "";
-      clientPhotoInput.value = "";
-      uploadedPhotoPreview.src = "";
-      photoViewerBox.style.display = "none";
-      currentUploadedPhotoBase64 = "";
+      document.getElementById("beforePhotoInput").value = "";
+      document.getElementById("afterPhotoInput").value = "";
+      document.getElementById("beforeImg").style.display = "none";
+      document.getElementById("afterImg").style.display = "none";
+      document.getElementById("beforePlaceholder").style.display = "block";
+      document.getElementById("afterPlaceholder").style.display = "block";
+      beforePhotoBase64 = "";
+      afterPhotoBase64 = "";
 
       populateClientSelect();
-      alert(`✅ ${name} 회원 정보 및 자세 분석 사진이 저장되었습니다.`);
+      alert(`✅ ${name} 회원 정보 및 전후 비교 사진이 저장되었습니다.`);
     });
 
     function populateClientSelect() {
@@ -625,18 +735,35 @@
         clients.map(c => `<option value="${c.id}">${c.name} (${c.gender}, ${c.age || '미기재'}세) - ${c.regDate}</option>`).join("");
     }
 
-    // 회원 선택 시 저장된 사진이 있으면 그리드 뷰어에 즉시 로드
+    // 회원 선택 시 저장된 전후 사진 로드
     document.getElementById("selectClientList").addEventListener("change", (e) => {
       const clientId = e.target.value;
       if(!clientId) return;
       const clients = getClients();
       const found = clients.find(c => c.id == clientId);
-      if(found && found.photo) {
-        uploadedPhotoPreview.src = found.photo;
-        photoViewerBox.style.display = "flex";
-      } else {
-        uploadedPhotoPreview.src = "";
-        photoViewerBox.style.display = "none";
+      if(found) {
+        const bImg = document.getElementById("beforeImg");
+        const aImg = document.getElementById("afterImg");
+
+        if(found.beforePhoto) {
+          bImg.src = found.beforePhoto;
+          bImg.style.display = "block";
+          document.getElementById("beforePlaceholder").style.display = "none";
+          beforePhotoBase64 = found.beforePhoto;
+        } else {
+          bImg.style.display = "none";
+          document.getElementById("beforePlaceholder").style.display = "block";
+        }
+
+        if(found.afterPhoto) {
+          aImg.src = found.afterPhoto;
+          aImg.style.display = "block";
+          document.getElementById("afterPlaceholder").style.display = "none";
+          afterPhotoBase64 = found.afterPhoto;
+        } else {
+          aImg.style.display = "none";
+          document.getElementById("afterPlaceholder").style.display = "block";
+        }
       }
     });
 
