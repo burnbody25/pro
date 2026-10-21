@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>리햅프로 (Rehab Pro) - 40대 증상 4단계 컨디셔닝 세션</title>
+  <title>리햅프로 (Rehab Pro) - 40대 증상 4단계 컨디셔닝 시스템</title>
   
   <!-- PWA Meta -->
   <meta name="theme-color" content="#121212">
@@ -71,7 +71,7 @@
     .brand-title-wrap h1 span { color: var(--lime); }
     .brand-title-wrap p { font-size: 0.68rem; color: var(--cyan); font-weight: 600; letter-spacing: 0.3px; }
 
-    .header-actions { display: flex; gap: 8px; }
+    .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
     .btn-header {
       background: var(--bg-card); border: 1px solid var(--border-color);
       color: var(--text-white); padding: 7px 12px; border-radius: 8px;
@@ -79,6 +79,8 @@
       align-items: center; gap: 5px; transition: all 0.2s ease;
     }
     .btn-header:hover { border-color: var(--cyan); color: var(--cyan); }
+    .btn-header.primary { background: var(--lime); color: #121212; border-color: var(--lime); }
+    .btn-header.primary:hover { background: #b8e600; color: #121212; }
 
     .main-container { max-width: 1200px; margin: 0 auto; padding: 16px; }
 
@@ -116,7 +118,7 @@
 
     .status-bar {
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 14px; padding: 0 4px; font-size: 0.8rem; color: var(--text-gray);
+      margin-bottom: 14px; padding: 0 4px; font-size: 0.8rem; color: var(--text-gray); flex-wrap: wrap; gap: 8px;
     }
     .status-bar b { color: var(--lime); }
 
@@ -278,7 +280,7 @@
     /* Modal Footer */
     .modal-footer {
       padding: 14px 20px; border-top: 1px solid var(--border-color);
-      background: rgba(25, 25, 25, 0.7); display: flex; justify-content: space-between; gap: 10px;
+      background: rgba(25, 25, 25, 0.7); display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;
     }
     .btn-step-action {
       background: #252525; border: 1px solid var(--border-color); color: #fff;
@@ -290,7 +292,7 @@
       box-shadow: 0 0 10px var(--lime-glow);
     }
 
-    /* Memo Form & Logs */
+    /* Form & Client List styles */
     .form-group { margin-bottom: 14px; }
     .form-label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--text-gray); margin-bottom: 6px; }
     .form-label b { color: var(--lime); }
@@ -311,10 +313,25 @@
     .vas-btn.high.selected { background: #FF9100; }
     .vas-btn.extreme.selected { background: #FF5252; color: #fff; }
 
-    .log-card {
+    .log-card, .client-card {
       background: var(--bg-card); border: 1px solid var(--border-color);
       border-radius: 12px; padding: 14px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 6px;
     }
+
+    /* 50분 플랜 모달 스타일 */
+    .plan-timeline {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .plan-step-box {
+      background: #141414; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px;
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .plan-time-badge {
+      background: rgba(204, 255, 0, 0.15); color: var(--lime); padding: 6px 10px; border-radius: 8px;
+      font-weight: 800; font-size: 0.8rem; white-space: nowrap; border: 1px solid rgba(204, 255, 0, 0.3);
+    }
+    .plan-content h4 { font-size: 0.95rem; color: #fff; margin-bottom: 4px; font-weight: 800; }
+    .plan-content p { font-size: 0.83rem; color: #bbb; line-height: 1.4; }
 
     /* Toast */
     .toast-box {
@@ -334,7 +351,9 @@
       <p>40대 증상 통합 컨디셔닝 시스템</p>
     </div>
     <div class="header-actions">
-      <button class="btn-header" id="btnOpenLogs">📋 <span>회원기록</span></button>
+      <button class="btn-header primary" id="btnOpen50MinPlan">⏱️ 50분 통합 플랜</button>
+      <button class="btn-header" id="btnOpenClients">👥 회원관리</button>
+      <button class="btn-header" id="btnOpenLogs">📋 세션기록</button>
     </div>
   </header>
 
@@ -362,7 +381,7 @@
     <div class="card-grid" id="symptomsGrid"></div>
   </main>
 
-  <!-- 세션 상세 모달 -->
+  <!-- 세션 상세 매뉴얼 모달 -->
   <div class="modal-backdrop" id="sessionModal">
     <div class="modal-box">
       <div class="modal-header">
@@ -401,7 +420,7 @@
           <div class="detail-desc" id="mTestDesc">-</div>
         </div>
 
-        <!-- 타이머 -->
+        <!-- 타이머 위젯 -->
         <div class="timer-widget">
           <div style="font-size:0.72rem; color:var(--text-gray); font-weight:700; letter-spacing:1px;">COUNTDOWN TIMER</div>
           <div class="timer-display" id="timerDisplay">03:00</div>
@@ -425,6 +444,45 @@
     </div>
   </div>
 
+  <!-- 회원 등록 관리 모달 -->
+  <div class="modal-backdrop" id="clientsModal">
+    <div class="modal-box" style="max-width: 680px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="color:#fff; font-size:1.15rem;">👥 회원 등록 및 관리</h3>
+          <p style="font-size:0.75rem; color:#888;">센터 방문 회원 등록 및 프로필 관리</p>
+        </div>
+        <button class="modal-close-btn" id="clientsClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="clientForm" style="background:#141414; padding:14px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:16px;">
+          <h4 style="color:var(--lime); font-size:0.9rem; margin-bottom:10px;">+ 신규 회원 등록하기</h4>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px;">
+            <div>
+              <label class="form-label" for="regName">회원 성함 <b>*</b></label>
+              <input type="text" id="regName" class="form-input" placeholder="예: 김선우" required>
+            </div>
+            <div>
+              <label class="form-label" for="regPhone">연락처 뒷자리 / 번호</label>
+              <input type="text" id="regPhone" class="form-input" placeholder="예: 4567">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label class="form-label" for="regMainSymptom">주요 불편 증상 / 목표</label>
+            <input type="text" id="regMainSymptom" class="form-input" placeholder="예: 상완골 전방활주, 굽은 어깨, 만성 요통">
+          </div>
+          <button type="submit" class="btn-memo-record" style="width:100%; justify-content:center; padding:10px;">회원 등록 저장</button>
+        </form>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <span style="font-size:0.82rem; color:var(--text-gray);">등록된 회원 목록</span>
+          <input type="text" id="clientSearchInput" class="form-input" style="width:180px; padding:6px 10px; font-size:0.8rem;" placeholder="회원 검색...">
+        </div>
+        <div id="clientsContainer"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- 회원 세션 메모 작성 모달 -->
   <div class="modal-backdrop" id="memoModal">
     <div class="modal-box" style="max-width: 580px;">
@@ -439,8 +497,8 @@
       <div class="modal-body">
         <form id="memoForm">
           <div class="form-group">
-            <label class="form-label" for="clientNameInput">회원 성함 / 닉네임 <b>*</b></label>
-            <input type="text" id="clientNameInput" class="form-input" placeholder="예: 김회원, 박철수" required>
+            <label class="form-label" for="clientNameInput">대상 회원 선택 <b>*</b></label>
+            <select id="clientNameInput" class="form-select" required></select>
           </div>
 
           <div class="form-group">
@@ -477,7 +535,7 @@
     </div>
   </div>
 
-  <!-- 회원 기록 조회 모달 -->
+  <!-- 회원 세션 기록 조회 모달 -->
   <div class="modal-backdrop" id="logsModal">
     <div class="modal-box" style="max-width: 680px;">
       <div class="modal-header">
@@ -497,11 +555,63 @@
     </div>
   </div>
 
+  <!-- 50분 통합 플랜 모달 -->
+  <div class="modal-backdrop" id="plan50Modal">
+    <div class="modal-box" style="max-width: 720px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="color:#fff; font-size:1.15rem;">⏱️ 50분 표준 컨디셔닝 세션 플랜</h3>
+          <p style="font-size:0.75rem; color:var(--lime);">현장 트레이너를 위한 단계별 타임테이블</p>
+        </div>
+        <button class="modal-close-btn" id="plan50Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="plan-timeline">
+          <div class="plan-step-box">
+            <div class="plan-time-badge">00~10분 (10분)</div>
+            <div class="plan-content">
+              <h4>1단계: 평가 및 체형 촉진 (Assessment & Test)</h4>
+              <p>회원 입장 직후 주호소 부위 기능 검사(Test) 수행 및 VAS(통증 척도) 체크. 오늘의 메인 교정 프로토콜 선정.</p>
+            </div>
+          </div>
+          <div class="plan-step-box">
+            <div class="plan-time-badge">10~25분 (15분)</div>
+            <div class="plan-content">
+              <h4>2단계: MFR (근막이완) & 압통점 해제</h4>
+              <p>단축된 타겟 근육과 트리거포인트(압통점)를 장갑 MFR 및 도구로 정밀 이완하여 신경계 긴장 하강.</p>
+            </div>
+          </div>
+          <div class="plan-step-box">
+            <div class="plan-time-badge">25~35분 (10분)</div>
+            <div class="plan-content">
+              <h4>3단계: 관절가동술 (Mobilization)</h4>
+              <p>제한된 관절의 정상적인 생체 역학적 활주(Glide) 및 수동 가동 범위 확보.</p>
+            </div>
+          </div>
+          <div class="plan-step-box">
+            <div class="plan-time-badge">35~45분 (10분)</div>
+            <div class="plan-content">
+              <h4>4단계: 액티브 활성화 (Active Exercise)</h4>
+              <p>약화된 길항근 및 안정화 근육의 고립 액티브 수축 훈련 수행 (예: 전거근, 중둔근, 심부 코어).</p>
+            </div>
+          </div>
+          <div class="plan-step-box">
+            <div class="plan-time-badge">45~50분 (5분)</div>
+            <div class="plan-content">
+              <h4>5단계: 패시브 스트레칭 & 홈워크 지도</h4>
+              <p>최종 패시브 스트레칭으로 마무리 후 세션 기록 작성 및 회원 맞춤 홈워크 전달[cite: 4].</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification -->
   <div class="toast-box" id="toastBox"></div>
 
   <script>
-    // 40가지 전체 증상 데이터베이스
+    /* 40가지 전체 증상 데이터베이스 */
     const SYMPTOM_DATA = [
       {
         "id": 1,
@@ -512,10 +622,10 @@
         "trigger_points": "1) 소흉근 TP: 쇄골 아래 중앙에서 외하방으로 약 2~3cm 지점. 2) 견갑하근 TP: 겨드랑이 안쪽 깊숙한 곳.",
         "direct": "소흉근, 상완이두근 장두, 후면 회전근개",
         "indirect": "광배근, 전거근, 후두하근",
-        "mfr": "니트릴 장갑 착용 후 쇄골 하부 소흉근 45도 외하방 전단력 이완 (3분)",
-        "mobilization": "상완골 후방 활주 수동 관절가동술 (3분)",
-        "active": "사이드라잉 외회전 12회x3세트, 전거근 활성화 10회x3세트",
-        "passive": "크로스 보디 숄더 패시브 스트레칭 30초x3세트"
+        "mfr": "니트릴 장갑 착용 후 쇄골 하부 소흉근 45도 외하방 전단력 이완 (3분)[cite: 4]",
+        "mobilization": "상완골 후방 활주 수동 관절가동술 (3분)[cite: 4]",
+        "active": "사이드라잉 외회전 12회x3세트, 전거근 활성화 10회x3세트[cite: 4]",
+        "passive": "크로스 보디 숄더 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 2,
@@ -526,10 +636,10 @@
         "trigger_points": "1) 견갑거근 TP: 견갑골 상각 부착부. 2) 상부 승모근 TP: 목과 어깨 능선 중앙부.",
         "direct": "견갑거근, 상부 승모근",
         "indirect": "하부 승모근, 사각근, 소흉근",
-        "mfr": "견갑골 상각 지압 MFR (3분), 사각근 측면 이완 (2분)",
-        "mobilization": "경추 수동 측굴 및 정수리 방향 수동 견인 (3분)",
-        "active": "친 턱 경추 심부 굴곡근 강화 15회x3세트, Y-레이즈 12회x3세트",
-        "passive": "대각선 숙이기 견갑거근 파트너 스트레칭 30초x3세트"
+        "mfr": "견갑골 상각 지압 MFR (3분), 사각근 측면 이완 (2분)[cite: 4]",
+        "mobilization": "경추 수동 측굴 및 정수리 방향 수동 견인 (3분)[cite: 4]",
+        "active": "친 턱 경추 심부 굴곡근 강화 15회x3세트, Y-레이즈 12회x3세트[cite: 4]",
+        "passive": "대각선 숙이기 견갑거근 파트너 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 3,
@@ -540,10 +650,10 @@
         "trigger_points": "1) 후두하근 TP: 후두골 하단 함요부. 2) 두경거근 TP: 경추 후면 심부.",
         "direct": "후두하근, 목드듬근, 경추 신전근",
         "indirect": "대흉근, 경추 심부 굴곡근, 하부 승모근",
-        "mfr": "후두골 하단 후두하근 마사지볼 이완 (3분), 대흉근 이완 (2분)",
-        "mobilization": "상부 경추 후방 활주 및 관절 가동 (3분)",
-        "active": "벽 기대고 친 턱 후두부 압박 훈련 12회x3세트",
-        "passive": "파트너 수동 경추 정수리 견인 스트레칭 30초x3세트"
+        "mfr": "후두골 하단 후두하근 마사지볼 이완 (3분), 대흉근 이완 (2분)[cite: 4]",
+        "mobilization": "상부 경추 후방 활주 및 관절 가동 (3분)[cite: 4]",
+        "active": "벽 기대고 친 턱 후두부 압박 훈련 12회x3세트[cite: 4]",
+        "passive": "파트너 수동 경추 정수리 견인 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 4,
@@ -554,10 +664,10 @@
         "trigger_points": "1) 극상근 TP: 견갑극 위쪽 가시위목 중앙. 2) 견갑하근 TP: 견갑골 전면 늑골부.",
         "direct": "극상근, 소흉근, 견갑하근",
         "indirect": "전거근, 하부 승모근, 흉추 신전근",
-        "mfr": "극상근 가시위목 수동 압박 MFR (3분), 전거근 이완 (2분)",
-        "mobilization": "상완골 하방 활주 관절가동술 (3분)",
-        "active": "Scaption(견갑골 면 레이즈) 훈련 12회x3세트",
-        "passive": "파트너 수동 어깨 내회전 패시브 스트레칭 30초x3세트"
+        "mfr": "극상근 가시위목 수동 압박 MFR (3분), 전거근 이완 (2분)[cite: 4]",
+        "mobilization": "상완골 하방 활주 관절가동술 (3분)[cite: 4]",
+        "active": "Scaption(견갑골 면 레이즈) 훈련 12회x3세트[cite: 4]",
+        "passive": "파트너 수동 어깨 내회전 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 5,
@@ -568,10 +678,10 @@
         "trigger_points": "1) 소흉근 TP: 쇄골 하단 3~5번 늑골. 2) 능구근 TP: 견갑골 내측연 심부.",
         "direct": "전거근, 하부 승모근",
         "indirect": "소흉근, 상부 승모근, 능구근",
-        "mfr": "소흉근 및 능구근 유착 수동 MFR (3분)",
-        "mobilization": "견갑-흉관 관절 수동 회전 활주 (3분)",
-        "active": "네발기기 전거근 푸시업 플러스 15회x3세트",
-        "passive": "파트너 가슴 전면 수동 개방 스트레칭 30초x3세트"
+        "mfr": "소흉근 및 능구근 유착 수동 MFR (3분)[cite: 4]",
+        "mobilization": "견갑-흉관 관절 수동 회전 활주 (3분)[cite: 4]",
+        "active": "네발기기 전거근 푸시업 플러스 15회x3세트[cite: 4]",
+        "passive": "파트너 가슴 전면 수동 개방 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 6,
@@ -582,10 +692,10 @@
         "trigger_points": "1) 신근군 TP: 외측상과 하방 전완 신근. 2) 굴근군 TP: 내측상과 하방 굴근.",
         "direct": "단요수근신근, 요측수근굴근, 원회전근",
         "indirect": "상완이두근, 회전근개, 소흉근",
-        "mfr": "전완 신근/굴근 힘줄 부착부 장갑 MFR (3분)",
-        "mobilization": "요척관절 수동 회전 활주 (3분)",
-        "active": "손목 신전 원심성 훈련 15회x3세트",
-        "passive": "파트너 보조 손목 수동 굴곡/신전 스트레칭 30초x3세트"
+        "mfr": "전완 신근/굴근 힘줄 부착부 장갑 MFR (3분)[cite: 4]",
+        "mobilization": "요척관절 수동 회전 활주 (3분)[cite: 4]",
+        "active": "손목 신전 원심성 훈련 15회x3세트[cite: 4]",
+        "passive": "파트너 보조 손목 수동 굴곡/신전 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 7,
@@ -596,10 +706,10 @@
         "trigger_points": "1) 대흉근 TP: 가슴 중앙 흉골 외측. 2) 소흉근 TP: 늑골 3~5번 외측.",
         "direct": "대흉근, 소흉근, 흉추 신전근",
         "indirect": "복직근 상부, 광배근, 능구근",
-        "mfr": "대흉근 가슴 중앙 수동 MFR (3분), 복직근 상부 이완 (2분)",
-        "mobilization": "흉추 수동 신전 가동술 (3분)",
-        "active": "T-Spine Rotation & 코브라 액티브 신전 12회x3세트",
-        "passive": "파트너 보조 가슴 흉곽 패시브 열기 30초x3세트"
+        "mfr": "대흉근 가슴 중앙 수동 MFR (3분), 복직근 상부 이완 (2분)[cite: 4]",
+        "mobilization": "흉추 수동 신전 가동술 (3분)[cite: 4]",
+        "active": "T-Spine Rotation & 코브라 액티브 신전 12회x3세트[cite: 4]",
+        "passive": "파트너 보조 가슴 흉곽 패시브 열기 30초x3세트[cite: 4]"
       },
       {
         "id": 8,
@@ -610,10 +720,10 @@
         "trigger_points": "1) 사각근 TP: 쇄골 상단 삼각 지점. 2) 소흉근 TP: 쇄골 하부 외측.",
         "direct": "전/중사각근, 소흉근, 쇄골하근",
         "indirect": "상부 승모근, 목드듬근, 흉골근",
-        "mfr": "전사각근 및 소흉근 전단력 MFR (3분)",
-        "mobilization": "1번 늑골 하방 수동 활주 (3분)",
-        "active": "신경 슬라이딩 가동술 10회x3세트",
-        "passive": "목 측면 및 가슴 패시브 스트레칭 30초x3세트"
+        "mfr": "전사각근 및 소흉근 전단력 MFR (3분)[cite: 4]",
+        "mobilization": "1번 늑골 하방 수동 활주 (3분)[cite: 4]",
+        "active": "신경 슬라이딩 가동술 10회x3세트[cite: 4]",
+        "passive": "목 측면 및 가슴 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 9,
@@ -624,10 +734,10 @@
         "trigger_points": "1) 요방형근 TP: 장골능 위 허리 깊은 부위. 2) 장요근 TP: 서혜부 깊은 곳.",
         "direct": "요척추 기립근, 요방형근, 장요근",
         "indirect": "대복사근, 둔근, 햄스트링",
-        "mfr": "요둔근막 및 요방형근 지압 MFR (3분)",
-        "mobilization": "요추 수동 굴곡 가동술 (3분)",
-        "active": "데드버그 & 골반 후방 경사 훈련 12회x3세트",
-        "passive": "수건 활용 수동 고관절 굴곡 스트레칭 30초x3세트"
+        "mfr": "요둔근막 및 요방형근 지압 MFR (3분)[cite: 4]",
+        "mobilization": "요추 수동 굴곡 가동술 (3분)[cite: 4]",
+        "active": "데드버그 & 골반 후방 경사 훈련 12회x3세트[cite: 4]",
+        "passive": "수건 활용 수동 고관절 굴곡 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 10,
@@ -638,10 +748,10 @@
         "trigger_points": "1) 요방형근 늑골부 TP. 2) 요방형근 장골부 부착부.",
         "direct": "요방형근, 광배근 하부",
         "indirect": "중둔근, 외복사근, 내전근",
-        "mfr": "장골능 위 요방형근 늑골 사이 MFR (3분)",
-        "mobilization": "측면 척추 수동 측굴 가동술 (3분)",
-        "active": "사이드 플랭크 및 힙 리프트 10회x3세트",
-        "passive": "파트너 보조 요방형근 대각선 수동 스트레칭 30초x3세트"
+        "mfr": "장골능 위 요방형근 늑골 사이 MFR (3분)[cite: 4]",
+        "mobilization": "측면 척추 수동 측굴 가동술 (3분)[cite: 4]",
+        "active": "사이드 플랭크 및 힙 리프트 10회x3세트[cite: 4]",
+        "passive": "파트너 보조 요방형근 대각선 수동 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 11,
@@ -652,10 +762,10 @@
         "trigger_points": "1) 햄스트링 상부 TP: 좌골 결절 부근. 2) 비복근 TP: 오금 하방.",
         "direct": "햄스트링 상부, 장요근, 대둔부 상부",
         "indirect": "복직근 하부, 비복근, 흉추 신전근",
-        "mfr": "햄스트링 좌골 결절 부위 MFR (3분), 종아리 비복근 MFR (2분)",
-        "mobilization": "고관절 전면 수동 펌핑 및 골반 후방 활주 (3분)",
-        "active": "하프닐링 일리오소아스 록킹 10회x3세트, 프로그 브릿지 15회x3세트",
-        "passive": "수건 활용 햄스트링 패시브 스트레칭 30초x3세트"
+        "mfr": "햄스트링 좌골 결절 부위 MFR (3분), 종아리 비복근 MFR (2분)[cite: 4]",
+        "mobilization": "고관절 전면 수동 펌핑 및 골반 후방 활주 (3분)[cite: 4]",
+        "active": "하프닐링 일리오소아스 록킹 10회x3세트, 프로그 브릿지 15회x3세트[cite: 4]",
+        "passive": "수건 활용 햄스트링 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 12,
@@ -666,10 +776,10 @@
         "trigger_points": "1) TFL TP: ASIS 외하방. 2) 대퇴직근 TP: 허벅지 전면 상부.",
         "direct": "장요근, 대퇴직근, 대퇴근막장근(TFL)",
         "indirect": "요둔근막, 대둔근, 복매경근",
-        "mfr": "TFL 및 대퇴직근 상부 수동 이완 (3분)",
-        "mobilization": "고관절 수동 신전 견인 가동술 (3분)",
-        "active": "하프닐링 골반 후방 경사 액티브 수축 12회x3세트",
-        "passive": "카우치 스트레칭 파트너 보조 30초x3세트"
+        "mfr": "TFL 및 대퇴직근 상부 수동 이완 (3분)[cite: 4]",
+        "mobilization": "고관절 수동 신전 견인 가동술 (3분)[cite: 4]",
+        "active": "하프닐링 골반 후방 경사 액티브 수축 12회x3세트[cite: 4]",
+        "passive": "카우치 스트레칭 파트너 보조 30초x3세트[cite: 4]"
       },
       {
         "id": 13,
@@ -680,10 +790,10 @@
         "trigger_points": "1) 이상근 TP: 천골 외측연과 대전자 중앙. 2) 쌍자근 TP: 이상근 하방.",
         "direct": "이상근, 고관절 외회전근군",
         "indirect": "대둔근, 햄스트링, 중둔근 후부",
-        "mfr": "천골 측부 이상근 마사지볼 깊은 MFR (3분)",
-        "mobilization": "고관절 관절와 내 수동 내회전 활주 (3분)",
-        "active": "클램쉘 및 고관절 신전 외회전 통제 15회x3세트",
-        "passive": "파트너 보조 고관절 굴곡-내전-내회전 스트레칭 30초x3세트"
+        "mfr": "천골 측부 이상근 마사지볼 깊은 MFR (3분)[cite: 4]",
+        "mobilization": "고관절 관절와 내 수동 내회전 활주 (3분)[cite: 4]",
+        "active": "클램쉘 및 고관절 신전 외회전 통제 15회x3세트[cite: 4]",
+        "passive": "파트너 보조 고관절 굴곡-내전-내회전 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 14,
@@ -694,10 +804,10 @@
         "trigger_points": "1) TFL TP. 2) 내전근 TP: 서혜부 하방 허벅지 안쪽.",
         "direct": "대퇴근막장근(TFL), 내전근, 장요근",
         "indirect": "중둔근, 대둔근, 심부 외회전근",
-        "mfr": "TFL 및 서혜부 외측 MFR (3분)",
-        "mobilization": "고관절 하방/후방 수동 견인 가동술 (3분)",
-        "active": "밴드 고관절 후방 끌어당김 스쿼트 모빌리티 10회x3세트",
-        "passive": "통증 없는 범위 내 고관절 수동 외회전 스트레칭 30초x3세트"
+        "mfr": "TFL 및 서혜부 외측 MFR (3분)[cite: 4]",
+        "mobilization": "고관절 하방/후방 수동 견인 가동술 (3분)[cite: 4]",
+        "active": "밴드 고관절 후방 끌어당김 스쿼트 모빌리티 10회x3세트[cite: 4]",
+        "passive": "통증 없는 범위 내 고관절 수동 외회전 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 15,
@@ -708,10 +818,10 @@
         "trigger_points": "1) 중둔근 후부 TP. 2) 소둔근 TP.",
         "direct": "중둔근, 소둔근",
         "indirect": "내전근, 요방형근, TFL",
-        "mfr": "장골능 아래 중둔근 후부 MFR (3분), 반대쪽 내전근 이완 (2분)",
-        "mobilization": "고관절 외측 수동 활주 (3분)",
-        "active": "사이드 라잉 힙 어브덕션 15회x3세트",
-        "passive": "파트너 보조 고관절 교차 내전 패시브 스트레칭 30초x3세트"
+        "mfr": "장골능 아래 중둔근 후부 MFR (3분), 반대쪽 내전근 이완 (2분)[cite: 4]",
+        "mobilization": "고관절 외측 수동 활주 (3분)[cite: 4]",
+        "active": "사이드 라잉 힙 어브덕션 15회x3세트[cite: 4]",
+        "passive": "파트너 보조 고관절 교차 내전 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 16,
@@ -722,10 +832,10 @@
         "trigger_points": "1) 내전근 TP: 허벅지 안쪽 중간. 2) TFL TP.",
         "direct": "내전근, TFL, 가자미근",
         "indirect": "중둔근, 대둔근, 전경골근",
-        "mfr": "허벅지 안쪽 내전근 전체 MFR (3분), TFL 이완 (2분)",
-        "mobilization": "거골 후방 활주 발목 가동술 (3분)",
-        "active": "무릎 루프밴드 착용 몬스터 워크 12회x3세트",
-        "passive": "파트너 보조 내전근 수동 개방 스트레칭 30초x3세트"
+        "mfr": "허벅지 안쪽 내전근 전체 MFR (3분), TFL 이완 (2분)[cite: 4]",
+        "mobilization": "거골 후방 활주 발목 가동술 (3분)[cite: 4]",
+        "active": "무릎 루프밴드 착용 몬스터 워크 12회x3세트[cite: 4]",
+        "passive": "파트너 보조 내전근 수동 개방 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 17,
@@ -736,10 +846,10 @@
         "trigger_points": "1) 대퇴이두근 TP. 2) IT-Band 상부 TP.",
         "direct": "대퇴이두근, 장경골단(IT-Band)",
         "indirect": "내전근, 거위발 힘줄 부착부, 비복근 내측",
-        "mfr": "허벅지 외측 IT-Band 및 대퇴이두근 전완 MFR (3분)",
-        "mobilization": "고관절 내회전 수동 활주 (3분)",
-        "active": "와이드 스쿼트 내전근/중둔근 동시 활성화 12회x3세트",
-        "passive": "파트너 보조 고관절 내회전/외측 패시브 스트레칭 30초x3세트"
+        "mfr": "허벅지 외측 IT-Band 및 대퇴이두근 전완 MFR (3분)[cite: 4]",
+        "mobilization": "고관절 내회전 수동 활주 (3분)[cite: 4]",
+        "active": "와이드 스쿼트 내전근/중둔근 동시 활성화 12회x3세트[cite: 4]",
+        "passive": "파트너 보조 고관절 내회전/외측 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 18,
@@ -750,10 +860,10 @@
         "trigger_points": "1) TFL/대둔근 연결부 TP. 2) 외측광근 TP.",
         "direct": "대퇴근막장근(TFL), 대둔근 연결부",
         "indirect": "외측 광근, 중둔근, 비복근 외측",
-        "mfr": "TFL 및 엉덩이 외측 수동 MFR (3분)",
-        "mobilization": "고관절 수동 내전 가동술 (3분)",
-        "active": "중둔근 강화 및 골반 수평 유지 훈련 15회x3세트",
-        "passive": "파트너 보조 고관절 교차 내전 패시브 스트레칭 30초x3세트"
+        "mfr": "TFL 및 엉덩이 외측 수동 MFR (3분)[cite: 4]",
+        "mobilization": "고관절 수동 내전 가동술 (3분)[cite: 4]",
+        "active": "중둔근 강화 및 골반 수평 유지 훈련 15회x3세트[cite: 4]",
+        "passive": "파트너 보조 고관절 교차 내전 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 19,
@@ -764,10 +874,10 @@
         "trigger_points": "1) 족저근막 TP: 뒤꿈치 종골 내측. 2) 가자미근 TP.",
         "direct": "족저근막, 비복근, 가자미근",
         "indirect": "햄스트링, 대둔근, 요둔근막",
-        "mfr": "뒤꿈치 종골에서 발가락 방사형 MFR (3분), 종아리 이완 (3분)",
-        "mobilization": "거골 후방 활주 관절가동술 (3분)",
-        "active": "수건 발가락으로 당기기 & 전경골근 강화 15회x3세트",
-        "passive": "파트너 보조 발목 배측굴곡 패시브 스트레칭 30초x3세트"
+        "mfr": "뒤꿈치 종골에서 발가락 방사형 MFR (3분), 종아리 이완 (3분)[cite: 4]",
+        "mobilization": "거골 후방 활주 관절가동술 (3분)[cite: 4]",
+        "active": "수건 발가락으로 당기기 & 전경골근 강화 15회x3세트[cite: 4]",
+        "passive": "파트너 보조 발목 배측굴곡 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 20,
@@ -778,10 +888,10 @@
         "trigger_points": "1) 가자미근 TP. 2) 비복근 TP.",
         "direct": "가자미근, 비복근, 아킬레스건",
         "indirect": "족저근막, 햄스트링, 대퇴사두근",
-        "mfr": "종아리 심부 가자미근 및 아킬레스 주변부 이완 (3분)",
-        "mobilization": "거골 후방 활주 관절가동술 (3분)",
-        "active": "편성 원심성 카프 레이즈 12회x3세트",
-        "passive": "파트너 보조 무릎 구부린 상태 가자미근 패시브 스트레칭 30초x3세트"
+        "mfr": "종아리 심부 가자미근 및 아킬레스 주변부 이완 (3분)[cite: 4]",
+        "mobilization": "거골 후방 활주 관절가동술 (3분)[cite: 4]",
+        "active": "편성 원심성 카프 레이즈 12회x3세트[cite: 4]",
+        "passive": "파트너 보조 무릎 구부린 상태 가자미근 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 21,
@@ -792,10 +902,10 @@
         "trigger_points": "1) 비복근 외측 두 TP. 2) 후경골근 TP.",
         "direct": "비복근 외측두, 장/단비골근, 후경골근",
         "indirect": "대퇴이두근, 내전근, 대둔근",
-        "mfr": "종아리 외측 비복근 및 비골근 MFR (3분)",
-        "mobilization": "거골-주상골 수동 내회전 및 배측굴곡 가동술 (3분)",
-        "active": "발목 족저굴곡-내번 액티브 밴드 운동 15회x3세트",
-        "passive": "종아리 외측 및 비골근 패시브 스트레칭 30초x3세트"
+        "mfr": "종아리 외측 비복근 및 비골근 MFR (3분)[cite: 4]",
+        "mobilization": "거골-주상골 수동 내회전 및 배측굴곡 가동술 (3분)[cite: 4]",
+        "active": "발목 족저굴곡-내번 액티브 밴드 운동 15회x3세트[cite: 4]",
+        "passive": "종아리 외측 및 비골근 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 22,
@@ -806,10 +916,10 @@
         "trigger_points": "1) 이상근 TP. 2) 대둔근 하부 TP.",
         "direct": "이상근, 대둔근, 심부 외회전근군",
         "indirect": "장요근, 대퇴이두근, 내전근",
-        "mfr": "천골 및 둔부 심부 외회전근 지압 MFR (3분)",
-        "mobilization": "고관절 관절와 내 수동 내회전 활주 가동술 (3분)",
-        "active": "고관절 내회전 활성화 훈련 15회x3세트",
-        "passive": "파트너 보조 고관절 굴곡-내전-내회전 수동 스트레칭 30초x3세트"
+        "mfr": "천골 및 둔부 심부 외회전근 지압 MFR (3분)[cite: 4]",
+        "mobilization": "고관절 관절와 내 수동 내회전 활주 가동술 (3분)[cite: 4]",
+        "active": "고관절 내회전 활성화 훈련 15회x3세트[cite: 4]",
+        "passive": "파트너 보조 고관절 굴곡-내전-내회전 수동 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 23,
@@ -820,10 +930,10 @@
         "trigger_points": "1) TFL TP. 2) 박근/내전근 TP.",
         "direct": "대퇴근막장근(TFL), 소둔근 전방부, 장단내전근",
         "indirect": "대둔근, 이상근, 전경골근",
-        "mfr": "허벅지 전외측 TFL 및 내전근 상부 수동 MFR (3분)",
-        "mobilization": "고관절 수동 외회전 및 전방 활주 가동술 (3분)",
-        "active": "클램쉘 및 고관절 외회전 강화 15회x3세트",
-        "passive": "파트너 보조 고관절 외회전 및 신전 패시브 스트레칭 30초x3세트"
+        "mfr": "허벅지 전외측 TFL 및 내전근 상부 수동 MFR (3분)[cite: 4]",
+        "mobilization": "고관절 수동 외회전 및 전방 활주 가동술 (3분)[cite: 4]",
+        "active": "클램쉘 및 고관절 외회전 강화 15회x3세트[cite: 4]",
+        "passive": "파트너 보조 고관절 외회전 및 신전 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 24,
@@ -834,10 +944,10 @@
         "trigger_points": "1) 비복근/가자미근 TP. 2) 비골근 TP.",
         "direct": "후경골근, 족저근막, 장지굴근",
         "indirect": "가자미근, 대퇴직근, 중둔근",
-        "mfr": "종아리 내측 후경골근 지압 MFR (3분)",
-        "mobilization": "거골-주상골 관절 수동 아치 리프팅 가동술 (3분)",
-        "active": "Short Foot Exercise 15회x3세트",
-        "passive": "종아리 심부 가자미근 패시브 스트레칭 30초x3세트"
+        "mfr": "종아리 내측 후경골근 지압 MFR (3분)[cite: 4]",
+        "mobilization": "거골-주상골 관절 수동 아치 리프팅 가동술 (3분)[cite: 4]",
+        "active": "Short Foot Exercise 15회x3세트[cite: 4]",
+        "passive": "종아리 심부 가자미근 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 25,
@@ -848,10 +958,10 @@
         "trigger_points": "1) 장비골근 TP. 2) 족저근막 TP.",
         "direct": "장비골근, 족저근막, 무지외반근",
         "indirect": "후경골근, 대퇴이두근, 요방형근",
-        "mfr": "발바닥 족저근막 및 장비골근 MFR (3분)",
-        "mobilization": "족골간 관절 수동 유연성 가동술 (3분)",
-        "active": "발가락 수평 확산 & 발목 안정화 훈련 15회x3세트",
-        "passive": "발바닥 족저근막 패시브 스트레칭 30초x3세트"
+        "mfr": "발바닥 족저근막 및 장비골근 MFR (3분)[cite: 4]",
+        "mobilization": "족골간 관절 수동 유연성 가동술 (3분)[cite: 4]",
+        "active": "발가락 수평 확산 & 발목 안정화 훈련 15회x3세트[cite: 4]",
+        "passive": "발바닥 족저근막 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 26,
@@ -862,10 +972,10 @@
         "trigger_points": "1) 가자미근 TP. 2) 대퇴직근 TP.",
         "direct": "가자미근, 대퇴사두근, 오금근",
         "indirect": "대둔근, 햄스트링, 복직근",
-        "mfr": "종아리 가자미근 및 대퇴사두근 수동 MFR (3분)",
-        "mobilization": "경골 전방 활주 및 무릎 굴곡 가동술 (3분)",
-        "active": "슬관절 굴곡근 강화 12회x3세트",
-        "passive": "가자미근 및 대퇴사두근 패시브 스트레칭 30초x3세트"
+        "mfr": "종아리 가자미근 및 대퇴사두근 수동 MFR (3분)[cite: 4]",
+        "mobilization": "경골 전방 활주 및 무릎 굴곡 가동술 (3분)[cite: 4]",
+        "active": "슬관절 굴곡근 강화 12회x3세트[cite: 4]",
+        "passive": "가자미근 및 대퇴사두근 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 27,
@@ -876,10 +986,10 @@
         "trigger_points": "1) 외측광근 TP. 2) TFL TP.",
         "direct": "외측광근, 대퇴근막장근, 슬개건",
         "indirect": "내측광근(VMO), 중둔근, 후경골근",
-        "mfr": "허벅지 외측광근 및 TFL MFR (3분)",
-        "mobilization": "슬개골 내측 및 하방 수동 활주 가동술 (3분)",
-        "active": "VMO(내측광근) 고립 단슬관절 신전 15회x3세트",
-        "passive": "대퇴사두근 및 TFL 패시브 스트레칭 30초x3세트"
+        "mfr": "허벅지 외측광근 및 TFL MFR (3분)[cite: 4]",
+        "mobilization": "슬개골 내측 및 하방 수동 활주 가동술 (3분)[cite: 4]",
+        "active": "VMO(내측광근) 고립 단슬관절 신전 15회x3세트[cite: 4]",
+        "passive": "대퇴사두근 및 TFL 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 28,
@@ -890,10 +1000,10 @@
         "trigger_points": "1) 박근/봉공근 TP. 2) 반건양근 TP.",
         "direct": "봉공근, 박근, 반건양근",
         "indirect": "내전근, 대둔근, 전경골근",
-        "mfr": "허벅지 안쪽 박근 및 반건양근 MFR (3분)",
-        "mobilization": "경골 내회전/외회전 수동 관절가동술 (3분)",
-        "active": "고관절 굴곡-외반 액티브 통제 훈련 12회x3세트",
-        "passive": "허벅지 내측 및 후내측 햄스트링 패시브 스트레칭 30초x3세트"
+        "mfr": "허벅지 안쪽 박근 및 반건양근 MFR (3분)[cite: 4]",
+        "mobilization": "경골 내회전/외회전 수동 관절가동술 (3분)[cite: 4]",
+        "active": "고관절 굴곡-외반 액티브 통제 훈련 12회x3세트[cite: 4]",
+        "passive": "허벅지 내측 및 후내측 햄스트링 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 29,
@@ -904,10 +1014,10 @@
         "trigger_points": "1) 중둔근 전부 TP. 2) 소둔근 TP.",
         "direct": "중둔근, 소둔근, 대퇴근막장근",
         "indirect": "외복사근, 요방형근, 내전근",
-        "mfr": "장골능 아래 중둔근 및 소둔근 딥 MFR (3분)",
-        "mobilization": "고관절 측면 견인 및 가동술 (3분)",
-        "active": "등척성 힙 어브덕션 10초 유지x10회x3세트",
-        "passive": "파트너 보조 고관절 교차 내전 패시브 스트레칭 30초x3세트"
+        "mfr": "장골능 아래 중둔근 및 소둔근 딥 MFR (3분)[cite: 4]",
+        "mobilization": "고관절 측면 견인 및 가동술 (3분)[cite: 4]",
+        "active": "등척성 힙 어브덕션 10초 유지x10회x3세트[cite: 4]",
+        "passive": "파트너 보조 고관절 교차 내전 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 30,
@@ -918,10 +1028,10 @@
         "trigger_points": "1) 장요근 TP. 2) TFL TP.",
         "direct": "장요근, 대퇴근막장근, 장경골단",
         "indirect": "대둔근, 내전근, 대퇴직근",
-        "mfr": "장요근 서혜부 및 TFL 부착부 부드러운 MFR (3분)",
-        "mobilization": "고관절 전방/하방 견인 가동술 (3분)",
-        "active": "고관절 굴곡근 원심성 훈련 12회x3세트",
-        "passive": "장요근 및 TFL 파트너 패시브 스트레칭 30초x3세트"
+        "mfr": "장요근 서혜부 및 TFL 부착부 부드러운 MFR (3분)[cite: 4]",
+        "mobilization": "고관절 전방/하방 견인 가동술 (3분)[cite: 4]",
+        "active": "고관절 굴곡근 원심성 훈련 12회x3세트[cite: 4]",
+        "passive": "장요근 및 TFL 파트너 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 31,
@@ -932,10 +1042,10 @@
         "trigger_points": "1) 복직근 TP. 2) 햄스트링 근복 TP.",
         "direct": "복직근, 대복사근, 햄스트링",
         "indirect": "요척추 기립근, 장요근, 대둔근",
-        "mfr": "복직근 전면 늑골 하단 MFR (3분), 햄스트링 이완 (3분)",
-        "mobilization": "요추 수동 신전 맥켄지 관절가동술 (3분)",
-        "active": "맥켄지 액티브 요추 신전 12회x3세트",
-        "passive": "파트너 보조 고관절 신전 패시브 스트레칭 30초x3세트"
+        "mfr": "복직근 전면 늑골 하단 MFR (3분), 햄스트링 이완 (3분)[cite: 4]",
+        "mobilization": "요추 수동 신전 맥켄지 관절가동술 (3분)[cite: 4]",
+        "active": "맥켄지 액티브 요추 신전 12회x3세트[cite: 4]",
+        "passive": "파트너 보조 고관절 신전 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 32,
@@ -946,10 +1056,10 @@
         "trigger_points": "1) 대흉근 TP. 2) 소흉근 TP.",
         "direct": "대흉근, 소흉근, 광배근",
         "indirect": "하부 승모근, 능구근, 전거근",
-        "mfr": "대흉근 및 소흉근 전안와 부위 MFR (3분)",
-        "mobilization": "흉추 수동 신전 및 견갑골 후인 활주 (3분)",
-        "active": "W-레이즈 & 밴드 풀 어파트 15회x3세트",
-        "passive": "폼롤러 가슴 전면 패시브 오픈 스트레칭 30초x3세트"
+        "mfr": "대흉근 및 소흉근 전안와 부위 MFR (3분)[cite: 4]",
+        "mobilization": "흉추 수동 신전 및 견갑골 후인 활주 (3분)[cite: 4]",
+        "active": "W-레이즈 & 밴드 풀 어파트 15회x3세트[cite: 4]",
+        "passive": "폼롤러 가슴 전면 패시브 오픈 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 33,
@@ -960,10 +1070,10 @@
         "trigger_points": "1) SCM 흉골두 TP. 2) 쇄골두 TP.",
         "direct": "흉쇄유돌근(SCM), 사각근",
         "indirect": "상부 승모근, 두경거근, 판상근",
-        "mfr": "니트릴 장갑 착용 후 SCM 핀서 그립 MFR (3분)",
-        "mobilization": "상부 경추 수동 회전 관절가동술 (3분)",
-        "active": "반대쪽 목 측굴 및 회전 통제 운동 12회x3세트",
-        "passive": "파트너 보조 SCM 패시브 스트레칭 30초x3세트"
+        "mfr": "니트릴 장갑 착용 후 SCM 핀서 그립 MFR (3분)[cite: 4]",
+        "mobilization": "상부 경추 수동 회전 관절가동술 (3분)[cite: 4]",
+        "active": "반대쪽 목 측굴 및 회전 통제 운동 12회x3세트[cite: 4]",
+        "passive": "파트너 보조 SCM 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 34,
@@ -974,10 +1084,10 @@
         "trigger_points": "1) 원회전근 TP. 2) 지굴근 TP.",
         "direct": "굴근지대, 원회전근, 수근굴근군",
         "indirect": "상완이두근, 소흉근, 사각근",
-        "mfr": "전완 수근굴근 부근 손바닥 MFR (3분)",
-        "mobilization": "수근골 수동 횡활주 가동술 (3분)",
-        "active": "정중신경 글라이딩 10회x3세트",
-        "passive": "손목 및 손가락 신전 패시브 스트레칭 30초x3세트"
+        "mfr": "전완 수근굴근 부근 손바닥 MFR (3분)[cite: 4]",
+        "mobilization": "수근골 수동 횡활주 가동술 (3분)[cite: 4]",
+        "active": "정중신경 글라이딩 10회x3세트[cite: 4]",
+        "passive": "손목 및 손가락 신전 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 35,
@@ -988,10 +1098,10 @@
         "trigger_points": "1) 단무지신근 TP. 2) 상완요골근 TP.",
         "direct": "단무지신근(EPB), 장무지외반근(APL)",
         "indirect": "상완요골근, 회전근개, 소흉근",
-        "mfr": "전완 요측 단무지신근 MFR (3분)",
-        "mobilization": "요골-수근관절 수동 견인 가동술 (3분)",
-        "active": "엄지손가락 등척성 강화 12회x3세트",
-        "passive": "파트너 보조 손목 척측 편위 패시브 스트레칭 30초x3세트"
+        "mfr": "전완 요측 단무지신근 MFR (3분)[cite: 4]",
+        "mobilization": "요골-수근관절 수동 견인 가동술 (3분)[cite: 4]",
+        "active": "엄지손가락 등척성 강화 12회x3세트[cite: 4]",
+        "passive": "파트너 보조 손목 척측 편위 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 36,
@@ -1002,10 +1112,10 @@
         "trigger_points": "1) A1 활차 TP: 손바닥 중수골 두. 2) 지굴근 TP.",
         "direct": "A1 활차, 심지굴근, 천지굴근",
         "indirect": "손목 굴근군, 원회전근",
-        "mfr": "손바닥 A1 활차 부위 및 전완 굴근 MFR (3분)",
-        "mobilization": "지골간 관절 수동 견인 가동술 (3분)",
-        "active": "손가락 텐던 글라이딩 12회x3세트",
-        "passive": "손가락 수동 신전 패시브 스트레칭 30초x3세트"
+        "mfr": "손바닥 A1 활차 부위 및 전완 굴근 MFR (3분)[cite: 4]",
+        "mobilization": "지골간 관절 수동 견인 가동술 (3분)[cite: 4]",
+        "active": "손가락 텐던 글라이딩 12회x3세트[cite: 4]",
+        "passive": "손가락 수동 신전 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 37,
@@ -1016,10 +1126,10 @@
         "trigger_points": "1) 무지내전근 TP. 2) 장무지신근 TP.",
         "direct": "무지내전근, 장무지신근, 제1중족족지관절",
         "indirect": "무지외반근, 후경골근, 비복근",
-        "mfr": "발바닥 무지내전근 및 발가락 사이 MFR (3분)",
-        "mobilization": "제1 MTP 관절 수동 견인 가동술 (3분)",
-        "active": "무지외반근 고립 발가락 벌리기 15회x3세트",
-        "passive": "엄지발가락 내측 수동 교정 패시브 스트레칭 30초x3세트"
+        "mfr": "발바닥 무지내전근 및 발가락 사이 MFR (3분)[cite: 4]",
+        "mobilization": "제1 MTP 관절 수동 견인 가동술 (3분)[cite: 4]",
+        "active": "무지외반근 고립 발가락 벌리기 15회x3세트[cite: 4]",
+        "passive": "엄지발가락 내측 수동 교정 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 38,
@@ -1030,10 +1140,10 @@
         "trigger_points": "1) 3-4 중족골 사이 TP. 2) 족저근막 전부 TP.",
         "direct": "총발가락신경, 중족골간 횡달선",
         "indirect": "가자미근, 장지굴근, 햄스트링",
-        "mfr": "발바닥 중족골 사이 공간 부드러운 MFR (3분)",
-        "mobilization": "중족골간 수동 횡활주 가동술 (3분)",
-        "active": "발가락 벌리기 및 발바닥 내재근 훈련 15회x3세트",
-        "passive": "발가락 신전 및 족저근막 패시브 스트레칭 30초x3세트"
+        "mfr": "발바닥 중족골 사이 공간 부드러운 MFR (3분)[cite: 4]",
+        "mobilization": "중족골간 수동 횡활주 가동술 (3분)[cite: 4]",
+        "active": "발가락 벌리기 및 발바닥 내재근 훈련 15회x3세트[cite: 4]",
+        "passive": "발가락 신전 및 족저근막 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 39,
@@ -1044,10 +1154,10 @@
         "trigger_points": "1) 비골근 TP. 2) 전경골근 TP.",
         "direct": "전거비인대(ATFL), 장/단비골근",
         "indirect": "후경골근, 가자미근, 중둔근",
-        "mfr": "종아리 외측 비골근 MFR (3분)",
-        "mobilization": "거골 후방 활주 수동 관절가동술 (3분)",
-        "active": "외발 서기 고유수용감각 & 밴드 외번 15회x3세트",
-        "passive": "파트너 보조 발목 배측굴곡 패시브 스트레칭 30초x3세트"
+        "mfr": "종아리 외측 비골근 MFR (3분)[cite: 4]",
+        "mobilization": "거골 후방 활주 수동 관절가동술 (3분)[cite: 4]",
+        "active": "외발 서기 고유수용감각 & 밴드 외번 15회x3세트[cite: 4]",
+        "passive": "파트너 보조 발목 배측굴곡 패시브 스트레칭 30초x3세트[cite: 4]"
       },
       {
         "id": 40,
@@ -1058,10 +1168,10 @@
         "trigger_points": "1) 비골근 TP. 2) TFL TP.",
         "direct": "후경골근, 족저근막, 비복근 외측",
         "indirect": "내전근, 대퇴근막장근, 중둔근",
-        "mfr": "종아리 외측 및 허벅지 안쪽 내전근 MFR (3분)",
-        "mobilization": "거골-주상골 수동 내회전 교정 가동술 (3분)",
-        "active": "Short Foot + 고관절 외회전 결합 싱글 레그 스쿼트 12회x3세트",
-        "passive": "종아리 전체 및 내전근 패시브 스트레칭 30초x3세트"
+        "mfr": "종아리 외측 및 허벅지 안쪽 내전근 MFR (3분)[cite: 4]",
+        "mobilization": "거골-주상골 수동 내회전 교정 가동술 (3분)[cite: 4]",
+        "active": "Short Foot + 고관절 외회전 결합 싱글 레그 스쿼트 12회x3세트[cite: 4]",
+        "passive": "종아리 전체 및 내전근 패시브 스트레칭 30초x3세트[cite: 4]"
       }
     ];
 
@@ -1098,6 +1208,17 @@
     const btnNextStep = document.getElementById("btnNextStep");
     const btnOpenMemoFromModal = document.getElementById("btnOpenMemoFromModal");
 
+    // Clients Modal & Form
+    const clientsModal = document.getElementById("clientsModal");
+    const clientsClose = document.getElementById("clientsClose");
+    const btnOpenClients = document.getElementById("btnOpenClients");
+    const clientForm = document.getElementById("clientForm");
+    const regName = document.getElementById("regName");
+    const regPhone = document.getElementById("regPhone");
+    const regMainSymptom = document.getElementById("regMainSymptom");
+    const clientsContainer = document.getElementById("clientsContainer");
+    const clientSearchInput = document.getElementById("clientSearchInput");
+
     // Memo & Logs Modal
     const memoModal = document.getElementById("memoModal");
     const memoClose = document.getElementById("memoClose");
@@ -1114,6 +1235,12 @@
     const logsContainer = document.getElementById("logsContainer");
     const logSearchInput = document.getElementById("logSearchInput");
     const btnClearAllLogs = document.getElementById("btnClearAllLogs");
+
+    // 50분 플랜 모달
+    const plan50Modal = document.getElementById("plan50Modal");
+    const plan50Close = document.getElementById("plan50Close");
+    const btnOpen50MinPlan = document.getElementById("btnOpen50MinPlan");
+
     const toastBox = document.getElementById("toastBox");
 
     /* Audio alert for timer */
@@ -1141,6 +1268,23 @@
       toastBox.textContent = msg;
       toastBox.style.display = "block";
       setTimeout(() => { toastBox.style.display = "none"; }, 2500);
+    }
+
+    /* LocalStorage Keys */
+    const CLIENTS_KEY = "rehab_pro_clients_v1";
+    const LOGS_KEY = "rehab_pro_session_logs_v1";
+
+    function getClients() {
+      try { const d = localStorage.getItem(CLIENTS_KEY); return d ? JSON.parse(d) : []; } catch(e) { return []; }
+    }
+    function saveClients(c) {
+      try { localStorage.setItem(CLIENTS_KEY, JSON.stringify(c)); } catch(e) {}
+    }
+    function getLogs() {
+      try { const d = localStorage.getItem(LOGS_KEY); return d ? JSON.parse(d) : []; } catch(e) { return []; }
+    }
+    function saveLogs(l) {
+      try { localStorage.setItem(LOGS_KEY, JSON.stringify(l)); } catch(e) {}
     }
 
     /* Render Cards */
@@ -1188,7 +1332,6 @@
       `).join("");
     }
 
-    // Event delegation for card clicks
     if (symptomsGrid) {
       symptomsGrid.addEventListener("click", (e) => {
         const card = e.target.closest(".symptom-card");
@@ -1332,21 +1475,82 @@
       searchInput.addEventListener("input", () => renderGrid());
     }
 
-    /* Member Session Memo (LocalStorage) */
-    const STORAGE_KEY = "rehab_pro_session_logs_v1";
+    /* 회원 등록 관리 기능 */
+    function renderClients(q = "") {
+      const clients = getClients();
+      const filtered = clients.filter(c => !q || c.name.toLowerCase().includes(q.toLowerCase()) || (c.phone && c.phone.includes(q)));
 
-    function getLogs() {
-      try {
-        const data = localStorage.getItem(STORAGE_KEY);
-        return data ? JSON.parse(data) : [];
-      } catch (e) { return []; }
+      if (filtered.length === 0) {
+        clientsContainer.innerHTML = `<div style="text-align:center; padding:25px; color:#666; font-size:0.85rem;">등록된 회원이 없습니다. 위 양식을 통해 회원을 등록해주세요.</div>`;
+        return;
+      }
+
+      clientsContainer.innerHTML = filtered.map(c => `
+        <div class="client-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="color:#fff; font-size:0.95rem;">👤 ${c.name} <span style="font-size:0.75rem; color:var(--cyan); font-weight:normal;">(${c.phone || '연락처 미등록'})</span></strong>
+            <span style="font-size:0.75rem; color:#888;">등록일: ${c.regDate}</span>
+          </div>
+          <div style="font-size:0.82rem; color:var(--lime);">🎯 주증상/목표: ${c.mainSymptom || '미지정'}</div>
+          <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:4px;">
+            <button class="btn-header" style="font-size:0.72rem; padding:4px 8px; color:var(--red);" onclick="deleteClient(${c.id})">회원 삭제</button>
+          </div>
+        </div>
+      `).join("");
     }
 
-    function saveLogs(logs) {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(logs)); } catch (e) {}
-    }
+    clientForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = regName.value.trim();
+      if (!name) return;
 
+      const newClient = {
+        id: Date.now(),
+        name,
+        phone: regPhone.value.trim(),
+        mainSymptom: regMainSymptom.value.trim(),
+        regDate: new Date().toLocaleDateString("ko-KR")
+      };
+
+      const clients = getClients();
+      clients.unshift(newClient);
+      saveClients(clients);
+
+      regName.value = "";
+      regPhone.value = "";
+      regMainSymptom.value = "";
+      renderClients();
+      showToast(`✅ ${name} 회원님이 등록되었습니다!`);
+    });
+
+    window.deleteClient = function(id) {
+      if (!confirm("회원을 삭제하시겠습니까?")) return;
+      let clients = getClients().filter(c => c.id !== id);
+      saveClients(clients);
+      renderClients(clientSearchInput.value);
+      showToast("회원이 삭제되었습니다.");
+    };
+
+    btnOpenClients.addEventListener("click", () => {
+      renderClients();
+      clientsModal.classList.add("show");
+    });
+    clientsClose.addEventListener("click", () => clientsModal.classList.remove("show"));
+    clientSearchInput.addEventListener("input", (e) => renderClients(e.target.value));
+
+    /* 회원 세션 메모 & 저장 */
     function openMemoModal(preselectedId = null) {
+      const clients = getClients();
+      if (clients.length === 0) {
+        alert("먼저 [회원관리] 메뉴에서 등록된 회원을 추가해주세요!");
+        btnOpenClients.click();
+        return;
+      }
+
+      clientNameInput.innerHTML = clients.map(c => `
+        <option value="${c.name}">👤 ${c.name} (${c.phone || '번호없음'}) - [${c.mainSymptom || '일반'}]</option>
+      `).join("");
+
       sessionSymptomSelect.innerHTML = SYMPTOM_DATA.map(item => `
         <option value="${item.id}" ${item.id === preselectedId ? 'selected' : ''}>
           [${item.category}] #${String(item.id).padStart(2,'0')} ${item.title}
@@ -1375,7 +1579,7 @@
 
     memoForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const clientName = clientNameInput.value.trim();
+      const clientName = clientNameInput.value;
       if (!clientName) return;
 
       const symptomId = parseInt(sessionSymptomSelect.value, 10);
@@ -1451,20 +1655,23 @@
       renderLogs();
       logsModal.classList.add("show");
     });
-
     logsClose.addEventListener("click", () => logsModal.classList.remove("show"));
     logSearchInput.addEventListener("input", (e) => renderLogs(e.target.value));
 
     btnClearAllLogs.addEventListener("click", () => {
       if (confirm("모든 기록을 삭제하시겠습니까?")) {
-        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(LOGS_KEY);
         renderLogs();
         showToast("전체 기록이 삭제되었습니다.");
       }
     });
 
-    // Close on backdrop click
-    [sessionModal, memoModal, logsModal].forEach(m => {
+    /* 50분 통합 플랜 모달 제어 */
+    btnOpen50MinPlan.addEventListener("click", () => plan50Modal.classList.add("show"));
+    plan50Close.addEventListener("click", () => plan50Modal.classList.remove("show"));
+
+    /* Close modals on backdrop click */
+    [sessionModal, clientsModal, memoModal, logsModal, plan50Modal].forEach(m => {
       m.addEventListener("click", (e) => {
         if (e.target === m) {
           m.classList.remove("show");
@@ -1490,7 +1697,6 @@
       renderGrid();
     }
 
-    // 즉시 실행 및 DOMContentLoaded 안전 장치 적용
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", init);
     } else {
