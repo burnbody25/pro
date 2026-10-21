@@ -83,10 +83,6 @@
       background: #202613; border-color: var(--lime); color: var(--lime);
       box-shadow: 0 0 10px var(--lime-glow);
     }
-    .btn-header.accent-cyan {
-      background: rgba(0, 229, 255, 0.1); border-color: var(--cyan); color: var(--cyan);
-      box-shadow: 0 0 10px var(--cyan-glow);
-    }
 
     .main-container { max-width: 1200px; margin: 0 auto; padding: 16px; }
 
@@ -170,23 +166,15 @@
     }
     .card-box strong { color: var(--cyan); display: block; margin-bottom: 2px; }
 
-    .card-btn-wrap { display: flex; gap: 6px; }
     .card-btn {
-      flex: 1; background: #172013; border: 1px solid rgba(204, 255, 0, 0.3);
-      color: var(--lime); padding: 9px; border-radius: 8px; font-size: 0.8rem; font-weight: 800;
-      display: flex; align-items: center; justify-content: center; gap: 4px;
-      transition: all 0.2s ease; cursor: pointer;
-    }
-    .card-btn.sub {
-      background: #14181c; border-color: rgba(0, 229, 255, 0.3); color: var(--cyan);
+      width: 100%; background: #172013; border: 1px solid rgba(204, 255, 0, 0.3);
+      color: var(--lime); padding: 9px; border-radius: 8px; font-size: 0.82rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      transition: all 0.2s ease;
     }
     .symptom-card:hover .card-btn {
       background: var(--lime); color: #121212; border-color: var(--lime);
       box-shadow: 0 0 12px var(--lime-glow);
-    }
-    .symptom-card:hover .card-btn.sub {
-      background: var(--cyan); color: #121212; border-color: var(--cyan);
-      box-shadow: 0 0 12px var(--cyan-glow);
     }
 
     /* Modal Backdrop */
@@ -354,18 +342,6 @@
       border-radius: 12px; padding: 14px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 6px;
     }
 
-    /* Detail Guide Modal Styles */
-    .detail-guide-section {
-      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; margin-bottom: 14px;
-    }
-    .detail-guide-section h4 {
-      color: var(--cyan); font-size: 1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
-    }
-    .detail-guide-section p, .detail-guide-section li {
-      font-size: 0.88rem; color: #ddd; line-height: 1.6;
-    }
-    .detail-guide-section ul { padding-left: 20px; margin-top: 6px; }
-
     /* Toast */
     .toast-box {
       position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
@@ -384,9 +360,8 @@
       <p>40대 증상 통합 컨디셔닝 시스템 & 30세션 연계</p>
     </div>
     <div class="header-actions">
-      <button class="btn-header accent-cyan" id="btnOpenDetailGuide">📖 진행방법 매뉴얼</button>
-      <button class="btn-header primary" id="btnOpenAssessment">📝 회원 진단 & 플랜</button>
-      <button class="btn-header" id="btnOpenLogs">📋 기록부</button>
+      <button class="btn-header primary" id="btnOpenAssessment">📝 <span>회원 진단 & 50분 플랜</span></button>
+      <button class="btn-header" id="btnOpenLogs">📋 <span>회원기록(30세션)</span></button>
     </div>
   </header>
 
@@ -471,63 +446,8 @@
       <!-- Modal Footer -->
       <div class="modal-footer">
         <button class="btn-step-action" id="btnPrevStep">← 이전 단계</button>
-        <button class="btn-memo-record" id="btnOpenMemoFromModal">📝 세션 메모 기록 (다음 연계)</button>
+        <button class="btn-memo-record" id="btnOpenMemoFromModal">📝 세션 메모 기록 (다음 세션 연계)</button>
         <button class="btn-step-action" id="btnNextStep" style="color:var(--lime); border-color:rgba(204,255,0,0.4)">다음 단계 →</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- [추가요청 구현] 진행방법에 대한 매우 디테일한 설명 팝업창 -->
-  <div class="modal-backdrop" id="detailGuideModal">
-    <div class="modal-box" style="max-width: 780px;">
-      <div class="modal-header">
-        <div>
-          <h3 style="color:#fff; font-size:1.15rem;">📖 리햅프로 4단계 컨디션 진행방법 디테일 가이드</h3>
-          <p style="font-size:0.75rem; color:var(--cyan);">현장 트레이너를 위한 단계별 프로토콜 표준 매뉴얼</p>
-        </div>
-        <button class="modal-close-btn" id="detailGuideClose">&times;</button>
-      </div>
-
-      <div class="modal-body">
-        <div class="detail-guide-section">
-          <h4>🟠 1단계: MFR (근막이완 & 압통점 해제)</h4>
-          <p><strong>목표:</strong> 과활성화 및 유착된 근막의 장벽을 낮추고 혈류 공급 유도</p>
-          <ul>
-            <li><strong>수행 시간:</strong> 증상당 표준 3분 소요 (타이머 활용)</li>
-            <li><strong>진행 팁:</strong> 손바닥, 마사지볼 또는 니트릴 장갑을 착용한 핀서 그립(Pincer Grip)을 활용하여 타깃 트리거포인트(TP) 부위에 지그시 압박을 준 상태에서 결대로 전단력(Shear Force)을 가합니다. 통증 수치(VAS) 4~6점 수준의 압력이 가장 효과적입니다.</li>
-          </ul>
-        </div>
-
-        <div class="detail-guide-section">
-          <h4>🔵 2단계: 관절가동술 (Joint Mobilization)</h4>
-          <p><strong>목표:</strong> 관절낭 내 유격(Arthrokinematics) 회복 및 슬라이딩/롤링 정상화</p>
-          <ul>
-            <li><strong>수행 시간:</strong> 표준 3분 소요</li>
-            <li><strong>진행 팁:</strong> 수동적(Passive) 관절 견인(Traction) 및 활주(Glide) 기법을 적용합니다. 뼈의 부착부 근처를 안정화한 상태에서 통증이 없는 각도 범위 내에서 부드럽게 펌핑하듯 가동 범위를 넓혀줍니다.</li>
-          </ul>
-        </div>
-
-        <div class="detail-guide-section">
-          <h4>🟢 3단계: 액티브 활성화 (Active Exercise & Neural Drive)</h4>
-          <p><strong>목표:</strong> 억제되었던 길항근 및 안정근의 신경 고유수용감각 각성</p>
-          <ul>
-            <li><strong>수행 시간:</strong> 표준 1~2분 소요 (12~15회 x 3세트)</li>
-            <li><strong>진행 팁:</strong> 속도를 천천히 제어하며(원심성 수축 포함) 타깃 근육의 고립 수축을 유도합니다. 보상 작용(다른 부위의 개입)이 일어나지 않는 정확한 자세를 유지하는 것이 핵심입니다.</li>
-          </ul>
-        </div>
-
-        <div class="detail-guide-section">
-          <h4>🟣 4단계: 패시브 스트레칭 & 홈워크 연계 (Passive Stretching)</h4>
-          <p><strong>목표:</strong> 컨디셔닝 세션 마무 및 장기 가동성 고착화</p>
-          <ul>
-            <li><strong>수행 시간:</strong> 표준 30초 x 3세트 (총 1~2분)</li>
-            <li><strong>진행 팁:</strong> 호흡을 내쉬며 이완할 때 파트너 보조 또는 스트레칭 밴드를 활용해 길게 늘려줍니다. 세션 종료 후 회원 기록부에 VAS 점수 및 다음 회차 연계 프로그램을 반드시 기록하세요.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn-memo-record" id="btnCloseGuideBottom" style="width:100%; justify-content:center;">확인 완료 (메인으로 돌아가기)</button>
       </div>
     </div>
   </div>
@@ -591,7 +511,7 @@
 
       <div class="modal-footer">
         <button class="btn-step-action" id="btnCopyPlan">📋 플랜 카톡 브리핑 복사</button>
-        <button class="btn-memo-record" id="btnSavePlanLog">💾 세션 기록부에 저장 & 다음 연계</button>
+        <button class="btn-memo-record" id="btnSavePlanLog">💾 세션 기록부에 저장 & 다음 세션 연계</button>
       </div>
     </div>
   </div>
@@ -642,7 +562,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="memoNotesInput">세션 피드백 및 트레이너 메모 (다음 연계 프로그램 제안 포함)</label>
+            <label class="form-label" for="memoNotesInput">세션 피드백 및 트레이너 메모 (다음 세션 연계 프로그램 자동 제안 포함)</label>
             <textarea id="memoNotesInput" class="form-textarea" rows="3" placeholder="예: 1세션 MFR 수행 완료. 2세션에서는 관절가동술 및 액티브 강화 비중을 높여 진행 예정."></textarea>
           </div>
 
@@ -678,7 +598,7 @@
   <div class="toast-box" id="toastBox"></div>
 
   <script>
-    // 40가지 전체 증상 데이터베이스 (불변 유지)
+    // 40가지 전체 증상 데이터베이스 (손동작, 부위, 방향 상세 매뉴얼 탑재)
     const SYMPTOM_DATA = [
       {
         "id": 1,
@@ -686,13 +606,13 @@
         "category": "상체",
         "keywords": ["어깨 찝힘", "어깨 통증", "상완골", "전방활주", "소흉근"],
         "test": "어깨 90도 외회전 찝힘 검사 / Anterior Apprehension Test",
-        "trigger_points": "1) 소흉근 TP: 쇄골 아래 중앙에서 외하방으로 약 2~3cm 지점. 2) 견갑하근 TP: 겨드랑이 안쪽 깊숙한 곳.",
+        "trigger_points": "1) 소흉근 TP: 쇄골 아래 중앙에서 외하방으로 약 2~3cm 지점 (3~5번 늑골). 2) 견갑하근 TP: 겨드랑이 안쪽 깊숙한 곳.",
         "direct": "소흉근, 상완이두근 장두, 후면 회전근개",
         "indirect": "광배근, 전거근, 후두하근",
-        "mfr": "니트릴 장갑 착용 후 쇄골 하부 소흉근 45도 외하방 전단력 이완 (3분)",
-        "mobilization": "상완골 후방 활주 수동 관절가동술 (3분)",
-        "active": "사이드라잉 외회전 12회x3세트, 전거근 활성화 10회x3세트",
-        "passive": "크로스 보디 숄더 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 트레이너가 니트릴 장갑 착용 후, 회원 쇄골 하부에 손바닥을 밀착시키고 45도 외하방 방향으로 지속적인 전단력(Shear force)을 주어 3분간 압박 이완합니다.",
+        "mobilization": "🔓 [손동작/방향] 회원 상완골 두를 한 손으로 잡고, 다른 손으로 팔꿈치를 받친 뒤 몸쪽(후방)으로 부드럽게 글라이딩(Posterior Glide)을 3분간 유도합니다.",
+        "active": "⚡ [진행방법] 사이드라잉 외회전 12회x3세트 (팔꿈치 패드 고정), 전거근 활성화 푸시업 플러스 10회x3세트 진행.",
+        "passive": "🌿 [진행방법] 크로스 보디 숄더 패시브 스트레칭: 어깨를 몸통 가로질러 반대쪽으로 지긋이 당겨 30초 유지x3세트."
       },
       {
         "id": 2,
@@ -700,13 +620,13 @@
         "category": "상체",
         "keywords": ["견갑거근", "목 어깨 통증", "회전 제한", "견갑골 상각", "날개뼈"],
         "test": "경추 회전/측굴 가동성 검사 & 견갑골 상각 압통 테스트",
-        "trigger_points": "1) 견갑거근 TP: 견갑골 상각 부착부. 2) 상부 승모근 TP: 목과 어깨 능선 중앙부.",
+        "trigger_points": "1) 견갑거근 TP: 견갑골 상각(Upper Angle) 부착부. 2) 상부 승모근 TP: 목과 어깨 능선 중앙부.",
         "direct": "견갑거근, 상부 승모근",
         "indirect": "하부 승모근, 사각근, 소흉근",
-        "mfr": "견갑골 상각 지압 MFR (3분), 사각근 측면 이완 (2분)",
-        "mobilization": "경추 수동 측굴 및 정수리 방향 수동 견인 (3분)",
-        "active": "친 턱 경추 심부 굴곡근 강화 15회x3세트, Y-레이즈 12회x3세트",
-        "passive": "대각선 숙이기 견갑거근 파트너 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 견갑골 상각 부착부를 엄지로 척추 바깥쪽 방향으로 3분간 압박 지압. 사각근 측면은 손가락 끝으로 가볍게 측면 이완(2분).",
+        "mobilization": "🔓 [손동작/방향] 경추 수동 측굴 및 정수리 방향으로 수동 수직 견인(Traction)을 3분간 부드럽게 적용.",
+        "active": "⚡ [진행방법] 친 턱(Chin Tucks) 경추 심부 굴곡근 강화 15회x3세트, Y-레이즈 12회x3세트.",
+        "passive": "🌿 [진행방법] 반대쪽 겨드랑이를 향해 고개를 45도 숙이고 파트너가 손으로 가볍게 눌러 견갑거근 스트레칭 30초x3세트."
       },
       {
         "id": 3,
@@ -714,13 +634,13 @@
         "category": "상체",
         "keywords": ["일자목", "거북목", "후두하근", "목 디스크", "두통"],
         "test": "측면 시선 정렬 검사 (Plumb Line Test) / Craniovertebral Angle 측정",
-        "trigger_points": "1) 후두하근 TP: 후두골 하단 함요부. 2) 두경거근 TP: 경추 후면 심부.",
+        "trigger_points": "1) 후두하근 TP: 후두골 하단 함요부 (풍지혈 부근). 2) 두경거근 TP: 경추 후면 심부.",
         "direct": "후두하근, 목드듬근, 경추 신전근",
         "indirect": "대흉근, 경추 심부 굴곡근, 하부 승모근",
-        "mfr": "후두골 하단 후두하근 마사지볼 이완 (3분), 대흉근 이완 (2분)",
-        "mobilization": "상부 경추 후방 활주 및 관절 가동 (3분)",
-        "active": "벽 기대고 친 턱 후두부 압박 훈련 12회x3세트",
-        "passive": "파트너 수동 경추 정수리 견인 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 후두골 하단에 마사지볼을 대고 체중을 실어 좌우로 굴리거나, 손가락으로 상방 압박 이완 (3분). 대흉근 이완 (2분).",
+        "mobilization": "🔓 [손동작/방향] 상부 경추 후방 활주 및 지상 후방 관절 가동 (3분).",
+        "active": "⚡ [진행방법] 벽에 뒤통수를 기대고 친 턱 동작으로 후두부 압박 훈련 12회x3세트.",
+        "passive": "🌿 [진행방법] 파트너가 두 손으로 후두골을 감싸고 정수리 방향으로 수평 견인 스트레칭 30초x3세트."
       },
       {
         "id": 4,
@@ -731,10 +651,10 @@
         "trigger_points": "1) 극상근 TP: 견갑극 위쪽 가시위목 중앙. 2) 견갑하근 TP: 견갑골 전면 늑골부.",
         "direct": "극상근, 소흉근, 견갑하근",
         "indirect": "전거근, 하부 승모근, 흉추 신전근",
-        "mfr": "극상근 가시위목 수동 압박 MFR (3분), 전거근 이완 (2분)",
-        "mobilization": "상완골 하방 활주 관절가동술 (3분)",
-        "active": "Scaption(견갑골 면 레이즈) 훈련 12회x3세트",
-        "passive": "파트너 수동 어깨 내회전 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 견갑극 상부 가시위목을 엄지로 뼈 방향에 수직으로 압박 MFR (3분), 전거근 이완 (2분).",
+        "mobilization": "🔓 [손동작/방향] 상완골을 팔꿈치에서 하방(아래쪽)으로 지그시 당기며 견봉하 공간을 넓히는 수동 관절가동술 (3분).",
+        "active": "⚡ [진행방법] Scaption(견갑골 면 30도 앞쪽 레이즈) 훈련 12회x3세트.",
+        "passive": "🌿 [진행방법] 파트너 보조 어깨 내회전 패시브 스트레칭 (Sleeper Stretch 변형) 30초x3세트."
       },
       {
         "id": 5,
@@ -745,10 +665,10 @@
         "trigger_points": "1) 소흉근 TP: 쇄골 하단 3~5번 늑골. 2) 능구근 TP: 견갑골 내측연 심부.",
         "direct": "전거근, 하부 승모근",
         "indirect": "소흉근, 상부 승모근, 능구근",
-        "mfr": "소흉근 및 능구근 유착 수동 MFR (3분)",
-        "mobilization": "견갑-흉관 관절 수동 회전 활주 (3분)",
-        "active": "네발기기 전거근 푸시업 플러스 15회x3세트",
-        "passive": "파트너 가슴 전면 수동 개방 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 소흉근 늑골 부착부와 능구근 내측연을 손끝으로 가볍게 박리하듯 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 견갑-흉관 관절을 상하좌우로 부드럽게 밀고 회전시키는 수동 회전 활주 (3분).",
+        "active": "⚡ [진행방법] 네발기기 자세에서 날개뼈를 밀어내는 전거근 푸시업 플러스 15회x3세트.",
+        "passive": "🌿 [진행방법] 파트너가 뒤에서 양 어깨를 가볍게 모아주며 가슴 전면을 여는 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 6,
@@ -759,10 +679,10 @@
         "trigger_points": "1) 신근군 TP: 외측상과 하방 전완 신근. 2) 굴근군 TP: 내측상과 하방 굴근.",
         "direct": "단요수근신근, 요측수근굴근, 원회전근",
         "indirect": "상완이두근, 회전근개, 소흉근",
-        "mfr": "전완 신근/굴근 힘줄 부착부 장갑 MFR (3분)",
-        "mobilization": "요척관절 수동 회전 활주 (3분)",
-        "active": "손목 신전 원심성 훈련 15회x3세트",
-        "passive": "파트너 보조 손목 수동 굴곡/신전 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 니트릴 장갑 착용 후 외측상과/내측상과 하방 힘줄 부착부를 결대로 횡단 마찰(Cross-fiber friction) MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 요척관절을 잡고 회전(회내/회외)을 주며 수동 활주 (3분).",
+        "active": "⚡ [진행방법] 손목 신전 덤벨 원심성(Eccentric) 내리기 훈련 15회x3세트.",
+        "passive": "🌿 [진행방법] 팔꿈치를 완전히 펴고 손목을 굴곡/신전 방향으로 파트너가 당겨주는 스트레칭 30초x3세트."
       },
       {
         "id": 7,
@@ -773,10 +693,10 @@
         "trigger_points": "1) 대흉근 TP: 가슴 중앙 흉골 외측. 2) 소흉근 TP: 늑골 3~5번 외측.",
         "direct": "대흉근, 소흉근, 흉추 신전근",
         "indirect": "복직근 상부, 광배근, 능구근",
-        "mfr": "대흉근 가슴 중앙 수동 MFR (3분), 복직근 상부 이완 (2분)",
-        "mobilization": "흉추 수동 신전 가동술 (3분)",
-        "active": "T-Spine Rotation & 코브라 액티브 신전 12회x3세트",
-        "passive": "파트너 보조 가슴 흉곽 패시브 열기 30초x3세트"
+        "mfr": "✋ [손동작/방향] 대흉근 가슴 중앙 흉골에서 바깥쪽(어깨 방향)으로 밀어내듯 수동 MFR (3분), 복직근 상부 이완 (2분).",
+        "mobilization": "🔓 [손동작/방향] 폼롤러를 흉추 마디 사이에 두고 양손을 머리 뒤로 젖힌 채 흉추 신전 가동술 (3분).",
+        "active": "⚡ [진행방법] T-Spine Rotation(흉추 회전) & 코브라 액티브 신전 12회x3세트.",
+        "passive": "🌿 [진행방법] 파트너가 뒤에서 팔을 잡고 가슴 흉곽을 뒤로 열어주는 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 8,
@@ -787,10 +707,10 @@
         "trigger_points": "1) 사각근 TP: 쇄골 상단 삼각 지점. 2) 소흉근 TP: 쇄골 하부 외측.",
         "direct": "전/중사각근, 소흉근, 쇄골하근",
         "indirect": "상부 승모근, 목드듬근, 흉골근",
-        "mfr": "전사각근 및 소흉근 전단력 MFR (3분)",
-        "mobilization": "1번 늑골 하방 수동 활주 (3분)",
-        "active": "신경 슬라이딩 가동술 10회x3세트",
-        "passive": "목 측면 및 가슴 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 쇄골 상단 사각근 부위를 손끝으로 지그시 누르며 전후방으로 가볍게 전단력 이완 (3분). 소흉근 이완.",
+        "mobilization": "🔓 [손동작/방향] 1번 늑골 위를 손가락 끝으로 살짝 누른 상태에서 어깨를 아래로 내리며 수동 활주 (3분).",
+        "active": "⚡ [진행방법] 신경 슬라이딩(Neural Gliding) 가동술 10회x3세트.",
+        "passive": "🌿 [진행방법] 고개를 반대쪽으로 돌리고 측굴하여 사각근 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 9,
@@ -801,10 +721,10 @@
         "trigger_points": "1) 요방형근 TP: 장골능 위 허리 깊은 부위. 2) 장요근 TP: 서혜부 깊은 곳.",
         "direct": "요척추 기립근, 요방형근, 장요근",
         "indirect": "대복사근, 둔근, 햄스트링",
-        "mfr": "요둔근막 및 요방형근 지압 MFR (3분)",
-        "mobilization": "요추 수동 굴곡 가동술 (3분)",
-        "active": "데드버그 & 골반 후방 경사 훈련 12회x3세트",
-        "passive": "수건 활용 수동 고관절 굴곡 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 허리 기립근 및 요방형근을 척추 바깥쪽에서 가쪽으로 꾹꾹 눌러 지압 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 누운 상태에서 무릎을 가슴으로 당겨 요추 수동 굴곡 가동술 (3분).",
+        "active": "⚡ [진행방법] 데드버그(Deadbug) & 펠빅 골반 후방 경사 훈련 12회x3세트.",
+        "passive": "🌿 [진행방법] 수건을 발바닥에 걸고 다리를 펴서 햄스트링 및 요추부 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 10,
@@ -815,10 +735,10 @@
         "trigger_points": "1) 요방형근 늑골부 TP. 2) 요방형근 장골부 부착부.",
         "direct": "요방형근, 광배근 하부",
         "indirect": "중둔근, 외복사근, 내전근",
-        "mfr": "장골능 위 요방형근 늑골 사이 MFR (3분)",
-        "mobilization": "측면 척추 수동 측굴 가동술 (3분)",
-        "active": "사이드 플랭크 및 힙 리프트 10회x3세트",
-        "passive": "파트너 보조 요방형근 대각선 수동 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 장골능 위 요방형근 늑골 사이 공간을 엄지로 깊게 눌러 측면 이완 (3분).",
+        "mobilization": "🔓 [손동작/방향] 측면 척추 수동 측굴 가동술 (3분).",
+        "active": "⚡ [진행방법] 사이드 플랭크 및 힙 리프트 10회x3세트.",
+        "passive": "🌿 [진행방법] 옆으로 누워 한쪽 팔을 위로 뻗으며 요방형근 대각선 수동 스트레칭 30초x3세트."
       },
       {
         "id": 11,
@@ -829,10 +749,10 @@
         "trigger_points": "1) 햄스트링 상부 TP: 좌골 결절 부근. 2) 비복근 TP: 오금 하방.",
         "direct": "햄스트링 상부, 장요근, 대둔부 상부",
         "indirect": "복직근 하부, 비복근, 흉추 신전근",
-        "mfr": "햄스트링 좌골 결절 부위 MFR (3분), 종아리 비복근 MFR (2분)",
-        "mobilization": "고관절 전면 수동 펌핑 및 골반 후방 활주 (3분)",
-        "active": "하프닐링 일리오소아스 록킹 10회x3세트, 프로그 브릿지 15회x3세트",
-        "passive": "수건 활용 햄스트링 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 햄스트링 좌골 결절 부위를 손바닥으로 압박하며 하방으로 슬라이딩 MFR (3분), 종아리 이완 (2분).",
+        "mobilization": "🔓 [손동작/방향] 고관절 전면 수동 펌핑 및 골반 후방 활주 가동술 (3분).",
+        "active": "⚡ [진행방법] 하프닐링 일리오소아스 록킹 10회x3세트, 프로그 브릿지 15회x3세트.",
+        "passive": "🌿 [진행방법] 누워서 다리를 곧게 펴고 올리는 햄스트링 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 12,
@@ -843,10 +763,10 @@
         "trigger_points": "1) TFL TP: ASIS 외하방. 2) 대퇴직근 TP: 허벅지 전면 상부.",
         "direct": "장요근, 대퇴직근, 대퇴근막장근(TFL)",
         "indirect": "요둔근막, 대둔근, 복매경근",
-        "mfr": "TFL 및 대퇴직근 상부 수동 이완 (3분)",
-        "mobilization": "고관절 수동 신전 견인 가동술 (3분)",
-        "active": "하프닐링 골반 후방 경사 액티브 수축 12회x3세트",
-        "passive": "카우치 스트레칭 파트너 보조 30초x3세트"
+        "mfr": "✋ [손동작/방향] TFL 및 대퇴직근 상부를 주먹으로 롤링하거나 꾹 누르며 결대로 이완 (3분).",
+        "mobilization": "🔓 [손동작/방향] 고관절 수동 신전 및 견인 가동술 (3분).",
+        "active": "⚡ [진행방법] 하프닐링 자세에서 엉덩이에 힘을 주고 골반 후방 경사 액티브 수축 12회x3세트.",
+        "passive": "🌿 [진행방법] 카우치 스트레칭(벽에 무릎 대고 런지 자세) 파트너 보조 30초x3세트."
       },
       {
         "id": 13,
@@ -857,10 +777,10 @@
         "trigger_points": "1) 이상근 TP: 천골 외측연과 대전자 중앙. 2) 쌍자근 TP: 이상근 하방.",
         "direct": "이상근, 고관절 외회전근군",
         "indirect": "대둔근, 햄스트링, 중둔근 후부",
-        "mfr": "천골 측부 이상근 마사지볼 깊은 MFR (3분)",
-        "mobilization": "고관절 관절와 내 수동 내회전 활주 (3분)",
-        "active": "클램쉘 및 고관절 신전 외회전 통제 15회x3세트",
-        "passive": "파트너 보조 고관절 굴곡-내전-내회전 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 천골 측부 이상근 부위에 마사지볼을 대거나 주관절로 깊게 압박하여 3분간 풀어줍니다.",
+        "mobilization": "🔓 [손동작/방향] 고관절을 굴곡시킨 상태에서 내회전 방향으로 수동 활주 가동술 (3분).",
+        "active": "⚡ [진행방법] 클램쉘(Clamshell) 및 고관절 신전 외회전 통제 15회x3세트.",
+        "passive": "🌿 [진행방법] 피겨 4(Figure-4) 스트레칭 자세로 파트너가 무릎을 가슴 쪽으로 지긋이 당기는 스트레칭 30초x3세트."
       },
       {
         "id": 14,
@@ -871,10 +791,10 @@
         "trigger_points": "1) TFL TP. 2) 내전근 TP: 서혜부 하방 허벅지 안쪽.",
         "direct": "대퇴근막장근(TFL), 내전근, 장요근",
         "indirect": "중둔근, 대둔근, 심부 외회전근",
-        "mfr": "TFL 및 서혜부 외측 MFR (3분)",
-        "mobilization": "고관절 하방/후방 수동 견인 가동술 (3분)",
-        "active": "밴드 고관절 후방 끌어당김 스쿼트 모빌리티 10회x3세트",
-        "passive": "통증 없는 범위 내 고관절 수동 외회전 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] TFL 및 서혜부 외측을 손끝으로 가볍게 회전시키며 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 고관절 하방 및 후방으로 수동 견인 가동술 (3분).",
+        "active": "⚡ [진행방법] 밴드를 고관절에 걸고 후방으로 당기며 스쿼트 모빌리티 10회x3세트.",
+        "passive": "🌿 [진행방법] 통증 없는 범위 내 고관절 수동 외회전 스트레칭 30초x3세트."
       },
       {
         "id": 15,
@@ -885,10 +805,10 @@
         "trigger_points": "1) 중둔근 후부 TP. 2) 소둔근 TP.",
         "direct": "중둔근, 소둔근",
         "indirect": "내전근, 요방형근, TFL",
-        "mfr": "장골능 아래 중둔근 후부 MFR (3분), 반대쪽 내전근 이완 (2분)",
-        "mobilization": "고관절 외측 수동 활주 (3분)",
-        "active": "사이드 라잉 힙 어브덕션 15회x3세트",
-        "passive": "파트너 보조 고관절 교차 내전 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 장골능 아래 중둔근 후부를 손바닥으로 비비며 수직 압박 MFR (3분), 반대쪽 내전근 이완 (2분).",
+        "mobilization": "🔓 [손동작/방향] 고관절 외측 수동 활주 가동술 (3분).",
+        "active": "⚡ [진행방법] 사이드 라잉 힙 어브덕션(발뒤꿈치를 위로 향하며) 15회x3세트.",
+        "passive": "🌿 [진행방법] 파트너 보조 고관절 교차 내전 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 16,
@@ -899,10 +819,10 @@
         "trigger_points": "1) 내전근 TP: 허벅지 안쪽 중간. 2) TFL TP.",
         "direct": "내전근, TFL, 가자미근",
         "indirect": "중둔근, 대둔근, 전경골근",
-        "mfr": "허벅지 안쪽 내전근 전체 MFR (3분), TFL 이완 (2분)",
-        "mobilization": "거골 후방 활주 발목 가동술 (3분)",
-        "active": "무릎 루프밴드 착용 몬스터 워크 12회x3세트",
-        "passive": "파트너 보조 내전근 수동 개방 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 허벅지 안쪽 내전근 전체를 두 손으로 감싸고 위아래로 결대로 문지르며 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 발목 거골 후방 활주 및 무릎 정렬 교정 가동술 (3분).",
+        "active": "⚡ [진행방법] 무릎에 루프밴드를 착용하고 대각선으로 걷는 몬스터 워크 12회x3세트.",
+        "passive": "🌿 [진행방법] 나비 자세로 앉아 파트너가 무릎을 바닥 쪽으로 지긋이 눌러주는 내전근 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 17,
@@ -913,10 +833,10 @@
         "trigger_points": "1) 대퇴이두근 TP. 2) IT-Band 상부 TP.",
         "direct": "대퇴이두근, 장경골단(IT-Band)",
         "indirect": "내전근, 거위발 힘줄 부착부, 비복근 내측",
-        "mfr": "허벅지 외측 IT-Band 및 대퇴이두근 전완 MFR (3분)",
-        "mobilization": "고관절 내회전 수동 활주 (3분)",
-        "active": "와이드 스쿼트 내전근/중둔근 동시 활성화 12회x3세트",
-        "passive": "파트너 보조 고관절 내회전/외측 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 허벅지 외측 IT-Band 및 대퇴이두근 부근을 전완(팔뚝)으로 부드럽게 롤링 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 고관절 내회전 수동 활주 가동술 (3분).",
+        "active": "⚡ [진행방법] 와이드 스쿼트 시 내전근과 중둔근 동시 활성화 12회x3세트.",
+        "passive": "🌿 [진행방법] 파트너 보조 고관절 내회전 및 외측 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 18,
@@ -927,10 +847,10 @@
         "trigger_points": "1) TFL/대둔근 연결부 TP. 2) 외측광근 TP.",
         "direct": "대퇴근막장근(TFL), 대둔근 연결부",
         "indirect": "외측 광근, 중둔근, 비복근 외측",
-        "mfr": "TFL 및 엉덩이 외측 수동 MFR (3분)",
-        "mobilization": "고관절 수동 내전 가동술 (3분)",
-        "active": "중둔근 강화 및 골반 수평 유지 훈련 15회x3세트",
-        "passive": "파트너 보조 고관절 교차 내전 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] TFL 및 엉덩이 외측 부위를 집중 MFR (3분). (무릎 외측 통증 부위 직접 강압 금지).",
+        "mobilization": "🔓 [손동작/방향] 고관절 수동 내전 가동술 (3분).",
+        "active": "⚡ [진행방법] 중둔근 강화 및 골반 수평 유지 훈련 15회x3세트.",
+        "passive": "🌿 [진행방법] 다리를 교차하여 서서 장경골단 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 19,
@@ -941,10 +861,10 @@
         "trigger_points": "1) 족저근막 TP: 뒤꿈치 종골 내측. 2) 가자미근 TP.",
         "direct": "족저근막, 비복근, 가자미근",
         "indirect": "햄스트링, 대둔근, 요둔근막",
-        "mfr": "뒤꿈치 종골에서 발가락 방사형 MFR (3분), 종아리 이완 (3분)",
-        "mobilization": "거골 후방 활주 관절가동술 (3분)",
-        "active": "수건 발가락으로 당기기 & 전경골근 강화 15회x3세트",
-        "passive": "파트너 보조 발목 배측굴곡 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 뒤꿈치 종골 내측에서 발가락 방향으로 엄지손가락을 세워 부채꼴 모양으로 방사형 MFR (3분), 종아리 이완 (3분).",
+        "mobilization": "🔓 [손동작/방향] 발목 거골 후방 활주 관절가동술 (3분).",
+        "active": "⚡ [진행방법] 수건 발가락으로 집어 당기기(Towel Curl) 15회x3세트.",
+        "passive": "🌿 [진행방법] 발가락을 발등 쪽으로 젖힌 상태에서 발바닥 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 20,
@@ -955,10 +875,10 @@
         "trigger_points": "1) 가자미근 TP. 2) 비복근 TP.",
         "direct": "가자미근, 비복근, 아킬레스건",
         "indirect": "족저근막, 햄스트링, 대퇴사두근",
-        "mfr": "종아리 심부 가자미근 및 아킬레스 주변부 이완 (3분)",
-        "mobilization": "거골 후방 활주 관절가동술 (3분)",
-        "active": "편성 원심성 카프 레이즈 12회x3세트",
-        "passive": "파트너 보조 무릎 구부린 상태 가자미근 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 종아리 심부 가자미근을 두 손으로 감싸쥐고 아킬레스건 양옆을 위로 쓸어올리듯 이완 (3분).",
+        "mobilization": "🔓 [손동작/방향] 밴드를 발목에 걸고 전방에서 후방으로 당기며 거골 후방 활주 가동술 (3분).",
+        "active": "⚡ [진행방법] 계단 끝에서 발목을 내리고 올라올 때는 두 발, 내려갈 때는 한 발로 버티는 원심성 카프 레이즈 12회x3세트.",
+        "passive": "🌿 [진행방법] 무릎을 구부린 상태에서 벽에 발을 대고 가자미근 스트레칭 30초x3세트."
       },
       {
         "id": 21,
@@ -969,10 +889,10 @@
         "trigger_points": "1) 비복근 외측 두 TP. 2) 후경골근 TP.",
         "direct": "비복근 외측두, 장/단비골근, 후경골근",
         "indirect": "대퇴이두근, 내전근, 대둔근",
-        "mfr": "종아리 외측 비복근 및 비골근 MFR (3분)",
-        "mobilization": "거골-주상골 수동 내회전 및 배측굴곡 가동술 (3분)",
-        "active": "발목 족저굴곡-내번 액티브 밴드 운동 15회x3세트",
-        "passive": "종아리 외측 및 비골근 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 종아리 외측 비복근과 비골근 라인을 손바닥으로 문지르며 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 거골-주상골 수동 내회전 및 배측굴곡 가동술 (3분).",
+        "active": "⚡ [진행방법] 발목 족저굴곡-내번 액티브 밴드 운동 15회x3세트.",
+        "passive": "🌿 [진행방법] 종아리 외측 및 비골근 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 22,
@@ -983,10 +903,10 @@
         "trigger_points": "1) 이상근 TP. 2) 대둔근 하부 TP.",
         "direct": "이상근, 대둔근, 심부 외회전근군",
         "indirect": "장요근, 대퇴이두근, 내전근",
-        "mfr": "천골 및 둔부 심부 외회전근 지압 MFR (3분)",
-        "mobilization": "고관절 관절와 내 수동 내회전 활주 가동술 (3분)",
-        "active": "고관절 내회전 활성화 훈련 15회x3세트",
-        "passive": "파트너 보조 고관절 굴곡-내전-내회전 수동 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 천골 및 둔부 심부 외회전근을 지압봉이나 손바닥으로 압박 이완 (3분).",
+        "mobilization": "🔓 [손동작/방향] 고관절 관절와 내 수동 내회전 활주 가동술 (3분).",
+        "active": "⚡ [진행방법] 고관절 내회전 활성화 훈련 15회x3세트.",
+        "passive": "🌿 [진행방법] 파트너 보조 고관절 굴곡-내전-내회전 수동 스트레칭 30초x3세트."
       },
       {
         "id": 23,
@@ -997,10 +917,10 @@
         "trigger_points": "1) TFL TP. 2) 박근/내전근 TP.",
         "direct": "대퇴근막장근(TFL), 소둔근 전방부, 장단내전근",
         "indirect": "대둔근, 이상근, 전경골근",
-        "mfr": "허벅지 전외측 TFL 및 내전근 상부 수동 MFR (3분)",
-        "mobilization": "고관절 수동 외회전 및 전방 활주 가동술 (3분)",
-        "active": "클램쉘 및 고관절 외회전 강화 15회x3세트",
-        "passive": "파트너 보조 고관절 외회전 및 신전 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 허벅지 전외측 TFL 및 내전근 상부를 수동으로 압박 롤링 (3분).",
+        "mobilization": "🔓 [손동작/방향] 고관절 수동 외회전 및 전방 활주 가동술 (3분).",
+        "active": "⚡ [진행방법] 클램쉘 및 고관절 외회전 강화 15회x3세트.",
+        "passive": "🌿 [진행방법] 파트너 보조 고관절 외회전 및 신전 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 24,
@@ -1011,10 +931,10 @@
         "trigger_points": "1) 비복근/가자미근 TP. 2) 비골근 TP.",
         "direct": "후경골근, 족저근막, 장지굴근",
         "indirect": "가자미근, 대퇴직근, 중둔근",
-        "mfr": "종아리 내측 후경골근 지압 MFR (3분)",
-        "mobilization": "거골-주상골 관절 수동 아치 리프팅 가동술 (3분)",
-        "active": "Short Foot Exercise 15회x3세트",
-        "passive": "종아리 심부 가자미근 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 종아리 내측 정강이뼈 뒤쪽 후경골근 라인을 엄지손가락으로 아래에서 위로 쓸어올리듯 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 주상골(Navicular)을 아래에서 위로 받치며 거골과 함께 아치를 만들어주는 관절가동술 (3분).",
+        "active": "⚡ [진행방법] Short Foot Exercise (발가락을 굽히지 않고 발바닥 아치를 수축) 15회x3세트.",
+        "passive": "🌿 [진행방법] 종아리 심부 가자미근 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 25,
@@ -1025,10 +945,10 @@
         "trigger_points": "1) 장비골근 TP. 2) 족저근막 TP.",
         "direct": "장비골근, 족저근막, 무지외반근",
         "indirect": "후경골근, 대퇴이두근, 요방형근",
-        "mfr": "발바닥 족저근막 및 장비골근 MFR (3분)",
-        "mobilization": "족골간 관절 수동 유연성 가동술 (3분)",
-        "active": "발가락 수평 확산 & 발목 안정화 훈련 15회x3세트",
-        "passive": "발바닥 족저근막 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 발바닥 족저근막 및 장비골근 부위를 부드럽게 이완 (3분).",
+        "mobilization": "🔓 [손동작/방향] 족골간 관절 수동 유연성 가동술 (3분).",
+        "active": "⚡ [진행방법] 발가락 수평 확산(Toe Spread Out) & 발목 안정화 훈련 15회x3세트.",
+        "passive": "🌿 [진행방법] 발바닥 족저근막 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 26,
@@ -1039,10 +959,10 @@
         "trigger_points": "1) 가자미근 TP. 2) 대퇴직근 TP.",
         "direct": "가자미근, 대퇴사두근, 오금근",
         "indirect": "대둔근, 햄스트링, 복직근",
-        "mfr": "종아리 가자미근 및 대퇴사두근 수동 MFR (3분)",
-        "mobilization": "경골 전방 활주 및 무릎 굴곡 가동술 (3분)",
-        "active": "슬관절 굴곡근 강화 12회x3세트",
-        "passive": "가자미근 및 대퇴사두근 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 종아리 가자미근 및 대퇴사두근 수동 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 경골 전방 활주 및 무릎 굴곡 가동술 (3분).",
+        "active": "⚡ [진행방법] 슬관절 굴곡근 강화 12회x3세트.",
+        "passive": "🌿 [진행방법] 가자미근 및 대퇴사두근 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 27,
@@ -1053,10 +973,10 @@
         "trigger_points": "1) 외측광근 TP. 2) TFL TP.",
         "direct": "외측광근, 대퇴근막장근, 슬개건",
         "indirect": "내측광근(VMO), 중둔근, 후경골근",
-        "mfr": "허벅지 외측광근 및 TFL MFR (3분)",
-        "mobilization": "슬개골 내측 및 하방 수동 활주 가동술 (3분)",
-        "active": "VMO(내측광근) 고립 단슬관절 신전 15회x3세트",
-        "passive": "대퇴사두근 및 TFL 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 허벅지 외측광근 및 TFL을 손바닥으로 밀어내며 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 슬개골을 내측 및 하방으로 부드럽게 밀어주는 슬개골 활주 가동술 (3분).",
+        "active": "⚡ [진행방법] VMO(내측광근) 고립 단슬관절 신전 15회x3세트.",
+        "passive": "🌿 [진행방법] 대퇴사두근 및 TFL 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 28,
@@ -1067,10 +987,10 @@
         "trigger_points": "1) 박근/봉공근 TP. 2) 반건양근 TP.",
         "direct": "봉공근, 박근, 반건양근",
         "indirect": "내전근, 대둔근, 전경골근",
-        "mfr": "허벅지 안쪽 박근 및 반건양근 MFR (3분)",
-        "mobilization": "경골 내회전/외회전 수동 관절가동술 (3분)",
-        "active": "고관절 굴곡-외반 액티브 통제 훈련 12회x3세트",
-        "passive": "허벅지 내측 및 후내측 햄스트링 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 허벅지 안쪽 박근 및 반건양근 부근을 가볍게 손끝으로 마사지 (3분).",
+        "mobilization": "🔓 [손동작/방향] 경골 내회전/외회전 수동 관절가동술 (3분).",
+        "active": "⚡ [진행방법] 고관절 굴곡-외반 액티브 통제 훈련 12회x3세트.",
+        "passive": "🌿 [진행방법] 허벅지 내측 및 후내측 햄스트링 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 29,
@@ -1081,10 +1001,10 @@
         "trigger_points": "1) 중둔근 전부 TP. 2) 소둔근 TP.",
         "direct": "중둔근, 소둔근, 대퇴근막장근",
         "indirect": "외복사근, 요방형근, 내전근",
-        "mfr": "장골능 아래 중둔근 및 소둔근 딥 MFR (3분)",
-        "mobilization": "고관절 측면 견인 및 가동술 (3분)",
-        "active": "등척성 힙 어브덕션 10초 유지x10회x3세트",
-        "passive": "파트너 보조 고관절 교차 내전 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 장골능 아래 중둔근 및 소둔근 부위에 마사지볼을 대고 심부 압박 이완 (3분).",
+        "mobilization": "🔓 [손동작/방향] 고관절 측면 견인 및 가동술 (3분).",
+        "active": "⚡ [진행방법] 등척성 힙 어브덕션 10초 유지x10회x3세트.",
+        "passive": "🌿 [진행방법] 파트너 보조 고관절 교차 내전 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 30,
@@ -1095,10 +1015,10 @@
         "trigger_points": "1) 장요근 TP. 2) TFL TP.",
         "direct": "장요근, 대퇴근막장근, 장경골단",
         "indirect": "대둔근, 내전근, 대퇴직근",
-        "mfr": "장요근 서혜부 및 TFL 부착부 부드러운 MFR (3분)",
-        "mobilization": "고관절 전방/하방 견인 가동술 (3분)",
-        "active": "고관절 굴곡근 원심성 훈련 12회x3세트",
-        "passive": "장요근 및 TFL 파트너 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 장요근 서혜부 및 TFL 부착부를 부드러운 손바닥 압박 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 고관절 전방/하방 견인 가동술 (3분).",
+        "active": "⚡ [진행방법] 고관절 굴곡근 원심성 훈련 12회x3세트.",
+        "passive": "🌿 [진행방법] 장요근 및 TFL 파트너 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 31,
@@ -1109,10 +1029,10 @@
         "trigger_points": "1) 복직근 TP. 2) 햄스트링 근복 TP.",
         "direct": "복직근, 대복사근, 햄스트링",
         "indirect": "요척추 기립근, 장요근, 대둔근",
-        "mfr": "복직근 전면 늑골 하단 MFR (3분), 햄스트링 이완 (3분)",
-        "mobilization": "요추 수동 신전 맥켄지 관절가동술 (3분)",
-        "active": "맥켄지 액티브 요추 신전 12회x3세트",
-        "passive": "파트너 보조 고관절 신전 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 복직근 전면 늑골 하단부를 부드럽게 압박 이완 (3분), 햄스트링 이완 (3분).",
+        "mobilization": "🔓 [손동작/방향] 요추 수동 신전 맥켄지 관절가동술 (3분).",
+        "active": "⚡ [진행방법] 맥켄지 액티브 요추 신전 12회x3세트.",
+        "passive": "🌿 [진행방법] 파트너 보조 고관절 신전 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 32,
@@ -1123,10 +1043,10 @@
         "trigger_points": "1) 대흉근 TP. 2) 소흉근 TP.",
         "direct": "대흉근, 소흉근, 광배근",
         "indirect": "하부 승모근, 능구근, 전거근",
-        "mfr": "대흉근 및 소흉근 전안와 부위 MFR (3분)",
-        "mobilization": "흉추 수동 신전 및 견갑골 후인 활주 (3분)",
-        "active": "W-레이즈 & 밴드 풀 어파트 15회x3세트",
-        "passive": "폼롤러 가슴 전면 패시브 오픈 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 대흉근 및 소흉근 전안와 부위를 엄지로 흉골에서 어깨 바깥쪽으로 쓸어내리며 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 흉추 수동 신전 및 견갑골 후인 활주 (3분).",
+        "active": "⚡ [진행방법] W-레이즈 & 밴드 풀 어파트 15회x3세트.",
+        "passive": "🌿 [진행방법] 폼롤러 가슴 전면 패시브 오픈 스트레칭 30초x3세트."
       },
       {
         "id": 33,
@@ -1137,10 +1057,10 @@
         "trigger_points": "1) SCM 흉골두 TP. 2) 쇄골두 TP.",
         "direct": "흉쇄유돌근(SCM), 사각근",
         "indirect": "상부 승모근, 두경거근, 판상근",
-        "mfr": "니트릴 장갑 착용 후 SCM 핀서 그립 MFR (3분)",
-        "mobilization": "상부 경추 수동 회전 관절가동술 (3분)",
-        "active": "반대쪽 목 측굴 및 회전 통제 운동 12회x3세트",
-        "passive": "파트너 보조 SCM 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 니트릴 장갑 착용 후 SCM 근복을 엄지와 검사로 가볍게 집어올리는 핀서 그립(Pincer grip) MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 상부 경추 수동 회전 관절가동술 (3분).",
+        "active": "⚡ [진행방법] 반대쪽 목 측굴 및 회전 통제 운동 12회x3세트.",
+        "passive": "🌿 [진행방법] 파트너 보조 SCM 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 34,
@@ -1151,10 +1071,10 @@
         "trigger_points": "1) 원회전근 TP. 2) 지굴근 TP.",
         "direct": "굴근지대, 원회전근, 수근굴근군",
         "indirect": "상완이두근, 소흉근, 사각근",
-        "mfr": "전완 수근굴근 부근 손바닥 MFR (3분)",
-        "mobilization": "수근골 수동 횡활주 가동술 (3분)",
-        "active": "정중신경 글라이딩 10회x3세트",
-        "passive": "손목 및 손가락 신전 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 전완 수근굴근 부근과 손바닥 중심을 엄지로 부드럽게 압박 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 수근골을 양손으로 잡고 위아래로 엇갈리게 움직이는 횡활주 가동술 (3분).",
+        "active": "⚡ [진행방법] 정중신경 글라이딩 10회x3세트.",
+        "passive": "🌿 [진행방법] 손목 및 손가락 신전 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 35,
@@ -1165,10 +1085,10 @@
         "trigger_points": "1) 단무지신근 TP. 2) 상완요골근 TP.",
         "direct": "단무지신근(EPB), 장무지외반근(APL)",
         "indirect": "상완요골근, 회전근개, 소흉근",
-        "mfr": "전완 요측 단무지신근 MFR (3분)",
-        "mobilization": "요골-수근관절 수동 견인 가동술 (3분)",
-        "active": "엄지손가락 등척성 강화 12회x3세트",
-        "passive": "파트너 보조 손목 척측 편위 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 전완 요측 단무지신근 부근을 가볍게 문지르며 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 요골-수근관절 수동 견인 가동술 (3분).",
+        "active": "⚡ [진행방법] 엄지손가락 등척성 강화 12회x3세트.",
+        "passive": "🌿 [진행방법] 파트너 보조 손목 척측 편위 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 36,
@@ -1179,10 +1099,10 @@
         "trigger_points": "1) A1 활차 TP: 손바닥 중수골 두. 2) 지굴근 TP.",
         "direct": "A1 활차, 심지굴근, 천지굴근",
         "indirect": "손목 굴근군, 원회전근",
-        "mfr": "손바닥 A1 활차 부위 및 전완 굴근 MFR (3분)",
-        "mobilization": "지골간 관절 수동 견인 가동술 (3분)",
-        "active": "손가락 텐던 글라이딩 12회x3세트",
-        "passive": "손가락 수동 신전 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 손바닥 A1 활차 부위(손가락 밑마디 주름 부근)를 엄지로 가볍게 압박 이완 (3분).",
+        "mobilization": "🔓 [손동작/방향] 지골간 관절 수동 견인 가동술 (3분).",
+        "active": "⚡ [진행방법] 손가락 텐던 글라이딩 12회x3세트.",
+        "passive": "🌿 [진행방법] 손가락 수동 신전 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 37,
@@ -1193,10 +1113,10 @@
         "trigger_points": "1) 무지내전근 TP. 2) 장무지신근 TP.",
         "direct": "무지내전근, 장무지신근, 제1중족족지관절",
         "indirect": "무지외반근, 후경골근, 비복근",
-        "mfr": "발바닥 무지내전근 및 발가락 사이 MFR (3분)",
-        "mobilization": "제1 MTP 관절 수동 견인 가동술 (3분)",
-        "active": "무지외반근 고립 발가락 벌리기 15회x3세트",
-        "passive": "엄지발가락 내측 수동 교정 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 발바닥 무지내전근 및 발가락 사이 공간을 엄지로 마사지 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 제1 MTP 관절 수동 견인 및 교정 가동술 (3분).",
+        "active": "⚡ [진행방법] 무지외반근 고립 발가락 벌리기 15회x3세트.",
+        "passive": "🌿 [진행방법] 엄지발가락 내측 수동 교정 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 38,
@@ -1207,10 +1127,10 @@
         "trigger_points": "1) 3-4 중족골 사이 TP. 2) 족저근막 전부 TP.",
         "direct": "총발가락신경, 중족골간 횡달선",
         "indirect": "가자미근, 장지굴근, 햄스트링",
-        "mfr": "발바닥 중족골 사이 공간 부드러운 MFR (3분)",
-        "mobilization": "중족골간 수동 횡활주 가동술 (3분)",
-        "active": "발가락 벌리기 및 발바닥 내재근 훈련 15회x3세트",
-        "passive": "발가락 신전 및 족저근막 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 발바닥 중족골 사이 공간을 위아래로 부드럽게 마사지 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 중족골간 수동 횡활주 가동술 (3분).",
+        "active": "⚡ [진행방법] 발가락 벌리기 및 발바닥 내재근 훈련 15회x3세트.",
+        "passive": "🌿 [진행방법] 발가락 신전 및 족저근막 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 39,
@@ -1221,10 +1141,10 @@
         "trigger_points": "1) 비골근 TP. 2) 전경골근 TP.",
         "direct": "전거비인대(ATFL), 장/단비골근",
         "indirect": "후경골근, 가자미근, 중둔근",
-        "mfr": "종아리 외측 비골근 MFR (3분)",
-        "mobilization": "거골 후방 활주 수동 관절가동술 (3분)",
-        "active": "외발 서기 고유수용감각 & 밴드 외번 15회x3세트",
-        "passive": "파트너 보조 발목 배측굴곡 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 종아리 외측 비골근 라인을 손바닥으로 아래위로 마찰 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 거골 후방 활주 수동 관절가동술 (3분).",
+        "active": "⚡ [진행방법] 외발 서기 고유수용감각 & 밴드 외번 15회x3세트.",
+        "passive": "🌿 [진행방법] 파트너 보조 발목 배측굴곡 패시브 스트레칭 30초x3세트."
       },
       {
         "id": 40,
@@ -1235,10 +1155,10 @@
         "trigger_points": "1) 비골근 TP. 2) TFL TP.",
         "direct": "후경골근, 족저근막, 비복근 외측",
         "indirect": "내전근, 대퇴근막장근, 중둔근",
-        "mfr": "종아리 외측 및 허벅지 안쪽 내전근 MFR (3분)",
-        "mobilization": "거골-주상골 수동 내회전 교정 가동술 (3분)",
-        "active": "Short Foot + 고관절 외회전 결합 싱글 레그 스쿼트 12회x3세트",
-        "passive": "종아리 전체 및 내전근 패시브 스트레칭 30초x3세트"
+        "mfr": "✋ [손동작/방향] 종아리 외측 및 허벅지 안쪽 내전근 MFR (3분).",
+        "mobilization": "🔓 [손동작/방향] 거골-주상골 수동 내회전 교정 가동술 (3분).",
+        "active": "⚡ [진행방법] Short Foot + 고관절 외회전 결합 싱글 레그 스쿼트 12회x3세트.",
+        "passive": "🌿 [진행방법] 종아리 전체 및 내전근 패시브 스트레칭 30초x3세트."
       }
     ];
 
@@ -1257,12 +1177,6 @@
     const searchInput = document.getElementById("searchInput");
     const categoryTabs = document.getElementById("categoryTabs");
     const resultCount = document.getElementById("resultCount");
-
-    // Detail Guide Modal
-    const btnOpenDetailGuide = document.getElementById("btnOpenDetailGuide");
-    const detailGuideModal = document.getElementById("detailGuideModal");
-    const detailGuideClose = document.getElementById("detailGuideClose");
-    const btnCloseGuideBottom = document.getElementById("btnCloseGuideBottom");
 
     // Session Modal
     const sessionModal = document.getElementById("sessionModal");
@@ -1344,7 +1258,7 @@
       setTimeout(() => { toastBox.style.display = "none"; }, 2500);
     }
 
-    /* Render Cards with Detail Guide Button */
+    /* Render Cards */
     function renderGrid() {
       const q = searchInput.value.toLowerCase().trim();
       const filtered = SYMPTOM_DATA.filter(item => {
@@ -1381,10 +1295,9 @@
             <strong>🩺 검사법 (TEST)</strong>
             ${item.test}
           </div>
-          <div class="card-btn-wrap">
-            <button class="card-btn sub" onclick="event.stopPropagation(); openDetailGuideModal();">📖 진행방법</button>
-            <button class="card-btn" onclick="event.stopPropagation(); openModal(${item.id});">4단계 세션 ➔</button>
-          </div>
+          <button class="card-btn">
+            4단계 매뉴얼 시작 ➔
+          </button>
         </div>
       `).join("");
     }
@@ -1395,15 +1308,6 @@
       const id = parseInt(card.getAttribute("data-id"), 10);
       openModal(id);
     });
-
-    /* Detail Guide Modal Control */
-    window.openDetailGuideModal = function() {
-      detailGuideModal.classList.add("show");
-    };
-
-    btnOpenDetailGuide.addEventListener("click", openDetailGuideModal);
-    detailGuideClose.addEventListener("click", () => detailGuideModal.classList.remove("show"));
-    btnCloseGuideBottom.addEventListener("click", () => detailGuideModal.classList.remove("show"));
 
     /* Modal Controls */
     window.openModal = function(id) {
@@ -1427,11 +1331,11 @@
       mTpText.textContent = currentItem.trigger_points;
 
       if (currentStep === 1) {
-        mStepTitle.textContent = "1단계: MFR (근막이완) 진행 방법";
+        mStepTitle.textContent = "1단계: MFR (근막이완) 손동작 & 매뉴얼";
         mStepDesc.textContent = currentItem.mfr;
         setTimer(180);
       } else if (currentStep === 2) {
-        mStepTitle.textContent = "2단계: 관절가동술 (Mobilization) 진행 방법";
+        mStepTitle.textContent = "2단계: 관절가동술 (Mobilization) 손동작 & 매뉴얼";
         mStepDesc.textContent = currentItem.mobilization;
         setTimer(180);
       } else if (currentStep === 3) {
@@ -1605,7 +1509,7 @@
         <h3 style="color:var(--lime); font-size:1rem; margin-bottom:10px;">⏱️ 이번 ${sessionNum}회차 50분 현장 타임테이블</h3>
 
         <div class="plan-block">
-          <h4>🔥 [00분 ~ 10분] 1단계: 정밀 MFR (근막이완)</h4>
+          <h4>🔥 [00분 ~ 10분] 1단계: 정밀 MFR (손동작 & 근막이완)</h4>
           <p><strong>타겟 부위:</strong> ${primarySymptom.title} 직접 연관 부위 (${primarySymptom.direct})</p>
           <p style="margin-top:4px;"><strong>진행 방법:</strong> ${primarySymptom.mfr}</p>
         </div>
@@ -1809,7 +1713,7 @@
     });
 
     // Close on backdrop click
-    [sessionModal, detailGuideModal, assessmentModal, planResultModal, memoModal, logsModal].forEach(m => {
+    [sessionModal, assessmentModal, planResultModal, memoModal, logsModal].forEach(m => {
       m.addEventListener("click", (e) => {
         if (e.target === m) {
           m.classList.remove("show");
