@@ -236,6 +236,16 @@
     }
     .detail-desc { font-size: 0.92rem; color: #eee; line-height: 1.55; white-space: pre-line; }
 
+    /* 4단계 개별 가이드 카드 스타일 태그 */
+    .stage-guide-tag {
+      display: inline-block; font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; margin-bottom: 6px;
+      letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .stage-guide-tag.s1 { background: rgba(255, 145, 0, 0.2); color: var(--orange); }
+    .stage-guide-tag.s2 { background: rgba(0, 229, 255, 0.2); color: var(--cyan); }
+    .stage-guide-tag.s3 { background: rgba(204, 255, 0, 0.2); color: var(--lime); }
+    .stage-guide-tag.s4 { background: rgba(179, 136, 255, 0.2); color: var(--purple); }
+
     .tp-box {
       background: rgba(255, 145, 0, 0.1); border-left: 4px solid var(--orange);
       padding: 12px 14px; border-radius: 6px; margin-top: 12px; font-size: 0.84rem; color: #ffcc80;
@@ -353,7 +363,7 @@
     </section>
 
     <div class="status-bar">
-      <div>현재 검사 프로토콜: <b id="resultCount">40</b>개 항목</div>
+      <div>현재 평가/검사 프로토콜: <b id="resultCount">40</b>개 항목</div>
       <div>전문 4단계: <span style="color:var(--orange)">MFR</span> ➔ <span style="color:var(--cyan)">관절가동</span> ➔ <span style="color:var(--lime)">Active</span> ➔ <span style="color:var(--purple)">Passive</span></div>
     </div>
 
@@ -381,6 +391,8 @@
         </div>
 
         <div class="detail-card">
+          <!-- 4단계 개별 가이드 태그 영역 추가 -->
+          <div id="mStageTag" class="stage-guide-tag s1">STAGE 1 : MFR 근막이완</div>
           <div class="detail-title" id="mStepTitle">1단계 MFR 이완 진행 방법</div>
           <div class="detail-desc" id="mStepDesc">-</div>
           
@@ -396,7 +408,7 @@
         </div>
 
         <div class="detail-card">
-          <div class="detail-title" style="color:var(--lime);">🩺 기능 검사 및 통증 확인 방법 (TEST)</div>
+          <div class="detail-title" style="color:var(--lime);">🩺 기능 평가 및 통증 확인 방법 (TEST)</div>
           <div class="detail-desc" id="mTestDesc">-</div>
         </div>
 
@@ -1109,6 +1121,7 @@
     const mClose = document.getElementById("mClose");
     const mTitle = document.getElementById("mTitle");
     const mCategory = document.getElementById("mCategory");
+    const mStageTag = document.getElementById("mStageTag");
     const mStepTitle = document.getElementById("mStepTitle");
     const mStepDesc = document.getElementById("mStepDesc");
     const mTpText = document.getElementById("mTpText");
@@ -1204,7 +1217,7 @@
             <div class="card-title">${item.title}</div>
           </div>
           <div class="card-box">
-            <strong>🩺 검사법 (TEST)</strong>
+            <strong>🩺 평가/검사법 (TEST)</strong>
             ${item.test}
           </div>
           <button class="card-btn">
@@ -1242,19 +1255,26 @@
 
       mTpText.textContent = currentItem.trigger_points;
 
+      // 4단계별 개별 태그 및 가이드 분리 적용
+      mStageTag.className = `stage-guide-tag s${currentStep}`;
+
       if (currentStep === 1) {
+        mStageTag.textContent = "STAGE 1 : MFR 근막이완";
         mStepTitle.textContent = "1단계: MFR (근막이완) 진행 방법";
         mStepDesc.textContent = currentItem.mfr;
         setTimer(180);
       } else if (currentStep === 2) {
+        mStageTag.textContent = "STAGE 2 : 관절가동술";
         mStepTitle.textContent = "2단계: 관절가동술 (Mobilization) 진행 방법";
         mStepDesc.textContent = currentItem.mobilization;
         setTimer(180);
       } else if (currentStep === 3) {
+        mStageTag.textContent = "STAGE 3 : Active 활성화";
         mStepTitle.textContent = "3단계: 액티브 활성화 (Active) 진행 방법";
         mStepDesc.textContent = currentItem.active;
         setTimer(60);
       } else if (currentStep === 4) {
+        mStageTag.textContent = "STAGE 4 : Passive 스트레칭";
         mStepTitle.textContent = "4단계: 패시브 스트레칭 (Passive) 진행 방법";
         mStepDesc.textContent = currentItem.passive;
         setTimer(30);
