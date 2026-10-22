@@ -353,7 +353,7 @@
     </section>
 
     <div class="status-bar">
-      <div>현재 진단 프로토콜: <b id="resultCount">40</b>개 항목</div>
+      <div>현재 검사 프로토콜: <b id="resultCount">40</b>개 항목</div>
       <div>전문 4단계: <span style="color:var(--orange)">MFR</span> ➔ <span style="color:var(--cyan)">관절가동</span> ➔ <span style="color:var(--lime)">Active</span> ➔ <span style="color:var(--purple)">Passive</span></div>
     </div>
 
@@ -442,11 +442,11 @@
             <input type="text" id="clientNameInput" class="form-input" placeholder="예: 김회원, 박철수" required autocomplete="off">
           </div>
 
-          <!-- ① 30세션 카운팅 패키지 선택 UI 추가 -->
+          <!-- ① 30세션 카운팅 패키지 선택 UI -->
           <div class="form-group">
             <label class="form-label" for="sessionNumberSelect">세션 회차 선택 (30세션 패키지) <b>*</b></label>
             <select id="sessionNumberSelect" class="form-select">
-              <!-- JS를 통해 1회차 ~ 30회차 동적 생성 -->
+              <!-- JS로 1~30회차 동적 생성 -->
             </select>
           </div>
 
@@ -525,7 +525,7 @@
   <div class="toast-box" id="toastBox"></div>
 
   <script>
-    // 40가지 전체 증상 데이터베이스 (정제 완료)[cite: 10]
+    // 40가지 전체 증상 데이터베이스 (100% 보존)[cite: 9, 10]
     const SYMPTOM_DATA = [
       {
         "id": 1,
@@ -1377,13 +1377,12 @@
     // ② 이전 회차(Session N-1) 기록 자동 로드 및 표시 함수
     function checkAndLoadPreviousSession(clientName, sessionNum) {
       const logs = getLogs();
-      // 해당 회원의 직전 회차(sessionNum - 1) 기록 탐색
       const prevLog = logs.find(l => l.clientName.toLowerCase() === clientName.toLowerCase() && l.sessionNumber === (sessionNum - 1));
 
       if (prevLog) {
         prevSessionNoticeBox.style.display = "block";
         prevSessionSummaryText.innerHTML = `
-          <b>${prevLog.sessionNumber}회차 (${prevLog.date}):</b> [${prevLog.symptomTitle}] - VAS ${prevLog.vasScore점 || prevLog.vasScore}/10<br>
+          <b>${prevLog.sessionNumber}회차 (${prevLog.date}):</b> [${prevLog.symptomTitle}] - VAS ${prevLog.vasScore}/10<br>
           <span style="color:#eee;">메모: ${prevLog.notes || '기록 없음'}</span>
         `;
       } else {
@@ -1393,7 +1392,6 @@
     }
 
     function openMemoModal(preselectedId = null) {
-      // 30세션 선택지 구성 (기본 1회차)
       initSessionNumberSelect(1);
 
       sessionSymptomSelect.innerHTML = SYMPTOM_DATA.map(item => `
@@ -1409,7 +1407,6 @@
       memoModal.classList.add("show");
     }
 
-    // 회원 이름 혹은 회차 변경 시 직전 세션 자동 로드 이벤트 바인딩
     clientNameInput.addEventListener("input", () => {
       const name = clientNameInput.value.trim();
       const sNum = parseInt(sessionNumberSelect.value, 10);
@@ -1450,7 +1447,7 @@
       const newLog = {
         id: Date.now(),
         clientName,
-        sessionNumber, // 30세션 패키지 회차 저장
+        sessionNumber,
         symptomTitle: symptomObj ? symptomObj.title : "",
         symptomCategory: symptomObj ? symptomObj.category : "",
         vasScore: selectedVas,
