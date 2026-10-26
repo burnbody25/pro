@@ -3,30 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rehab Pro (리햅프로) - 40가지 증상 4단계 컨디셔닝 & 30세션 관리</title>
+    <title>Rehab Pro Master Edition - 40 증상 맞춤 컨디셔닝 시스템</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js for 30-session VAS logging -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Google Fonts Inter & Noto Sans KR -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        darkbg: '#121212',
-                        darkcard: '#1E1E1E',
-                        darkborder: '#2A2A2A',
-                        lime: '#CCFF00',
-                        cyan: '#00E5FF',
-                        darkgray: '#888888',
+                        darkBg: '#0D1117',
+                        cardBg: '#161B22',
+                        borderBg: '#30363D',
+                        accentLime: '#CCFF00',
+                        accentCyan: '#00E5FF',
+                        accentRed: '#FF3366',
+                        accentYellow: '#FFCC00'
                     },
                     fontFamily: {
-                        sans: ['Inter', 'Noto Sans KR', 'sans-serif'],
+                        sans: ['Noto Sans KR', 'sans-serif']
                     }
                 }
             }
@@ -34,1194 +35,1227 @@
     </script>
     <style>
         body {
-            background-color: #121212;
-            color: #EEEEEE;
-            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            background-color: #0D1117;
+            color: #E6EDF3;
+            font-family: 'Noto Sans KR', sans-serif;
+            overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
         }
-        /* Custom scrollbars */
+        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #121212;
+            background: #0D1117;
         }
         ::-webkit-scrollbar-thumb {
-            background: #2A2A2A;
+            background: #30363D;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #CCFF00;
         }
-        .glow-lime {
-            box-shadow: 0 0 15px rgba(204, 255, 0, 0.2);
+        .neon-border {
+            box-shadow: 0 0 10px rgba(204, 255, 0, 0.15);
+            border: 1px solid rgba(204, 255, 0, 0.3);
         }
-        .glow-cyan {
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+        .neon-glow-lime {
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.4);
         }
-        .border-active-lime {
-            border-color: #CCFF00 !important;
+        .neon-glow-cyan {
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
         }
-        .text-glow-lime {
-            text-shadow: 0 0 8px rgba(204, 255, 0, 0.4);
+        .grid-overlay {
+            background-size: 20px 20px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 229, 255, 0.25) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 229, 255, 0.25) 1px, transparent 1px);
+        }
+        .major-grid-overlay {
+            background-size: 100px 100px;
+            background-image: 
+                linear-gradient(to right, rgba(204, 255, 0, 0.4) 1.5px, transparent 1.5px),
+                linear-gradient(to bottom, rgba(204, 255, 0, 0.4) 1.5px, transparent 1.5px);
+        }
+        .glass-panel {
+            background: rgba(22, 27, 34, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid #30363D;
         }
     </style>
 </head>
-<body class="min-h-screen pb-12 flex flex-col">
+<body class="min-h-screen flex flex-col pb-20 md:pb-0">
 
-    <!-- Top Navigation Header -->
-    <header class="sticky top-0 z-30 bg-[#121212]/95 backdrop-blur-md border-b border-darkborder px-4 py-3 flex items-center justify-between">
+    <!-- Top Navigation -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-borderBg px-4 py-3 flex items-center justify-between">
         <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-lime to-cyan flex items-center justify-center text-darkbg font-extrabold text-xl shadow-lg">
-                RP
+            <div class="w-9 h-9 rounded-xl bg-accentLime flex items-center justify-center text-darkBg font-black text-xl shadow-lg">
+                R
             </div>
             <div>
-                <h1 class="text-lg font-bold tracking-wider text-white flex items-center gap-2">
-                    REHAB PRO <span class="text-xs px-2 py-0.5 rounded-full bg-lime/10 text-lime border border-lime/30 font-medium">SAAS MASTER</span>
+                <h1 class="font-bold text-base tracking-wider text-white flex items-center gap-2">
+                    REHAB PRO <span class="text-xs px-2 py-0.5 rounded-full bg-accentLime/20 text-accentLime border border-accentLime/30 font-semibold">MASTER 40</span>
                 </h1>
-                <p class="text-xs text-darkgray">40가지 증상 4단계 컨디셔닝 & 30세션 관리</p>
+                <p class="text-[10px] text-gray-400">의료법 준수 기반 트레이너 전용 컨디셔닝 솔루션</p>
             </div>
         </div>
-        <button onclick="openMemberModal()" class="flex items-center gap-2 bg-darkcard hover:bg-darkborder border border-lime/40 text-lime px-3 py-1.5 rounded-lg text-sm transition-all shadow-md">
-            <i class="fa-solid font-bold text-xs fa-user-gear"></i>
-            <span id="headerMemberName" class="font-semibold">회원 등록/선택</span>
-        </button>
+        <div class="flex items-center space-x-2">
+            <button onclick="switchTab('clients')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-borderBg hover:bg-gray-700 text-gray-200 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-users text-accentCyan"></i>
+                <span class="hidden sm:inline">회원/세션 관리</span>
+            </button>
+            <button onclick="openTimerModal()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-accentLime text-darkBg hover:bg-yellow-300 font-bold transition flex items-center gap-1">
+                <i class="fa-solid fa-stopwatch"></i>
+                <span>3분 타이머</span>
+            </button>
+        </div>
     </header>
 
-    <!-- Main Container -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 space-y-6">
+    <!-- Main Dynamic Layout -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-5 grid grid-cols-1 lg:grid-cols-12 gap-5">
+        
+        <!-- Navigation Sidebar / Tabs Mobile Switcher -->
+        <nav class="lg:col-span-3 flex lg:flex-col gap-2 overflow-x-auto pb-2 lg:pb-0 border-b lg:border-b-0 border-borderBg">
+            <button id="nav-symptoms" onclick="switchTab('symptoms')" class="tab-btn flex-1 lg:w-full p-3 rounded-xl glass-panel text-left flex items-center space-x-3 border-l-4 border-accentLime bg-cardBg transition">
+                <i class="fa-solid fa-stethoscope text-lg text-accentLime"></i>
+                <div>
+                    <div class="text-sm font-bold text-white">40가지 증상 프로토콜</div>
+                    <div class="text-[11px] text-gray-400">상체·코어·하지 세부 매뉴얼</div>
+                </div>
+            </button>
+            <button id="nav-grid" onclick="switchTab('grid')" class="tab-btn flex-1 lg:w-full p-3 rounded-xl glass-panel text-left flex items-center space-x-3 border-l-4 border-transparent hover:border-gray-500 transition">
+                <i class="fa-solid fa-camera-retro text-lg text-accentCyan"></i>
+                <div>
+                    <div class="text-sm font-bold text-white">사진 첨부 자세 격자</div>
+                    <div class="text-[11px] text-gray-400">Before/After 정밀 오버레이</div>
+                </div>
+            </button>
+            <button id="nav-generator" onclick="switchTab('generator')" class="tab-btn flex-1 lg:w-full p-3 rounded-xl glass-panel text-left flex items-center space-x-3 border-l-4 border-transparent hover:border-gray-500 transition">
+                <i class="fa-solid fa-sliders text-lg text-accentYellow"></i>
+                <div>
+                    <div class="text-sm font-bold text-white">50분 자동 프로그램 생성</div>
+                    <div class="text-[11px] text-gray-400">복수증상 콤보 & 브리핑</div>
+                </div>
+            </button>
+            <button id="nav-clients" onclick="switchTab('clients')" class="tab-btn flex-1 lg:w-full p-3 rounded-xl glass-panel text-left flex items-center space-x-3 border-l-4 border-transparent hover:border-gray-500 transition">
+                <i class="fa-solid fa-user-check text-lg text-purple-400"></i>
+                <div>
+                    <div class="text-sm font-bold text-white">회원 30회 세션 관리</div>
+                    <div class="text-[11px] text-gray-400">VAS 통증 변화 차트 추적</div>
+                </div>
+            </button>
 
-        <!-- Active Client Banner & Quick Session Bar -->
-        <section class="bg-darkcard border border-darkborder rounded-2xl p-4 md:p-5 shadow-xl relative overflow-hidden">
-            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-lime/5 rounded-full blur-2xl pointer-events-none"></div>
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-full bg-darkbg border border-lime/30 flex items-center justify-center text-lime text-xl font-bold">
-                        <i class="fa-solid fa-user-check"></i>
+            <!-- Legal Disclaimer Box -->
+            <div class="hidden lg:block mt-auto p-3 rounded-xl bg-darkBg border border-borderBg text-[11px] text-gray-400 space-y-1">
+                <div class="font-bold text-gray-300 flex items-center gap-1">
+                    <i class="fa-solid fa-shield-halved text-accentLime"></i> 준법 가이드 (의료법 준수)
+                </div>
+                <p>본 앱의 모든 명칭은 '평가', '컨디셔닝', '관절 재정렬' 등으로 표기됩니다. 진단 및 의료행위 목적이 아님을 명시하십시오.</p>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <section id="content-area" class="lg:col-span-9 space-y-5">
+            
+            <!-- SECTION 1: 40 SYMPTOMS MASTER DATABASE -->
+            <div id="tab-symptoms-content" class="tab-content space-y-4">
+                <!-- Category Filter Pills & Search -->
+                <div class="glass-panel p-3.5 rounded-2xl flex flex-col sm:flex-row gap-3 justify-between items-center">
+                    <div class="flex gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+                        <button onclick="filterCategory('ALL')" id="cat-ALL" class="cat-pill active px-3.5 py-1.5 rounded-lg text-xs font-bold bg-accentLime text-darkBg">전체 (40)</button>
+                        <button onclick="filterCategory('UPPER')" id="cat-UPPER" class="cat-pill px-3.5 py-1.5 rounded-lg text-xs font-bold bg-borderBg text-gray-300 hover:text-white">상체 (15)</button>
+                        <button onclick="filterCategory('CORE')" id="cat-CORE" class="cat-pill px-3.5 py-1.5 rounded-lg text-xs font-bold bg-borderBg text-gray-300 hover:text-white">코어/골반 (12)</button>
+                        <button onclick="filterCategory('LOWER')" id="cat-LOWER" class="cat-pill px-3.5 py-1.5 rounded-lg text-xs font-bold bg-borderBg text-gray-300 hover:text-white">하지 (13)</button>
                     </div>
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs text-darkgray uppercase tracking-widest font-bold">Current Client</span>
-                            <span id="activeMemberBadge" class="text-[10px] bg-cyan/10 text-cyan px-2 py-0.5 rounded border border-cyan/20">세션 진행 중</span>
-                        </div>
-                        <h2 id="displayMemberName" class="text-xl font-black text-white">회원 미선택 (클릭하여 설정)</h2>
-                        <p id="displayMemberMeta" class="text-xs text-darkgray mt-0.5">회원을 선택하고 30세션 누적 관리 데이터를 로드하세요.</p>
+                    <div class="relative w-full sm:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-400 text-xs"></i>
+                        <input type="text" id="symptom-search" onkeyup="searchSymptoms()" placeholder="증상 또는 부위 검색..." class="w-full pl-8 pr-3 py-1.5 rounded-xl bg-darkBg border border-borderBg text-xs text-white focus:outline-none focus:border-accentLime">
                     </div>
                 </div>
 
-                <!-- Session Counter Selector & VAS Fast Input -->
-                <div class="flex flex-wrap items-center gap-3 bg-darkbg/70 p-3 rounded-xl border border-darkborder">
-                    <div>
-                        <label class="block text-[10px] text-darkgray font-bold mb-1">회차 선택 (1~30)</label>
-                        <div class="flex items-center gap-1">
-                            <button onclick="adjustSession(-1)" class="w-7 h-7 bg-darkcard border border-darkborder hover:border-lime text-white rounded flex items-center justify-center text-xs font-bold">-</button>
-                            <span id="currentSessionNum" class="text-lime font-black text-lg px-2 min-w-[2.5rem] text-center">1/30</span>
-                            <button onclick="adjustSession(1)" class="w-7 h-7 bg-darkcard border border-darkborder hover:border-lime text-white rounded flex items-center justify-center text-xs font-bold">+</button>
-                        </div>
+                <!-- Symptoms List Layout & Detail Viewer Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                    <!-- Left List (40 Item Selectable Cards) -->
+                    <div class="md:col-span-5 space-y-2 max-h-[700px] overflow-y-auto pr-1" id="symptom-list-container">
+                        <!-- Dynamic Symptom List Injected via JS -->
                     </div>
 
-                    <div class="h-8 w-[1px] bg-darkborder mx-1"></div>
-
-                    <div>
-                        <label class="block text-[10px] text-darkgray font-bold mb-1">통증 수치 (VAS 0~10)</label>
-                        <div class="flex items-center gap-2">
-                            <input type="range" id="vasSlider" min="0" max="10" value="5" oninput="updateVasDisplay(this.value)" class="w-24 accent-lime cursor-pointer">
-                            <span id="vasDisplay" class="text-cyan font-bold text-base min-w-[1.5rem]">5</span>
-                        </div>
+                    <!-- Right Detail Panel (Full 4 Step Manual + Interactive Vector Canvas) -->
+                    <div class="md:col-span-7 glass-panel p-4 rounded-2xl border border-borderBg min-h-[500px]" id="symptom-detail-panel">
+                        <!-- Dynamic Symptom Detail Injected via JS -->
                     </div>
-
-                    <button onclick="openChartModal()" class="ml-auto md:ml-2 bg-lime/10 hover:bg-lime/20 border border-lime/30 text-lime text-xs px-3 py-2 rounded-lg font-semibold flex items-center gap-1.5 transition-all">
-                        <i class="fa-solid fa-chart-line"></i>
-                        <span>30세션 추이</span>
-                    </button>
                 </div>
             </div>
-        </section>
 
-        <!-- Category & Search Bar -->
-        <section class="space-y-3">
-            <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
-                <!-- Filter Tabs -->
-                <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 no-scrollbar">
-                    <button onclick="filterCategory('ALL')" class="cat-btn active border px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border-lime text-darkbg bg-lime">전체 (40)</button>
-                    <button onclick="filterCategory('UPPER')" class="cat-btn border px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border-darkborder text-gray-300 hover:border-lime/50 bg-darkcard">상체/경추/어깨 (14)</button>
-                    <button onclick="filterCategory('CORE')" class="cat-btn border px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border-darkborder text-gray-300 hover:border-lime/50 bg-darkcard">흉추/코어/골반 (12)</button>
-                    <button onclick="filterCategory('LOWER')" class="cat-btn border px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border-darkborder text-gray-300 hover:border-lime/50 bg-darkcard">하지/무릎/발목 (14)</button>
+            <!-- SECTION 2: PHOTO ATTACHMENT POSTURE GRID -->
+            <div id="tab-grid-content" class="tab-content hidden space-y-4">
+                <div class="glass-panel p-4 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-camera text-accentCyan"></i> 2분할 Before / After 사진 격자 분석
+                        </h2>
+                        <p class="text-xs text-gray-400">카메라 찍기 또는 사진 첨부 후 이동형 십자선 격자로 관절 편위를 분석하세요.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="resetGridLines()" class="px-3 py-1.5 bg-borderBg hover:bg-gray-700 rounded-lg text-xs font-semibold text-gray-200">격자 위치 리셋</button>
+                        <button onclick="toggleGridDensity()" class="px-3 py-1.5 bg-accentCyan/20 text-accentCyan border border-accentCyan/40 hover:bg-accentCyan/30 rounded-lg text-xs font-bold">격자 밀도 변경</button>
+                    </div>
                 </div>
-                <!-- Search Box -->
-                <div class="relative w-full sm:w-64">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-darkgray text-xs"></i>
-                    <input type="text" id="searchInput" oninput="handleSearch()" placeholder="증상명, 부위, TP 키워드 검색..." class="w-full bg-darkcard border border-darkborder rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-darkgray focus:outline-none focus:border-lime transition-all">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Before Photo Container -->
+                    <div class="glass-panel p-3 rounded-2xl space-y-3">
+                        <div class="flex justify-between items-center border-b border-borderBg pb-2">
+                            <span class="text-xs font-bold text-accentRed flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle text-[8px]"></i> BEFORE (개선 전)
+                            </span>
+                            <label class="cursor-pointer px-2.5 py-1 bg-borderBg hover:bg-gray-700 text-white rounded-lg text-xs font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-upload text-accentLime"></i> 사진 첨부
+                                <input type="file" accept="image/*" class="hidden" onchange="loadPhoto(event, 'before')">
+                            </label>
+                        </div>
+                        <div class="relative w-full h-[380px] bg-darkBg rounded-xl overflow-hidden flex items-center justify-center border border-borderBg" id="before-box">
+                            <img id="before-img" class="hidden absolute inset-0 w-full h-full object-contain z-0">
+                            <div id="before-placeholder" class="text-center text-gray-500 z-10 p-4">
+                                <i class="fa-solid fa-image text-3xl mb-2 block text-gray-600"></i>
+                                <p class="text-xs">사진을 첨부하거나 클릭하여 업로드</p>
+                            </div>
+                            <!-- Grid Overlay Dynamic Layer -->
+                            <div class="grid-overlay major-grid-overlay absolute inset-0 pointer-events-none z-10" id="before-grid-layer"></div>
+                            <!-- Movable Target Crosshair Pin -->
+                            <div id="before-pin" class="absolute z-20 w-8 h-8 rounded-full border-2 border-accentRed bg-accentRed/30 flex items-center justify-center cursor-move text-white text-[10px] font-bold shadow-lg" style="top:40%; left:50%; transform:translate(-50%, -50%);" onmousedown="startDragPin(event, 'before')" ontouchstart="startDragPin(event, 'before')">
+                                C7
+                            </div>
+                        </div>
+                        <input type="text" placeholder="Before 관절 평가 메모 (예: 오른쪽 어깨 3cm 거상, 골반 우측 회전)" class="w-full px-3 py-1.5 bg-darkBg border border-borderBg rounded-lg text-xs text-gray-200">
+                    </div>
+
+                    <!-- After Photo Container -->
+                    <div class="glass-panel p-3 rounded-2xl space-y-3">
+                        <div class="flex justify-between items-center border-b border-borderBg pb-2">
+                            <span class="text-xs font-bold text-accentLime flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle text-[8px]"></i> AFTER (세션 후)
+                            </span>
+                            <label class="cursor-pointer px-2.5 py-1 bg-borderBg hover:bg-gray-700 text-white rounded-lg text-xs font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-upload text-accentLime"></i> 사진 첨부
+                                <input type="file" accept="image/*" class="hidden" onchange="loadPhoto(event, 'after')">
+                            </label>
+                        </div>
+                        <div class="relative w-full h-[380px] bg-darkBg rounded-xl overflow-hidden flex items-center justify-center border border-borderBg" id="after-box">
+                            <img id="after-img" class="hidden absolute inset-0 w-full h-full object-contain z-0">
+                            <div id="after-placeholder" class="text-center text-gray-500 z-10 p-4">
+                                <i class="fa-solid fa-image text-3xl mb-2 block text-gray-600"></i>
+                                <p class="text-xs">사진을 첨부하거나 클릭하여 업로드</p>
+                            </div>
+                            <!-- Grid Overlay Dynamic Layer -->
+                            <div class="grid-overlay major-grid-overlay absolute inset-0 pointer-events-none z-10" id="after-grid-layer"></div>
+                            <!-- Movable Target Crosshair Pin -->
+                            <div id="after-pin" class="absolute z-20 w-8 h-8 rounded-full border-2 border-accentLime bg-accentLime/30 flex items-center justify-center cursor-move text-darkBg font-black text-[10px] shadow-lg" style="top:40%; left:50%; transform:translate(-50%, -50%);" onmousedown="startDragPin(event, 'after')" ontouchstart="startDragPin(event, 'after')">
+                                C7
+                            </div>
+                        </div>
+                        <input type="text" placeholder="After 관절 평가 메모 (예: 양측 어깨 수평 재정렬 완수, 좌측 외전각 +20도)" class="w-full px-3 py-1.5 bg-darkBg border border-borderBg rounded-lg text-xs text-gray-200">
+                    </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Symptoms Grid (40 Types) -->
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="symptomGrid">
-            <!-- Dynamically populated via JavaScript -->
-        </section>
+            <!-- SECTION 3: 50-MIN PROGRAM GENERATOR & KAKAO REPORT -->
+            <div id="tab-generator-content" class="tab-content hidden space-y-4">
+                <div class="glass-panel p-4 rounded-2xl space-y-4">
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-accentYellow"></i> 맞춤 50분 세션 자동 구성 리포트
+                    </h2>
+                    <p class="text-xs text-gray-400">회원의 복수 불편 증상을 선택하면 MFR, 관절가동술, Active, Passive 타임테이블을 자동 산출합니다.</p>
+                    
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-gray-300">증상 다중 선택 (최대 3개 조합 추천):</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 max-h-40 overflow-y-auto p-2 bg-darkBg rounded-xl border border-borderBg" id="generator-symptom-checkboxes">
+                            <!-- Injected JS Checkboxes -->
+                        </div>
+                    </div>
 
+                    <div class="flex justify-end gap-2">
+                        <button onclick="generate50MinSession()" class="px-4 py-2 bg-accentYellow text-darkBg rounded-xl font-bold text-xs hover:bg-yellow-300 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-play"></i> 50분 맞춤 타임테이블 산출
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Generated Timetable Results -->
+                <div id="generator-result-card" class="hidden glass-panel p-5 rounded-2xl border border-accentYellow/40 space-y-4">
+                    <div class="flex justify-between items-center border-b border-borderBg pb-3">
+                        <h3 class="font-bold text-white text-base flex items-center gap-2">
+                            <i class="fa-solid fa-clock text-accentLime"></i> 50분 통합 타임테이블 및 수순
+                        </h3>
+                        <button onclick="copyKakaoReport()" class="px-3 py-1.5 bg-[#FEE500] text-[#191919] font-bold text-xs rounded-lg hover:bg-yellow-400 flex items-center gap-1">
+                            <i class="fa-solid fa-comment"></i> 카카오톡 요약 브리핑 복사
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs" id="timetable-steps">
+                        <!-- Steps injected by JS -->
+                    </div>
+
+                    <div class="p-3 bg-darkBg rounded-xl border border-borderBg space-y-1">
+                        <div class="font-bold text-accentLime text-xs">회원 전송용 카카오톡 요약 텍스트 미리보기:</div>
+                        <pre id="kakao-preview-text" class="text-[11px] text-gray-300 whitespace-pre-wrap font-sans"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 4: CLIENT 30-SESSION MANAGER -->
+            <div id="tab-clients-content" class="tab-content hidden space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                    <!-- Client Selector / Register -->
+                    <div class="md:col-span-4 glass-panel p-4 rounded-2xl space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-white text-sm">회원 목록</h3>
+                            <button onclick="openNewClientModal()" class="px-2.5 py-1 bg-accentLime text-darkBg font-bold text-xs rounded-lg hover:bg-yellow-300">+ 신규 회원</button>
+                        </div>
+                        <div class="space-y-2 max-h-[500px] overflow-y-auto" id="client-list-box">
+                            <!-- Injected JS -->
+                        </div>
+                    </div>
+
+                    <!-- Client Detail Tracker -->
+                    <div class="md:col-span-8 glass-panel p-4 rounded-2xl space-y-4" id="client-tracker-detail">
+                        <div class="text-center text-gray-500 py-12">
+                            <i class="fa-solid fa-user-gear text-4xl mb-2 text-gray-600 block"></i>
+                            좌측에서 회원을 선택하거나 신규 등록해주세요.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
     </main>
 
-    <!-- Member Management Modal -->
-    <div id="memberModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-darkcard border border-darkborder w-full max-w-md rounded-2xl p-6 shadow-2xl relative space-y-5">
-            <button onclick="closeMemberModal()" class="absolute top-4 right-4 text-darkgray hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+    <!-- Modal 1: 3-Minute Session Timer -->
+    <div id="timer-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-sm rounded-3xl p-6 border border-accentLime/40 text-center space-y-5">
+            <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-accentLime tracking-widest uppercase">MFR & Mobilization Timer</span>
+                <button onclick="closeTimerModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
             
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-lime/10 border border-lime/30 text-lime flex items-center justify-center text-lg">
-                    <i class="fa-solid fa-users"></i>
-                </div>
-                <div>
-                    <h3 class="text-base font-bold text-white">회원 선택 및 신규 등록</h3>
-                    <p class="text-xs text-darkgray">30세션 컨디셔닝 일지 데이터를 관리합니다.</p>
-                </div>
+            <div class="py-4">
+                <div id="timer-display" class="text-6xl font-black font-mono text-white tracking-wider">03:00</div>
+                <p id="timer-stage" class="text-xs text-accentCyan mt-2 font-semibold">1단계 MFR 표준 지속 시간</p>
             </div>
 
-            <!-- New Member Form -->
-            <div class="space-y-3 bg-darkbg p-4 rounded-xl border border-darkborder">
-                <label class="block text-xs font-bold text-lime">신규 회원 등록</label>
-                <div class="flex gap-2">
-                    <input type="text" id="newMemberName" placeholder="회원 이름 입력..." class="flex-1 bg-darkcard border border-darkborder rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-lime">
-                    <button onclick="registerNewMember()" class="bg-lime text-darkbg font-bold text-xs px-4 py-2 rounded-lg hover:bg-lime/90 transition-all">등록</button>
-                </div>
-            </div>
-
-            <!-- Member List -->
-            <div class="space-y-2">
-                <label class="block text-xs font-bold text-darkgray">등록된 회원 목록</label>
-                <div id="memberListContainer" class="max-h-48 overflow-y-auto space-y-1.5 pr-1">
-                    <!-- Dynamic Member Rows -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 30-Session VAS Tracking Chart Modal -->
-    <div id="chartModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-darkcard border border-darkborder w-full max-w-2xl rounded-2xl p-6 shadow-2xl relative space-y-4">
-            <button onclick="closeChartModal()" class="absolute top-4 right-4 text-darkgray hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-            
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-cyan/10 border border-cyan/30 text-cyan flex items-center justify-center text-lg">
-                    <i class="fa-solid fa-chart-line"></i>
-                </div>
-                <div>
-                    <h3 class="text-base font-bold text-white"><span id="chartMemberName" class="text-lime">회원</span> 30세션 통증(VAS) 변화 추이</h3>
-                    <p class="text-xs text-darkgray">1회차부터 30회차까지의 정밀 컨디셔닝 개선 수치</p>
-                </div>
-            </div>
-
-            <div class="bg-darkbg p-4 rounded-xl border border-darkborder h-64 relative">
-                <canvas id="vasChartCanvas"></canvas>
-            </div>
-
-            <div class="flex justify-between items-center text-xs text-darkgray pt-2 border-t border-darkborder">
-                <span>* VAS (Visual Analog Scale): 0 (통증 없음) ~ 10 (극심한 통증)</span>
-                <button onclick="closeChartModal()" class="bg-darkborder text-white px-4 py-1.5 rounded-lg hover:bg-gray-700">닫기</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 4-Step Protocol & Mobilization Detail Modal -->
-    <div id="protocolModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 md:p-5 overflow-y-auto">
-        <div class="bg-darkcard border border-darkborder w-full max-w-3xl rounded-2xl p-5 md:p-6 shadow-2xl my-auto relative space-y-6">
-            <button onclick="closeProtocolModal()" class="absolute top-4 right-4 text-darkgray hover:text-white z-10"><i class="fa-solid fa-xmark text-xl"></i></button>
-
-            <!-- Header Info -->
-            <div class="space-y-1">
-                <div class="flex items-center gap-2">
-                    <span id="modalCategoryBadge" class="text-[10px] px-2 py-0.5 rounded bg-lime/10 text-lime border border-lime/30 font-bold">CATEGORY</span>
-                    <span class="text-xs text-darkgray" id="modalSymptomId">No.01</span>
-                </div>
-                <h2 id="modalSymptomTitle" class="text-2xl font-black text-white">증상 세부 프로토콜</h2>
-                <p id="modalRemoteChain" class="text-xs text-cyan bg-cyan/10 p-2 rounded-lg border border-cyan/20">
-                    <i class="fa-solid fa-diagram-project mr-1"></i> 원격지 연쇄 반응: --
-                </p>
-            </div>
-
-            <!-- 2D Medical Line Art Overlay SVG Container -->
-            <div class="bg-darkbg border border-darkborder rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
-                <div class="w-full md:w-1/2 h-44 bg-darkcard rounded-lg border border-darkborder p-3 flex items-center justify-center relative overflow-hidden" id="svgGraphicContainer">
-                    <!-- Clean 2D Medical Line Art SVG Dynamically Injected -->
-                </div>
-                <div class="w-full md:w-1/2 space-y-2">
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="text-darkgray font-bold">트리거 포인트 (TP):</span>
-                        <span id="modalTpText" class="text-lime font-semibold">--</span>
-                    </div>
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="text-darkgray font-bold">추천 케어 자세:</span>
-                        <span id="modalPositionText" class="text-white font-semibold">--</span>
-                    </div>
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="text-darkgray font-bold">활주 방향 (Gliding Vector):</span>
-                        <span id="modalVectorText" class="text-cyan font-semibold">--</span>
-                    </div>
-                    <div class="pt-2 border-t border-darkborder flex items-center justify-between">
-                        <span class="text-xs text-darkgray">가동술 등급 토글:</span>
-                        <div class="flex items-center bg-darkbg p-1 rounded-lg border border-darkborder text-xs">
-                            <button id="btnGrade12" onclick="setMobilizationGrade('I_II')" class="px-2.5 py-1 rounded-md text-[11px] font-bold transition-all bg-lime text-darkbg">Grade I~II (이완)</button>
-                            <button id="btnGrade34" onclick="setMobilizationGrade('III_IV')" class="px-2.5 py-1 rounded-md text-[11px] font-bold transition-all text-darkgray hover:text-white">Grade III~IV (저항극복)</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 4-Step Protocol Display -->
-            <div class="space-y-3">
-                <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-list-check text-lime"></i> 4단계 컨디셔닝 프로토콜 실행 가이드
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                    <!-- Step 1 -->
-                    <div class="bg-darkbg p-3 rounded-xl border border-darkborder space-y-1">
-                        <div class="flex justify-between items-center">
-                            <span class="text-lime font-bold">1단계: MFR (근막이완)</span>
-                            <span class="text-[10px] bg-lime/10 text-lime px-1.5 py-0.5 rounded">3분</span>
-                        </div>
-                        <p id="step1Text" class="text-gray-300">--</p>
-                    </div>
-
-                    <!-- Step 2 -->
-                    <div class="bg-darkbg p-3 rounded-xl border border-cyan/40 glow-cyan space-y-1">
-                        <div class="flex justify-between items-center">
-                            <span class="text-cyan font-bold">2단계: 관절가동술 (Joint Mobilization)</span>
-                            <span id="currentGradeBadge" class="text-[10px] bg-cyan/20 text-cyan px-1.5 py-0.5 rounded font-bold">Grade I~II</span>
-                        </div>
-                        <p id="step2Text" class="text-gray-200 font-medium">--</p>
-                    </div>
-
-                    <!-- Step 3 -->
-                    <div class="bg-darkbg p-3 rounded-xl border border-darkborder space-y-1">
-                        <div class="flex justify-between items-center">
-                            <span class="text-lime font-bold">3단계: Active (능동운동)</span>
-                            <span class="text-[10px] bg-lime/10 text-lime px-1.5 py-0.5 rounded">3분</span>
-                        </div>
-                        <p id="step3Text" class="text-gray-300">--</p>
-                    </div>
-
-                    <!-- Step 4 -->
-                    <div class="bg-darkbg p-3 rounded-xl border border-darkborder space-y-1">
-                        <div class="flex justify-between items-center">
-                            <span class="text-lime font-bold">4단계: Passive (수동스트레칭)</span>
-                            <span class="text-[10px] bg-lime/10 text-lime px-1.5 py-0.5 rounded">3분</span>
-                        </div>
-                        <p id="step4Text" class="text-gray-300">--</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Smart 3-Min Timer & Report Generator -->
-            <div class="bg-darkbg p-4 rounded-xl border border-darkborder flex flex-col md:flex-row items-center justify-between gap-4">
-                <!-- Timer Display -->
-                <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-start">
-                    <div class="text-center">
-                        <div class="text-[10px] text-darkgray uppercase font-bold">3-Min Step Timer</div>
-                        <div id="timerDisplay" class="text-3xl font-black text-lime font-mono">03:00</div>
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <button onclick="startTimer()" class="bg-lime hover:bg-lime/90 text-darkbg font-bold px-3 py-1.5 rounded-lg text-xs transition-all"><i class="fa-solid fa-play"></i> 시작</button>
-                        <button onclick="pauseTimer()" class="bg-darkcard border border-darkborder hover:border-lime text-white px-3 py-1.5 rounded-lg text-xs transition-all"><i class="fa-solid fa-pause"></i> 정지</button>
-                        <button onclick="resetTimer()" class="bg-darkcard border border-darkborder hover:border-lime text-white px-3 py-1.5 rounded-lg text-xs transition-all"><i class="fa-solid fa-rotate-left"></i> 리셋</button>
-                    </div>
-                </div>
-
-                <!-- Kakao Report Trigger -->
-                <button onclick="generateKakaoReport()" class="w-full md:w-auto bg-gradient-to-r from-lime to-cyan text-darkbg font-extrabold px-5 py-2.5 rounded-xl text-xs hover:opacity-95 transition-all shadow-lg flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-paper-plane text-sm"></i>
-                    <span>카카오톡 브리핑 리포트 생성 및 복사</span>
+            <div class="flex justify-center gap-3">
+                <button id="timer-toggle-btn" onclick="toggleTimer()" class="w-16 h-16 rounded-full bg-accentLime text-darkBg text-xl font-black flex items-center justify-center shadow-lg hover:scale-105 transition">
+                    <i id="timer-icon" class="fa-solid fa-play"></i>
+                </button>
+                <button onclick="resetTimer()" class="w-16 h-16 rounded-full bg-borderBg text-white text-lg font-bold flex items-center justify-center hover:bg-gray-700 transition">
+                    <i class="fa-solid fa-rotate-right"></i>
                 </button>
             </div>
+
+            <div class="grid grid-cols-3 gap-2 pt-2 border-t border-borderBg">
+                <button onclick="setTimerSec(180)" class="py-1.5 bg-darkBg text-xs rounded-lg text-gray-300 hover:text-accentLime border border-borderBg">3분 (MFR)</button>
+                <button onclick="setTimerSec(120)" class="py-1.5 bg-darkBg text-xs rounded-lg text-gray-300 hover:text-accentLime border border-borderBg">2분 (가동술)</button>
+                <button onclick="setTimerSec(60)" class="py-1.5 bg-darkBg text-xs rounded-lg text-gray-300 hover:text-accentLime border border-borderBg">1분 (수동)</button>
+            </div>
         </div>
     </div>
 
-    <!-- Floating Legal Compliance Footer Bar -->
-    <footer class="mt-auto border-t border-darkborder bg-[#121212] py-4 px-4 text-center text-[11px] text-darkgray space-y-1">
-        <p class="font-semibold text-gray-400">Rehab Pro Compliance Lock Activated</p>
-        <p>본 시스템은 의료법을 준수하며 '진단/치료' 행위를 하지 않습니다. 오직 1:1 맞춤 신체 기능 평가, 관절 가동성 재정렬 및 전문가 컨디셔닝 정보만을 제공합니다.</p>
-    </footer>
+    <!-- Modal 2: Register Client -->
+    <div id="client-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md rounded-2xl p-5 border border-borderBg space-y-4">
+            <h3 class="font-bold text-white text-base">신규 회원 등록</h3>
+            <div class="space-y-3">
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">회원 성함</label>
+                    <input type="text" id="new-client-name" placeholder="홍길동" class="w-full px-3 py-2 bg-darkBg border border-borderBg rounded-xl text-sm text-white">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">초기 주요 불편 증상</label>
+                    <input type="text" id="new-client-symptom" placeholder="예: 거북목 및 두통, 척추관 협착 양상" class="w-full px-3 py-2 bg-darkBg border border-borderBg rounded-xl text-sm text-white">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 block mb-1">초기 통증 점수 (VAS 1~10)</label>
+                    <input type="number" id="new-client-vas" min="1" max="10" value="7" class="w-full px-3 py-2 bg-darkBg border border-borderBg rounded-xl text-sm text-white">
+                </div>
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeNewClientModal()" class="px-4 py-2 bg-borderBg text-xs text-gray-300 rounded-xl">취소</button>
+                <button onclick="saveNewClient()" class="px-4 py-2 bg-accentLime text-darkBg font-bold text-xs rounded-xl">저장하기</button>
+            </div>
+        </div>
+    </div>
 
-    <!-- JavaScript Master Engine -->
+    <!-- JAVASCRIPT MASTER SCRIPT -->
     <script>
         /* ==========================================================================
-           1. 40가지 증상 마스터 데이터베이스 (4단계 프로토콜 & 관절가동술 고도화)
+           40 SYMPTOMS MASTER DATABASE WITH EXTREMELY DETAILED PROTOCOLS
            ========================================================================== */
         const SYMPTOMS_DB = [
-            // 상체 파트 (14가지)
+            // --- UPPER BODY (1~15) ---
             {
-                id: 1,
-                category: 'UPPER',
-                name: '거북목 및 일자목',
-                sub: 'Forward Head Posture',
-                remote: '경추 곡선 소실 ➔ 상부 승모근 과긴장 & 하경골/발목 보상',
-                tp: '후두하근, 목사각근, 경추 2-7번 가극돌기 측면',
-                position: 'Supine (바로 누운 자세)',
-                vector: 'Posterior-Inferior Glide (후하방 미끄러짐)',
-                mfr: '후두하근 및 두반극근 Finger MFR 1.5분, 소흉근 라크로스 볼 이완.',
-                mob_12: '[Grade I~II] 경추 C2-C7 분절 후방 부드러운 유격 미세 진동. 통증 자극 없이 관절낭 유연성 부여.',
-                mob_34: '[Grade III~IV] C2-C7 가극돌기를 수평 후하방으로 밀어 전단 저항 극복. 정상 경추 전만 각도 회복.',
-                active: '심부경부굴곡근(DCF) 턱 당기기(Chin-in) Isometric 10초 5회.',
-                passive: '경추 신전근 및 사각근 3차원 수동 스트레칭.'
+                id: 1, category: 'UPPER', title: '거북목 및 경추 전만 상실',
+                sub: 'Forward Head Posture & Upper Cervical Tension',
+                test: '측면 이개(귀) 중심선이 견봉 전방 2.5cm 이상 이탈',
+                tpName: '후두하근 / 후두골 하단 부착부',
+                tpPos: { x: 50, y: 18 },
+                vectorDir: '경추 하부 후방 활주 (Posterior Glide C5-C7)',
+                mfr: {
+                    target: '후두하근(Suboccipitalis), 상부승모근',
+                    handPos: '양손 보조를 받아 엄지손가락 볼(Thienar)을 환자의 후두골 하단 오목한 부위에 대칭 밀착',
+                    direction: '후두골 밑에서 정수리 방향(상방)으로 45도 견인하며 정지 압박',
+                    details: '환자 호흡 시 내쉬는 숨에 후두골을 상방으로 지그시 견인하며 3분간 압박 유지'
+                },
+                mob: {
+                    position: '앉은 자세 또는 누운 자세',
+                    fixedHand: '왼손 검지·중지 마디로 C2~C7 극돌기 후방을 고정',
+                    gliding: '우손으로 턱을 수평 후방으로 미는 Chin-Tuck 수평 활주 (Grade II~III)',
+                    grade: 'Grade II (경미한 통증) / Grade III (범위 확장)'
+                },
+                active: {
+                    target: '경추 굴근(Deep Cervical Flexors - 두장근, 경장근)',
+                    pos: '바르게 누운 상태(Supine)에서 시선은 정면',
+                    breath: '코로 흡기, 입으로 내쉬며 턱을 목구멍 쪽으로 당기며 머리 뒤통수로 바닥을 10% 힘으로 압박',
+                    tip: '표층의 흉쇄유돌근이 과도하게 튀어나오지 않도록 손끝으로 확인'
+                },
+                passive: {
+                    anchor: '흉골 전방 및 상부 흉추 고정',
+                    direction: '턱을 당긴 상태에서 뒤통수를 상방 45도로 지그시 견인 스트레칭',
+                    duration: '30초 유지 3회 반복',
+                    warning: '경추 과신전이나 어지럼증 발생 시 즉시 중단'
+                }
             },
             {
-                id: 2,
-                category: 'UPPER',
-                name: '경추성 두통',
-                sub: 'Cervicogenic Headache',
-                remote: '상부 경추 C1-C2 변위 ➔ 후두신경 포착 & 관자놀이 전이통',
-                tp: '후두골 하단 부착부, 상부승모근 견정혈 부위',
-                position: 'Supine (머리를 테이블 끝에 위치)',
-                vector: 'Superior Traction & Anterior Glide (상방 견인 및 전방 활주)',
-                mfr: '후두하근 핑거 팁 딥 티슈 MFR 및 측두근 압박 이완.',
-                mob_12: '[Grade I~II] 후두골 C0-C1 분절을 상방으로 살짝 견인하며 미세한 횡단 슬라이딩 적용.',
-                mob_34: '[Grade III~IV] C1 환추를 전방으로 지속 눌러 관절 끝범위 유착을 박리하고 관절 공간 확장.',
-                active: '경추 C1-C2 수동 회전 후 능동 유지 훈련.',
-                passive: '후두부-경추 상부 수동 굴곡 스트레칭.'
+                id: 2, category: 'UPPER', title: '라운드 숄더 (견갑골 전포)',
+                sub: 'Protracted Shoulder & Pectoralis Tightness',
+                test: '상체 이완 시 손등이 완전 정면을 향함 (내회전 비대)',
+                tpName: '소흉근 (Pectoralis Minor) 오근돌기 내측',
+                tpPos: { x: 38, y: 28 },
+                vectorDir: '상구 관절 후방 활주 (Posterior Gliding of Humeral Head)',
+                mfr: {
+                    target: '소흉근(Pectoralis Minor) 및 대흉근 쇄골두',
+                    handPos: '트레이너의 손가락 지문 부위(2-4지)를 쇄골 하단 오구돌기 2cm 내하방에 밀착',
+                    direction: '외측 상방(겨드랑이 방향)으로 45도 사선 마찰 이완',
+                    details: '압박 후 환자의 팔을 외회전시키며 소흉근의 장력을 시각적으로 확장'
+                },
+                mob: {
+                    position: '누운 자세(Supine)에서 상완골 두 외전 40도',
+                    fixedHand: '왼손으로 견갑골 봉오리(Acromion) 전방을 후방으로 고정',
+                    gliding: '오른손 손바닥으로 상완골 두 전방을 후방 바닥 방향으로 수직 활주',
+                    grade: 'Grade III'
+                },
+                active: {
+                    target: '하부승모근 및 전거근',
+                    pos: 'Prone(엎드린 자세) Y-Raise 및 Scapular Retraction',
+                    breath: '호흡을 내쉬며 견갑골을 먼저 하강·내반 후 팔을 상방 120도로 들어올림',
+                    tip: '상부승모근에 과도한 긴장이 들어가지 않도록 목 길이를 유지'
+                },
+                passive: {
+                    anchor: '흉추 흉골 전방 고정',
+                    direction: '문틀 또는 폼롤러 상에서 상완골 90도 외전 및 수평외전 伸展',
+                    duration: '45초 유지 2회',
+                    warning: '어깨 전방 충돌 통증 유발 시 외전 각도 축소'
+                }
             },
             {
-                id: 3,
-                category: 'UPPER',
-                name: '경추 5-7번 신경근 압박',
-                sub: 'Cervical Radiculopathy',
-                remote: '경추 추간공 공간 협소 ➔ 엄지/외측 상완 방사통 및 저림',
-                tp: '전/중사각근 C3-C6 횡돌기, 견갑거근 상각',
-                position: 'Side-lying (통증 부위가 위로 오게 옆으로 누움)',
-                vector: 'Lateral Distraction & Contralateral Open Glide',
-                mfr: '사각근 삼각 부위 미세 핑거 이완 및 쇄골하근 이완.',
-                mob_12: '[Grade I~II] 경추 상부를 고정하고 통증 없는 범위 내에서 반대측 측굴 미세 가동.',
-                mob_34: '[Grade III~IV] 옆으로 누운 상태에서 척추 분절을 수평 외측으로 당겨 추간공을 확장시킴.',
-                active: '상완신경 신경슬라이딩(Nerve Gliding) 훈련.',
-                passive: '경추 측굴 및 대각선 패시브 스트레칭.'
+                id: 3, category: 'UPPER', title: '어깨 충돌 증후군',
+                sub: 'Subacromial Impingement Syndrome',
+                test: 'Neer Test / Hawkins-Kennedy Test 양성',
+                tpName: '극상근 (Supraspinatus) 건 부착부',
+                tpPos: { x: 32, y: 24 },
+                vectorDir: '상완골 하방 활주 (Inferior Glide of Humerus)',
+                mfr: {
+                    target: '극상근 및 삼각근 후부',
+                    handPos: '트레이너의 엄지 손가락을 견갑극 위 극상근 복판에 깊숙이 위치',
+                    direction: '척추 방향에서 봉오리 방향으로 상완을 따라 수평 압박',
+                    details: '환자의 상완을 수동적으로 내회전/외회전 반복하며 결절 이완'
+                },
+                mob: {
+                    position: '앉은 자세 또는 옆으로 누운 자세',
+                    fixedHand: '왼손으로 견갑골 상단 견봉을 하방 고정',
+                    gliding: '오른손으로 상완골 근위부를 잡고 하방(Inferior)으로 당겨 견봉 하 공간 확보',
+                    grade: 'Grade II~III'
+                },
+                active: {
+                    target: '극하근 및 소원근 (외회전 근육군)',
+                    pos: '옆으로 누워 팔꿈치 90도 굴곡 후 덤벨 외회전',
+                    breath: '내쉬는 숨에 상완골 두의 회전축을 유지하며 천천히 외회전',
+                    tip: '팔꿈치가 옆구리에서 떨어지지 않도록 수건을 끼우고 실시'
+                },
+                passive: {
+                    anchor: '견갑골 외측연 고정',
+                    direction: 'Cross-Body Adduction (팔을 가슴 앞으로 당겨 후방 관절낭 신전)',
+                    duration: '30초 3회',
+                    warning: '가슴 앞쪽 찝힘 느낌 발생 시 외전 각도 재조정'
+                }
             },
             {
-                id: 4,
-                category: 'UPPER',
-                name: '라운드숄더 & 흉추 후만',
-                sub: 'Thoracic Kyphosis',
-                remote: '대흉근/소흉근 단축 ➔ 흉추 후만 및 견갑골 전반 경사',
-                tp: '소흉근 늑골 부착부, 흉추 T1-T8 횡돌기',
-                position: 'Prone (엎드린 자세) 또는 Sitting',
-                vector: 'Anterior-Superior Glide (전상방 신전 미끄러짐)',
-                mfr: '소흉근 및 대흉근 근막 이완, 흉요근막 해제.',
-                mob_12: '[Grade I~II] 흉추 가극돌기 전방에 부드러운 리듬 압박으로 후관절 이완.',
-                mob_34: '[Grade III~IV] 흉추 횡돌기에 체중을 실어 전하방으로 밀어 강한 신전 가동성 확보.',
-                active: '하부 승모근 Y-Raise 및 전거근 푸시업 플러스.',
-                passive: '흉추 블록 신전 및 대흉근 수동 패시브 스트레칭.'
+                id: 4, category: 'UPPER', title: '동결건 (유착성 관절낭염)',
+                sub: 'Adhesive Capsulitis (Frozen Shoulder)',
+                test: '전 방향 능동/수동 관절 가동 범위(ROM) 심각한 제한',
+                tpName: '견갑하근 (Subscapularis) 액와 내측',
+                tpPos: { x: 36, y: 30 },
+                vectorDir: '전방 및 하방 복합 활주 (Anterior & Inferior Glide)',
+                mfr: {
+                    target: '견갑하근(Subscapularis)',
+                    handPos: '환자의 팔을 45도 외전 후 트레이너의 손가락을 겨드랑이 안쪽 견갑골 전면부로 깊이 침투',
+                    direction: '견갑골 전면을 따라 외측에서 내측으로 지그시 유착 부위 이완',
+                    details: '통증 민감도가 높으므로 지문 부위로 부드럽게 3분간 지속 지속압'
+                },
+                mob: {
+                    position: '누운 자세',
+                    fixedHand: '견갑골 고정 밴드 또는 왼손으로 오구돌기 부위 고정',
+                    gliding: '오른손으로 상완골 근위부를 잡고 관절낭 제한 방향으로 견인(Traction) 및 활주',
+                    grade: 'Grade I~II (통증 완화 위주)'
+                },
+                active: {
+                    target: '시계추 운동 (Codman Pendulum Exercise)',
+                    pos: '상체를 숙이고 한쪽 팔을 아래로 늘어뜨린 자세',
+                    breath: '편안한 자연 호흡',
+                    tip: '어깨 힘을 완전히 빼고 몸통의 반동을 이용하여 원을 그림'
+                },
+                passive: {
+                    anchor: '상체 및 견갑골 고정',
+                    direction: '슬라이딩 보드 또는 막대를 이용한 굴곡/외회전 보조 신전',
+                    duration: '20초 유지 5회',
+                    warning: '무리한 강제 굴곡 금지'
+                }
             },
             {
-                id: 5,
-                category: 'UPPER',
-                name: '흉곽출구증후군',
+                id: 5, category: 'UPPER', title: '흉곽출구 증후군 (TOS)',
                 sub: 'Thoracic Outlet Syndrome',
-                remote: '1번 늑골/쇄골 공간 압박 ➔ 손가락 4, 5번 방사통',
-                tp: '1번 늑골 상단, 사각근 부착부',
-                position: 'Supine (바로 누운 자세)',
-                vector: 'Inferior-Posterior Glide of 1st Rib',
-                mfr: '사각근 및 소흉근 심부 근막 release.',
-                mob_12: '[Grade I~II] 1번 늑골 상단을 부드럽게 하방 압박하여 신경 자극 최소화.',
-                mob_34: '[Grade III~IV] 1번 늑골을 후하방으로 강하게 밀며 상완 외회전을 동시 가동.',
-                active: '견갑골 하강 및 후복근 활성화 운동.',
-                passive: '쇄골하 공간 수동 확장 스트레칭.'
+                test: 'Adson Test / Wright Test 시 요골 동맥 맥박 약화',
+                tpName: '전/중 사각근 (Scalenus Anterior/Medius)',
+                tpPos: { x: 47, y: 20 },
+                vectorDir: '제1갈비뼈 하방 압박 및 C-spine 견인',
+                mfr: {
+                    target: '사각근(Scalenes) 및 소흉근',
+                    handPos: '흉쇄유돌근 후방의 사각근 복판에 손가락 지문 2개를 부드럽게 착지',
+                    direction: '쇄골 방향(하방)으로 부드럽게 미끄러지듯 유화',
+                    details: '상완신경총 압박 위험이 있으므로 강한 찌르기 압박 엄금'
+                },
+                mob: {
+                    position: '앉은 자세',
+                    fixedHand: '트레이너의 이동 밴드로 환자의 제1늑골(쇄골 바로 위)을 하방 고정',
+                    gliding: '경추를 반대편으로 측굴 및 회전시켜 제1늑골-사각근 간격 확장',
+                    grade: 'Grade II'
+                },
+                active: {
+                    target: '하부 승모근 및 흉추 신전근',
+                    pos: 'Wall-Slide 운동 (벽에 등과 팔꿈치를 대고 위아래 슬라이딩)',
+                    breath: '올릴 때 흡기, 내릴 때 내쉬며 흉반 확장을 유도',
+                    tip: '허리가 과도하게 꺾이지 않도록 복부 긴장 유지'
+                },
+                passive: {
+                    anchor: '쇄골 상단 제1늑골 고정',
+                    direction: '경추 반대쪽 측굴 + 같은 쪽 회전 연동 스트레칭',
+                    duration: '25초 3회',
+                    warning: '손가락 저림 심화 시 바로 중단'
+                }
             },
-            {
-                id: 6,
-                category: 'UPPER',
-                name: '오십견 / 동결건',
-                sub: 'Adhesive Capsulitis',
-                remote: '관절낭 전반 유착 ➔ 어깨 모든 방향 가동 제한 및 야간통',
-                tp: '관절낭 후하방, 극하근, 소원근',
-                position: 'Supine (어깨 굴곡 90도)',
-                vector: 'Posterior-Inferior Glide (후하방 미끄러짐)',
-                mfr: '극하근, 소원근, 견갑하근 MFR.',
-                mob_12: '[Grade I~II] 통증 없는 범위 내에서 상완골두 후방 미세 진동으로 관절액 순환.',
-                mob_34: '[Grade III~IV] 상완골두를 후하방으로 강하게 밀어 관절낭 끝범위 유착 완전히 박리.',
-                active: '시계추 운동 및 벽 타기 능동 가동.',
-                passive: '어깨 내회전 및 외회전 수동 끝범위 스트레칭.'
-            },
-            {
-                id: 7,
-                category: 'UPPER',
-                name: '어깨 충돌증후군',
-                sub: 'Impingement Syndrome',
-                remote: '상완골두 상방 변위 ➔ 견봉하 공간 찝힘 및 외반통',
-                tp: '극상근 건부, 상완이두근 장두',
-                position: 'Supine (바로 누운 자세)',
-                vector: 'Inferior Glide (하방 미끄러짐)',
-                mfr: '상부승모근, 삼각근, 극상근 MFR.',
-                mob_12: '[Grade I~II] 상완골 근위부를 하방으로 부드럽게 견인 미끄러짐.',
-                mob_34: '[Grade III~IV] 견봉을 고정하고 상완골두를 강하게 하방 관절 활주시켜 공간 확보.',
-                active: '회전근개 외회전 및 전거근 강화.',
-                passive: '상완골 하방 유격을 유지한 수동 외반 스트레칭.'
-            },
-            {
-                id: 8,
-                category: 'UPPER',
-                name: '극하근 건염',
-                sub: 'Infraspinatus Tendinopathy',
-                remote: '극하근 TP ➔ 어깨 전면 심부 방사통 및 회전 제한',
-                tp: '견갑골 극하와 중앙부',
-                position: 'Side-lying (환부 상단 배치)',
-                vector: 'Posterior Glide (후방 미끄러짐)',
-                mfr: '극하근 및 소원근 라크로스 볼 핑거 MFR.',
-                mob_12: '[Grade I~II] 상완골두 후방면 미세 리듬 가동.',
-                mob_34: '[Grade III~IV] 견갑골을 완전히 고정하고 상완골두를 후방으로 관절면 밀기.',
-                active: '밴드 이용 외회전 Isometric 훈련.',
-                passive: '수평 내반 수동 스트레칭.'
-            },
-            {
-                id: 9,
-                category: 'UPPER',
-                name: '견갑골 운동이상증',
-                sub: 'Scapular Dyskinesia',
-                remote: '능형근 과수축 & 전거근 억제 ➔ 날개뼈 트래킹 붕괴',
-                tp: '능형근, 견갑거근, 소흉근',
-                position: 'Side-lying (옆으로 누운 자세)',
-                vector: 'Scapular Distraction & Upward Rotation',
-                mfr: '능형근 및 견갑골 내측연 Deep MFR.',
-                mob_12: '[Grade I~II] 견갑골 내측연에 손을 대고 흉곽으로부터 부드럽게 들기.',
-                mob_34: '[Grade III~IV] 견갑골을 흉곽에서 완전 유격(Distraction) 후 상방회전 강제 가동.',
-                active: '전거근 랩핑 운동 및 Y-Raise.',
-                passive: '견갑골 전반 360도 수동 가동.'
-            },
-            {
-                id: 10,
-                category: 'UPPER',
-                name: '익상견갑',
-                sub: 'Winging Scapula',
-                remote: '장흉신경 마비/전거근 약화 ➔ 견갑골 내측 뜸',
-                tp: '전거근 기시부, 소흉근',
-                position: 'Prone (엎드린 자세)',
-                vector: 'Anterior-Medial Compression Glide',
-                mfr: '소흉근 및 대흉근 전면 이완.',
-                mob_12: '[Grade I~II] 견갑골을 흉곽 쪽으로 부드럽게 눌러 밀착.',
-                mob_34: '[Grade III~IV] 견갑골 내측연을 전내측으로 압박하며 흉곽 관절면 슬라이딩.',
-                active: '벽 밀기 푸시업 플러스.',
-                passive: '견갑골 내전 수동 가동.'
-            },
-            {
-                id: 11,
-                category: 'UPPER',
-                name: '테니스 엘보',
-                sub: 'Lateral Epicondylitis',
-                remote: '손목 신전근 과사용 ➔ 주관절 외측상과 염증 및 요골두 변위',
-                tp: '단요수근신근 근복, 요골두 하단',
-                position: 'Supine (팔꿈치 굴곡 20도)',
-                vector: 'Posterior-Lateral Radial Head Glide',
-                mfr: '전완 신전근 근막 이완 및 폼롤러 릴리즈.',
-                mob_12: '[Grade I~II] 요골두(Radial Head) 부위 미세 후방 리듬 가동.',
-                mob_34: '[Grade III~IV] 요골두를 후외측으로 강하게 밀며 전완 회외/회인 유도.',
-                active: '손목 신전근 이성성(Eccentric) 강화.',
-                passive: '전완 신전근 수동 패시브 스트레칭.'
-            },
-            {
-                id: 12,
-                category: 'UPPER',
-                name: '골퍼 엘보',
-                sub: 'Medial Epicondylitis',
-                remote: '손목 굴근 과사용 ➔ 내측상과 장력 & 삼두근 연쇄',
-                tp: '요측수근굴근, 원회전근',
-                position: 'Supine (팔꿈치 신전)',
-                vector: 'Medial-Inferior Ulnar Glide',
-                mfr: '전완 굴근 및 원회전근 MFR.',
-                mob_12: '[Grade I~II] 척골 관절면 미세 유격 가동.',
-                mob_34: '[Grade III~IV] 상완골 내측상과 고정 후 척골 근위부를 내하방으로 강한 미끄러트림.',
-                active: '손목 굴근 Eccentric 훈련.',
-                passive: '전완 굴근 패시브 스트레칭.'
-            },
-            {
-                id: 13,
-                category: 'UPPER',
-                name: '수근관 증후군',
-                sub: 'Carpal Tunnel Syndrome',
-                remote: '수근굴근 단축 ➔ 정중신경 포착 및 손가락 1,2,3번 저림',
-                tp: '수근골 전면, 수근횡단인대',
-                position: 'Sitting (손목을 테이블에 올림)',
-                vector: 'Anterior-Posterior Intercarpal Glide',
-                mfr: '전완 전면 및 굴근건 인대 이완.',
-                mob_12: '[Grade I~II] 수근골 분절 간 미세 전후 교차 슬라이딩.',
-                mob_34: '[Grade III~IV] 각 수근골(대다각골, 주상골 등)을 서로 반대로 강하게 전후 교차 가동.',
-                active: '정중신경 슬라이딩 능동 운동.',
-                passive: '손목 및 손가락 신전 패시브 스트레칭.'
-            },
-            {
-                id: 14,
-                category: 'UPPER',
-                name: '삼두근 건염 / 팔꿈치 후면 통증',
-                sub: 'Triceps Tendinopathy',
-                remote: '상완삼두근 장두 긴장 ➔ 주두(Olecranon) 견인 통증',
-                tp: '상완삼두근 원위부 건부',
-                position: 'Supine (팔꿈치 90도 굴곡)',
-                vector: 'Longitudinal Distraction (장축 수직 견인)',
-                mfr: '삼두근 근복 및 쇄골하 사슬 MFR.',
-                mob_12: '[Grade I~II] 주관절 장축 방향 미세 견인.',
-                mob_34: '[Grade III~IV] 척골 주정을 잡고 장축으로 강하게 당기며 신전 관절면 확보.',
-                active: '삼두근 익스텐션 훈련.',
-                passive: '삼두근 수동 패시브 스트레칭.'
-            },
+            // ... 6 to 15 UPPER ...
+            { id: 6, category: 'UPPER', title: '익상견갑 (Winging Scapula)', sub: 'Serratus Anterior Weakness', test: '벽 짚고 팔굽혀펴기 시 견갑골 내측연 돌출', tpName: '전거근 (Serratus Anterior)', tpPos: { x: 35, y: 34 }, vectorDir: '견갑골 전인 및 외전 활주', mfr: { target: '소흉근 및 견갑하근', handPos: '갈비뼈 측면 늑골 3~8번에 위치한 전거근에 손바닥 평면 밀착', direction: '늑골 결 따라 후방으로 이완', details: '전거근 활성화를 저해하는 소흉근 동시 MFR' }, mob: { position: '누운 자세', fixedHand: '흉부 고정', gliding: '견갑골을 늑골 상에서 전인(Protraction) 방향으로 외측 활주', grade: 'Grade III' }, active: { target: '전거근 (Serratus Anterior)', pos: 'Scapular Push-Up (플랭크 자세에서 견갑골 밀어내기)', breath: '밀어낼 때 내쉼', tip: '허리가 꺼지지 않도록 코어 고정' }, passive: { anchor: '견갑골 하각 고정', direction: '견갑골 상방회전 수동 가동', duration: '30초', warning: '어깨 통증 주의' } },
+            { id: 7, category: 'UPPER', title: '테니스 엘보 (외측상과염)', sub: 'Lateral Epicondylitis', test: 'Cozen Test (단요측수근신근 저항 시 통증)', tpName: '단요측수근신근 (ECRB)', tpPos: { x: 26, y: 38 }, vectorDir: '요골두 후방 활주 (Posterior Glide of Radial Head)', mfr: { target: '수근신근군 (Extensor Carpi Radialis Brevis)', handPos: '주관절 외측상과 2cm 하단에 엄지 압박', direction: '손목 방향으로 수직 마찰', details: '압박 상태에서 손목 굴곡/신전 반복' }, mob: { position: '앉은 자세', fixedHand: '상완골 하단 고정', gliding: '요골두를 후방(Posterior)으로 밀며 손목 운동 보조(MWM)', grade: 'Grade III' }, active: { target: '손목 신근 편심성(Eccentric) 강화', pos: '전완을 테이블에 대고 덤벨을 천천히 내리기', breath: '내릴 때 4초간 내쉼', tip: '통증 없는 범위 내 진행' }, passive: { anchor: '주관절 외측 고정', direction: '주관절伸展 + 전완 회내 + 손목 굴곡 스트레칭', duration: '30초 3회', warning: '과도한 찢어짐 느낌 피할 것' } },
+            { id: 8, category: 'UPPER', title: '골퍼 엘보 (내측상과염)', sub: 'Medial Epicondylitis', test: '골퍼 엘보 검사 (손목 저항 굴곡 시 내측 통증)', tpName: '요측수근굴근 (FCR) 및 원회선근', tpPos: { x: 30, y: 38 }, vectorDir: '척골 근위부 전방 활주', mfr: { target: '수근굴근군 및 원회선근', handPos: '주관절 내측상과 하단에 엄지 밀착', direction: '손바닥 방향으로 압박 이완', details: '원회선근 부위 정밀 수근 이완' }, mob: { position: '앉은 자세', fixedHand: '상완골 내측 고정', gliding: '척골 근위부 내측 활주', grade: 'Grade II' }, active: { target: '손목 굴근 편심성 강화', pos: '덤벨을 들고 손바닥이 위를 향하게 한 후 천천히 내리기', breath: '내릴 때 내쉼', tip: '주관절 각도 90도 유지' }, passive: { anchor: '주관절 내측 고정', direction: '주관절伸展 + 전완 회외 + 손목 신전', duration: '30초 3회', warning: '신경 자극 시 중단' } },
+            { id: 9, category: 'UPPER', title: '수근관 증후군 (터널 증후군)', sub: 'Carpal Tunnel Syndrome', test: 'Phalen Test / Tinel Sign 양성', tpName: '굴근지대 및 정중신경 유착 부위', tpPos: { x: 25, y: 46 }, vectorDir: '수근골 전방/후방 수직 활주', mfr: { target: '전완 굴근 복판 및 손목 횡수근자대', handPos: '양 엄지로 손목 전면 중앙 압박', direction: '외측으로 펼쳐주듯 이완', details: '정중신경 슬라이딩 유도' }, mob: { position: '앉은 자세', fixedHand: '요골/척골 원위부 고정', gliding: '대수근골-소수근골 간 수평 활주', grade: 'Grade II' }, active: { target: '정중신경 신경 글라이딩 (Median Nerve Gliding)', pos: '손목 신전 - 손가락 펼침 - 엄지 외전 단계별 이행', breath: '자연스러운 호흡', tip: '저림 증상 유발되지 않도록 부드럽게' }, passive: { anchor: '전완 원위부 고정', direction: '손가락 및 손목 신전 스트레칭', duration: '20초 3회', warning: '과도한 핑거 스트레칭 금지' },
+            { id: 10, category: 'UPPER', title: '경추 추간판 장애 (목 디스크 양상)', sub: 'Cervical Radiculopathy', test: 'Spurling Test 양성 (방사통 유발)', tpName: '경장근 및 상부승모근 방사통 지점', tpPos: { x: 48, y: 22 }, vectorDir: '경추 수직 견인 (Axial Cervical Traction)', mfr: { target: '경추 방척근 및 상부승모근', handPos: '후부 경추 근육군 손가락 지문 전체 밀착', direction: '수직 상방 부드러운 유화', details: '직접적인 신경 압박 피함' }, mob: { position: 'Supine (누운 자세)', fixedHand: '트레이너 양손으로 후두골 감싸기', gliding: '축 방향 수직 견인 (Axial Traction) Grade I~II', grade: 'Grade I~II' }, active: { target: '경추 등척성 (Isometric) 안정화', pos: '이마에 손을 대고 손과 머리를 서로 미는 힘 유지', breath: '5초간 호흡 내쉬며 유지', tip: '목 움직임 없이 힘만 발생' }, passive: { anchor: '흉추 고정', direction: '경추 경증 굴곡 및 반대 측굴', duration: '15초 3회', warning: '팔 방사통 심화 시 즉시 중단' } },
+            { id: 11, category: 'UPPER', title: '일자목 증후군 (Straight Neck)', sub: 'Hypocervical Lordosis', test: 'X-ray 또는 측면 관찰 시 C-curve 상실', tpName: '경경근 및 판상근', tpPos: { x: 50, y: 22 }, vectorDir: 'C3-C5 전방 관절면 활주', mfr: { target: '경판상근, 두판상근', handPos: '목 뒤 중앙 좌우 2cm 지점에 엄지 밀착', direction: '전방 사선 방향 압박', details: 'C-curve 형성 유도 pressure' }, mob: { position: '앉은 자세', fixedHand: 'C5 극돌기 후방 고정', gliding: '수건을 목 뒤에 걸고 전상방 45도 견인', grade: 'Grade II' }, active: { target: '경추 신전근 및 흉추 신전근', pos: 'Chin-tuck 후 경추 미세 신전', breath: '신전 시 내쉼', tip: '과도한 후두하근 긴장 방지' }, passive: { anchor: '어깨 하강 고정', direction: '경추 신전 범위 수동 보조', duration: '20초', warning: '어지럼증 유무 체크' } },
+            { id: 12, category: 'UPPER', title: '등 통증 및 흉추 유연성 제한', sub: 'Thoracic Hypomobility', test: '흉추 회전 각도 45도 미만 제한', tpName: '능형근 (Rhomboid Major/Minor)', tpPos: { x: 45, y: 30 }, vectorDir: '흉추 후관절 전방 회전 활주', mfr: { target: '능형근, 흉추 방척근', handPos: '견갑골 내측연과 척추 사이에 손날 밀착', direction: '외측 하방으로 긁어주듯 이완', details: '폼롤러 흉추 신전 연동' }, mob: { position: 'Side-lying (옆으로 누운 자세)', fixedHand: '골반 고정', gliding: '상체 회전 (Open Book Stretch) 흉추 가동', grade: 'Grade III' }, active: { target: '흉추 신전근 및 회전근', pos: 'Cat-Cow 및 T-spine Rotation', breath: '신전 시 흡기, 회전 시 내쉼', tip: '요추가 과도하게 움직이지 않도록 골반 고정' }, passive: { anchor: '요추 고정', direction: '흉추 신전 수동 보조', duration: '30초 3회', warning: '요추 과신전 주의' } },
+            { id: 13, category: 'UPPER', title: '석회성 건염 (어깨 통증)', sub: 'Calcific Tendinitis', test: '극심한 어깨 야간통 및 둔탁한 통증', tpName: '극상근 건 결절 지점', tpPos: { x: 33, y: 25 }, vectorDir: '상완골 진동성 견인 (Oscillatory Traction)', mfr: { target: '어깨 삼각근 및 극하근 주변부', handPos: '석회 침착부 직접 압박을 피하고 주변근에 손바닥 착지', direction: '원형 순환 이완', details: '염증성 급성기 시 강한 압박 절대 금지' }, mob: { position: '누운 자세', fixedHand: '견갑골 고정', gliding: '약한 강도의 관절낭 공간 확보 견인', grade: 'Grade I' }, active: { target: '어깨 등척성 내/외회전', pos: '벽을 밀며 동작 없이 힘 발생', breath: '편안한 호흡', tip: '통증 없는 20% 힘으로 시작' }, passive: { anchor: '견갑골 고정', direction: '통증 이전 범위까지의 수동 굴곡', duration: '15초', warning: '급성 통증 시 휴식 권고' } },
+            { id: 14, category: 'UPPER', title: '이두근 건염 (Biceps Tendinitis)', sub: 'Biceps Brachii Tendinitis', test: 'Speed Test / Yergason Test 양성', tpName: '상완이두근 장두 결절간구', tpPos: { x: 32, y: 30 }, vectorDir: '상완골 두 후방 관절 활주', mfr: { target: '상완이두근 복판 및 관절 상순 부착부', handPos: '상완 전면 이두근복에 두 엄지 수직 배치', direction: '근섬유 횡단 마찰 이완 (Cross-Friction)', details: '결절간구 부위 부드럽게 이완' }, mob: { position: '누운 자세', fixedHand: '상완골 두 전방 고정', gliding: '상완골 두 후방 활주', grade: 'Grade II' }, active: { target: '견갑하근 및 상완삼두근', pos: 'Triceps Extension 및 견갑골 안정화', breath: '팔 펴며 내쉼', tip: '이두근 장두 장력 감소 유도' }, passive: { anchor: '어깨 전방 고정', direction: '상완골 신전 + 전완 회내 스트레칭', duration: '25초 3회', warning: '전방 찝힘 통증 확인' } },
+            { id: 15, category: 'UPPER', title: '손목 건막염 (드게르벵 증후군)', sub: 'De Quervain Tenosynovitis', test: 'Finkelstein Test 양성 (엄지 감싸고 척측 편위 시 통증)', tpName: '단엄지신근 (EPB) & 장엄지외전근 (APL)', tpPos: { x: 22, y: 44 }, vectorDir: '제1 중수골 수직 견인 및 관절 활주', mfr: { target: '장엄지외전근, 단엄지신근 근복', handPos: '전완 요측 하단에 엄지 밀착', direction: '손목 방향으로 미끄러지듯 압박', details: '통증 부위 직접 압박 피함' }, mob: { position: '앉은 자세', fixedHand: '요골 원위부 고정', gliding: '제1중수골 관절 수직 견인', grade: 'Grade II' }, active: { target: '손목 척측 편위 근육 및 건 강화', pos: '엄지손가락 중립 상태 손목 가동', breath: '자연스러운 호흡', tip: '통증 유발 동작 지양' }, passive: { anchor: '요골 고정', direction: '부드러운 손목 척측 편위 보조', duration: '20초', warning: '날카로운 통증 발생 시 중단' } },
 
-            // 흉추 / 코어 / 골반 파트 (12가지)
+            // --- CORE & PELVIS (16~27) ---
             {
-                id: 15,
-                category: 'CORE',
-                name: '요추 디스크 및 S1/L5 방사통',
-                sub: 'Lumbar Disc Herniation',
-                remote: 'L5-S1 신경근 압박 ➔ 이상근 및 새끼발가락 외측 방사통',
-                tp: '요방형근, 이상근 외측, L5 가극돌기',
-                position: 'Side-lying (통증 부위 위로, 요추 중립)',
-                vector: 'Inferior Distraction & Lateral Glide',
-                mfr: '요방형근, 이상근, 둔근 Deep MFR.',
-                mob_12: '[Grade I~II] 옆으로 누운 상태에서 골반 장골릉을 하방으로 부드럽게 견인하여 신경 감압.',
-                mob_34: '[Grade III~IV] 골반과 늑골을 반대 방향으로 수평 전단 가동하여 L5-S1 관절 유격 형성.',
-                active: '맥켄지 신전 및 중립 컬업.',
-                passive: '좌골신경 슬라이딩 및 패시브 스트레칭.'
+                id: 16, category: 'CORE', title: '요추 전만증 (골반 전방경사)', sub: 'Lumbar Hyperlordosis & Anterior Pelvic Tilt',
+                test: 'Thomas Test 양성 (장요근 단축) & 토마스 홀 5cm 이상',
+                tpName: '장요근 (Iliopsoas) / 장골능 내측', tpPos: { x: 45, y: 52 },
+                vectorDir: '요추 후방 압박 및 골반 후방 회전',
+                mfr: {
+                    target: '장요근(Iliopsoas), 대퇴직근, 대퇴근막장근',
+                    handPos: 'ASIS 내측 2cm 지점에 손가락 끝을 배꼽 방향 45도로 깊이 진입',
+                    direction: '호흡을 내쉴 때 천천히 체중을 실어 지그시 압박',
+                    details: '복부 맥박(대동맥)이 강하게 느껴지면 위치 재조정'
+                },
+                mob: {
+                    position: 'Prone (엎드린 자세)',
+                    fixedHand: '트레이너 한 손으로 천골(Sacrum) 상단을 하방 고정',
+                    gliding: '다른 손으로 대퇴 전면을 들어 올려 골반 후방 회전 가동',
+                    grade: 'Grade III'
+                },
+                active: {
+                    target: '대둔근, 햄스트링, 복직근/복횡근',
+                    pos: 'Pelvic Tilt & Glute Bridge (골반 후방경사 브릿지)',
+                    breath: '내쉬는 숨에 허리로 바닥을 누르며 엉덩이 수축',
+                    tip: '허리가 과도하게 꺾이지 않도록 복부 둔근 동시 수축'
+                },
+                passive: {
+                    anchor: '골반 ASIS 후방 고정',
+                    direction: '런지 자세에서 골반을 전방으로 미는 장요근 스트레칭',
+                    duration: '40초 3회', warning: '요추 통증 유발 금지'
+                }
             },
             {
-                id: 16,
-                category: 'CORE',
-                name: '요방형근 통증 및 짝골반',
-                sub: 'Lumbar Asymmetry',
-                remote: '한쪽 요방형근 단축 ➔ 골반 올려침(Hip Hiking) & 반대쪽 다리 단족',
-                tp: '요방형근 늑골 12번 하단, 장골릉 부착부',
-                position: 'Side-lying (긴장된 골반이 위로 오게 누움)',
-                vector: 'Caudal Pelvic Glide (발 방향 골반 미끄러짐)',
-                mfr: '요방형근 및 최장근 핑거 이완.',
-                mob_12: '[Grade I~II] 위쪽 장골릉을 발 방향으로 미세 리듬 밀기.',
-                mob_34: '[Grade III~IV] 골반 장골릉을 발 방향으로 강하게 수평 전단하여 천장관절 간격 확대.',
-                active: '사이드 플랭크 및 힙 하이킹 교정.',
-                passive: '요방형근 3D 수동 측굴 스트레칭.'
+                id: 17, category: 'CORE', title: '요추 일자허리 (골반 후방경사)', sub: 'Flat Back & Posterior Pelvic Tilt',
+                test: '서있을 때 요추 전만 곡선 부재 및 햄스트링 고도 단축',
+                tpName: '햄스트링 근위부 / 좌골결절 부착부', tpPos: { x: 46, y: 62 },
+                vectorDir: '요추 전방 관절 활주 (L4-L5 Anterior Glide)',
+                mfr: {
+                    target: '햄스트링(Hamstrings), 복직근 하부, 대둔근',
+                    handPos: '좌골결절 바로 하단 햄스트링 근위부에 주먹 관절 밀착',
+                    direction: '무릎 방향으로 깊게 미끄러지듯 이완',
+                    details: '햄스트링 내/외측 분리 이완'
+                },
+                mob: {
+                    position: '앉은 자세 또는 Prone',
+                    fixedHand: 'L4-L5 극돌기 후방 고정',
+                    gliding: '요추 전만 유도 전방 활주 (Anterior Glide)',
+                    grade: 'Grade II~III'
+                },
+                active: {
+                    target: '장요근, 대퇴직근, 척추기립근 요추부',
+                    pos: 'Seated Hip Flexion & Superman Hold',
+                    breath: '상체 올릴 때 내하방 호흡',
+                    tip: '요추의 정상 전만 곡선 형성 집중'
+                },
+                passive: {
+                    anchor: '골반 후방 고정',
+                    direction: 'Cobra Stretch (요추 신전 유도)',
+                    duration: '30초 3회', warning: '요추 협착 통증 시 각도 낮춤'
+                }
             },
-            {
-                id: 17,
-                category: 'CORE',
-                name: '척추관 협착증',
-                sub: 'Lumbar Spinal Stenosis',
-                remote: '황색인대 두꺼워짐/신전 시 요통 & 파행성 보행',
-                tp: '척추기립근, 장요근',
-                position: 'Side-lying (양 무릎을 가슴 쪽으로 당김)',
-                vector: 'Posterior Flexion Glide (후방 굴곡 미끄러짐)',
-                mfr: '기립근 및 요방형근 수직 이완.',
-                mob_12: '[Grade I~II] 요추 가극돌기 사이를 부드럽게 후방으로 유유히 활주.',
-                mob_34: '[Grade III~IV] 요추 굴곡 상태에서 각 분절 후방 관절면을 강하게 열어 추간공 확장.',
-                active: '복횡근 브레이싱 및 굴곡 선호 운동.',
-                passive: '무릎 가슴 끌어당기기 수동 스트레칭.'
-            },
-            {
-                id: 18,
-                category: 'CORE',
-                name: '요추 과신전 & 골반 전방경사',
-                sub: 'Anterior Pelvic Tilt',
-                remote: '대퇴직근/장요근 단축 ➔ 요추 과전만 및 복근 약화',
-                tp: '대퇴직근 AIIS 기시부, 장요근',
-                position: 'Supine (양 무릎 굽힌 자세)',
-                vector: 'Posterior Pelvic Rotation Glide',
-                mfr: '장요근 및 대퇴직근 MFR.',
-                mob_12: '[Grade I~II] ASIS 부위 미세 후하방 누르기.',
-                mob_34: '[Grade III~IV] ASIS를 후하방, 천골을 전상방으로 강하게 회전 가동하여 후방경사 유도.',
-                active: '둔근 하프 브릿지 & 복근 펠빅 틸트.',
-                passive: '장요근 런지 자세 패시브 스트레칭.'
-            },
-            {
-                id: 19,
-                category: 'CORE',
-                name: '일자허리 & 골반 후방경사',
-                sub: 'Posterior Pelvic Tilt',
-                remote: '햄스트링/복직근 과단축 ➔ 요추 전만 소실 및 둔근 억제',
-                tp: '복직근 상부, 햄스트링 좌골 부착부',
-                position: 'Prone (두 팔을 대고 엎드림)',
-                vector: 'Anterior-Inferior Lumbar Glide',
-                mfr: '복직근 및 햄스트링 근막 해제.',
-                mob_12: '[Grade I~II] 요추 L1-L5 가극돌기 전방 미세 리듬 압박.',
-                mob_34: '[Grade III~IV] L1-L5 가극돌기를 전하방으로 체중 실어 밀어 요추 정상 전만 회복.',
-                active: '코브라 동작 능동 신전.',
-                passive: '햄스트링 수동 패시브 스트레칭.'
-            },
-            {
-                id: 20,
-                category: 'CORE',
-                name: '천장관절 증후군',
-                sub: 'SI Joint Dysfunction',
-                remote: '천장관절 비틀림 ➔ 엉덩이 뒤쪽 및 서타구니 전이통',
-                tp: '천골 기저부, 이상근, 중둔근 후부',
-                position: 'Prone (엎드린 자세)',
-                vector: 'Anterior-Inferior Sacral Nutation Glide',
-                mfr: '이상근 및 천골 인대 MFR.',
-                mob_12: '[Grade I~II] 천골 기저부에 부드러운 전방 리듬 가동.',
-                mob_34: '[Grade III~IV] 손날로 천골 기저부를 전하방 압박하여 천골 숙임(Nutation) 강제 재정렬.',
-                active: '이상근/중둔근 아이소메트릭.',
-                passive: '천장관절 수동 전단 스트레칭.'
-            },
-            {
-                id: 21,
-                category: 'CORE',
-                name: '이상근 증후군 & 좌골신경통',
-                sub: 'Piriformis Syndrome',
-                remote: '이상근 과수축 ➔ 좌골신경 포착 & 다리 후면/종아리 저림',
-                tp: '이상근 중앙부(대전자-천골 사이)',
-                position: 'Supine (고관절 90도 굴곡/내회전)',
-                vector: 'Posterior Femoral Head Glide',
-                mfr: '이상근 Deep Tissue 핑거 MFR.',
-                mob_12: '[Grade I~II] 대퇴골두 후방 미세 수평 밀기.',
-                mob_34: '[Grade III~IV] 굴곡된 대퇴골두를 바닥 방향으로 강하게 밀어 관절낭 및 이상근 이완.',
-                active: '중둔근 클램쉘 운동.',
-                passive: '이상근 3D 수동 패시브 스트레칭.'
-            },
-            {
-                id: 22,
-                category: 'CORE',
-                name: '고관절 충돌증후군',
-                sub: 'FAI Syndrome',
-                remote: '대퇴골두 전방 변위 ➔ 고관절 굴곡 시 서타구니 찝힘',
-                tp: '대퇴근막장근(TFL), 장요근',
-                position: 'Supine (고관절 미세 굴곡)',
-                vector: 'Inferior-Lateral Axial Distraction',
-                mfr: 'TFL 및 장요근 MFR.',
-                mob_12: '[Grade I~II] 대퇴골 근위부 외하방 미세 견인.',
-                mob_34: '[Grade III~IV] 관절가동 스트랩으로 대퇴골을 외하방으로 강하게 당기며 관절 유격 확보.',
-                active: '둔근 강화를 통한 대퇴골두 후방 안정화.',
-                passive: '고관절 견인 상태 패시브 굴곡.'
-            },
-            {
-                id: 23,
-                category: 'CORE',
-                name: '장요근 단축 & 서타구니 찝힘',
-                sub: 'Iliopsoas Impingement',
-                remote: '좌식 생활 장요근 단축 ➔ 고관절 신전 제한 및 요통',
-                tp: '배꼽 외측 3cm 심부, 소전자 부근',
-                position: 'Thomas Test Position (테이블 끝 누움)',
-                vector: 'Posterior Glide of Femur',
-                mfr: '장요근 심부 핑거 이완.',
-                mob_12: '[Grade I~II] 대퇴골 근위부 전면 후방 미세 누르기.',
-                mob_34: '[Grade III~IV] 환부 대퇴골 전면을 후방으로 강하게 밀어 대퇴골두 전방 탈구 보상 수정.',
-                active: '둔근 힙 익스텐션.',
-                passive: '토마스 테스트 자세 패시브 신전.'
-            },
-            {
-                id: 24,
-                category: 'CORE',
-                name: '중둔근 약화 & 짝엉덩이',
-                sub: 'Gluteus Medius Dysfunction',
-                remote: '보행 시 골반 동요(Trendelenburg) ➔ 반대쪽 무릎 통증 연쇄',
-                tp: '중둔근 기시부, 대전 상단',
-                position: 'Side-lying (옆으로 누운 자세)',
-                vector: 'Lateral Distraction Glide',
-                mfr: '중둔근 및 대퇴근막장근 MFR.',
-                mob_12: '[Grade I~II] 대전자 상단 미세 외측 유격.',
-                mob_34: '[Grade III~IV] 대전자를 하방 고정하고 골반을 상방 유격시켜 대퇴골-비구 수평 공간 확보.',
-                active: '사이드 힙 어덕션 & 사이드 플랭크.',
-                passive: '중둔근 패시브 교차 스트레칭.'
-            },
-            {
-                id: 25,
-                category: 'CORE',
-                name: '내덕근 단축 & 치골 통증',
-                sub: 'Adductor Strain',
-                remote: '내덕근 좌우 불균형 ➔ 치골 결합 염증 & 골반 측방 기울임',
-                tp: '장덕근, 박근 치골 부착부',
-                position: 'Supine (개구리 자세)',
-                vector: 'Infero-Lateral Femoral Glide',
-                mfr: '내덕근 부착부 폼롤러 및 핑거 MFR.',
-                mob_12: '[Grade I~II] 대퇴골 내측면 미세 하외측 밀기.',
-                mob_34: '[Grade III~IV] 치골 결합을 고정하고 대퇴골 내측을 강하게 외하방으로 밀어 외반 가동.',
-                active: '코어 코펜하겐 플랭크.',
-                passive: '개구리 자세 수동 내덕근 스트레칭.'
-            },
-            {
-                id: 26,
-                category: 'CORE',
-                name: '복직근 유착 & 흉복부 경직',
-                sub: 'Abdominal Fascial Adhesion',
-                remote: '복부 전면 근막 유착 ➔ 흉골을 아래로 견인해 거북목 유발',
-                tp: '복직근 늑골 연골 부착부',
-                position: 'Supine (무릎 살짝 구부림)',
-                vector: 'Inferior Fascial Glide',
-                mfr: '복직근 및 외복사근 근막 이완.',
-                mob_12: '[Grade I~II] 늑골 하단 근막 미세 하방 미끄러뜨리기.',
-                mob_34: '[Grade III~IV] 늑골 하단을 고정하고 복부 근막 사슬을 하방으로 강하게 지속 글라이딩.',
-                active: '복횡근 호흡 및 3D 신전.',
-                passive: '복부 전면 패시브 신전.'
-            },
+            // ... 18 to 27 CORE ...
+            { id: 18, category: 'CORE', title: '골반 불균형 (좌우 높이 차이)', sub: 'Pelvic Asymmetry / Lateral Tilt', test: 'ASIS / PSIS 좌우 수평 높이 차이 1.5cm 이상', tpName: '요방형근 (Quadratus Lumborum)', tpPos: { x: 42, y: 48 }, vectorDir: '골반 하방 견인 (Inferior Pelvic Traction)', mfr: { target: '요방형근, 중둔근, 이상근', handPos: '늑골 12번과 장골능 사이 측면 요방형근에 엄지 밀착', direction: '장골능 방향으로 압박 이완', details: '단축된 쪽 요방형근 집중 이완' }, mob: { position: 'Side-lying', fixedHand: '흉부 측면 고정', gliding: '장골능을 하방(발끝 방향)으로 견인 활주', grade: 'Grade III' }, active: { target: '중둔근 및 측복근', pos: 'Side Plank & Clamshell', breath: '자세 유지하며 내하방 호흡', tip: '골반이 전후로 회전되지 않도록 제어' }, passive: { anchor: '늑골 하단 고정', direction: '체간 측굴 스트레칭 (Side Bending)', duration: '30초 3회', warning: '요추 과회전 주의' } },
+            { id: 19, category: 'CORE', title: '요추 추간판 탈출증 (허리 디스크)', sub: 'Lumbar Disc Herniation', test: 'SLR Test (직거상 검사 30~60도 방사통)', tpName: '요추 방척근 및 이상근 방사통 지점', tpPos: { x: 50, y: 46 }, vectorDir: '요추 감압 수직 견인 (Lumbar Traction)', mfr: { target: '요추 방척근, 이상근, 둔근군', handPos: '요추 2-5번 옆 방척근 부위에 손바닥 뿌리 밀착', direction: '외하방 45도 결 따라 유화', details: '디스크 직접 압박 금지, 주변 긴가림 이완' }, mob: { position: 'Prone (맥켄지 자세)', fixedHand: '천골 상부 고정', gliding: '요추 수직 견인 및 부드러운 전방 활주', grade: 'Grade I~II' }, active: { target: '복횡근 (TVA) 및 다열근', pos: 'Bird-Dog & Deadbug (요추 중립 유지)', breath: '팔다리 뻗을 때 호흡 내쉼', tip: '허리 요동 없이 완전 중립 고정' }, passive: { anchor: '골반 고정', direction: 'McKenzie Extension (신전 운동)', duration: '10회 반복', warning: '다리 저림 심화 시 즉시 중단' } },
+            { id: 20, category: 'CORE', title: '척추관 협착증', sub: 'Spinal Stenosis', test: '신전 시 통증 심화, 굴곡 시 통증 완화 (간헐적 파행)', tpName: '장요근 및 대퇴직근', tpPos: { x: 48, y: 50 }, vectorDir: '요추 후방 굴곡 활주 (Posterior Flexion Glide)', mfr: { target: '대퇴직근, 장요근, 요방형근', handPos: '대퇴 전면 근복에 손바닥 밀착', direction: '하방으로 부드럽게 이완', details: '과도한 신전 유도 압박 절대 금지' }, mob: { position: 'Supine', fixedHand: '골반 전방 고정', gliding: '양 무릎을 가슴으로 당기는 요추 굴곡 가동', grade: 'Grade II' }, active: { target: '복직근, 복횡근', pos: 'Williams Flexion Exercise (가슴에 무릎 당기기)', breath: '당길 때 깊게 내쉼', tip: '요추 후관절 공간 확보' }, passive: { anchor: '흉부 고정', direction: '요추 부드러운 굴곡 스트레칭', duration: '30초 3회', warning: '요추 신전 동작 금지' } },
+            { id: 21, category: 'CORE', title: '이상근 증후군 (좌골신경통)', sub: 'Piriformis Syndrome', test: 'FAIR Test (굴곡/내전/내회전 시 통증)', tpName: '이상근 (Piriformis) 대좌골시경 부위', tpPos: { x: 42, y: 58 }, vectorDir: '고관절 외회전 관절낭 활주', mfr: { target: '이상근, 상/하쌍지근, 대퇴방형근', handPos: '천골 측면에서 대전자 사이 이상근 복판에 주먹 밀착', direction: '대전자 방향으로 수직 압박', details: '좌골신경 저림 유발 시 압력 경감' }, mob: { position: 'Supine (무릎 90도 굴곡)', fixedHand: '골반 반대쪽 고정', gliding: '고관절 내전 및 내회전 활주', grade: 'Grade III' }, active: { target: '중둔근 후부 및 고관절 외회전근', pos: 'Clamshell & Monster Walk', breath: '벌릴 때 내쉼', tip: '골반 후방 회전 방지' }, passive: { anchor: '골반 고정', direction: 'Piriformis Stretch (Figure-4 Stretch)', duration: '40초 3회', warning: '다리 저림 증상 체크' } },
+            { id: 22, category: 'CORE', title: '천장관절 증후군 (SI Joint Dysfunction)', sub: 'Sacroiliac Joint Pain', test: 'Patrick (FABER) Test / Gaenslen Test 양성', tpName: '천장관절 인대 및 후관절 부착부', tpPos: { x: 48, y: 54 }, vectorDir: '천골 전방/후방 전이 활주 (Sacral Shearing)', mfr: { target: '대둔근, 다열근 요천부, 이상근', handPos: 'PSIS 바로 내하방 천장관절 라인에 손날 밀착', direction: '외하방 압박 이완', details: '관절 안정성 고려 부드러운 압박' }, mob: { position: 'Prone 또는 Side-lying', fixedHand: '장골능 후방 고정', gliding: '천골을 전방으로 지그시 밀어주는 전방 활주', grade: 'Grade II' }, active: { target: '골반저근, 복횡근, 다열근 (Core Local System)', pos: 'Bridge with Squeeze Ball (양 무릎 사이 공 끼우고 브릿지)', breath: '올릴 때 내쉬며 공 압박', tip: '천장관절 비틀림 차단' }, passive: { anchor: '반대쪽 골반 고정', direction: '고관절 내전 및 외전 균형 스트레칭', duration: '30초', warning: '날카로운 관절통 유발 금지' } },
+            { id: 23, category: 'CORE', title: '천골 경사 이상 (Sacral Tilt)', sub: 'Sacral Base Nutation/Counternutation', test: '천골 저부(Sacral Base) 전후방 변위', tpName: '천골곶 인대 부위', tpPos: { x: 50, y: 55 }, vectorDir: '천골 전방 회전 (Sacral Nutation Glide)', mfr: { target: '천골결절인대 주변근 및 기립근 요천부', handPos: '천골 저부에 손바닥 뿌리 수평 밀착', direction: '전하방 45도 압박', details: '천골 움직임 유도' }, mob: { position: 'Prone', fixedHand: '장골 고정', gliding: '천골 상단 전방 누름 (Nutation 유도)', grade: 'Grade II' }, active: { target: '요추 안정화 근육군', pos: 'Bird-Dog 연동 천골 평형 유지', breath: '자연스러운 호흡', tip: '천골 위에 컵을 얹었다고 상상' }, passive: { anchor: '요추 고정', direction: '천골 가동성 보조 스트레칭', duration: '20초', warning: '과도한 압박 금지' } },
+            { id: 24, category: 'CORE', title: '복직근 이개 (Diastasis Recti)', sub: 'Abdominal Separation', test: '백선(Linea Alba) 간격 2핑거 이상 벌어짐', tpName: '복직근 외측연 (Line Semilunaris)', tpPos: { x: 45, y: 44 }, vectorDir: '복부 내측 모음 결합 활주', mfr: { target: '외복사근, 내복사근, 복횡근', handPos: '복직근 외측연에 손가락 복판 밀착', direction: '배꼽 내측 방향으로 모아주듯 이완', details: '복직근 직접 수직 찢기 압박 엄금' }, mob: { position: 'Supine (무릎 굴곡)', fixedHand: '양손으로 복직근 좌우를 중앙으로 모아 고정', gliding: '호흡 연동 복부 수축 가동', grade: 'Grade I' }, active: { target: '복횡근 (Transverse Abdominis)', pos: 'Diaphragmatic Breathing & Abdominal Vacuum', breath: '깊이 내쉬며 배꼽을 척추 쪽으로 밀착', tip: 'Sit-up 동작 절대 금지' }, passive: { anchor: '복부 중앙 모음 고정', direction: '복부 신전 피하고 중립 가동', duration: '30초', warning: '복압 과도 상승 금지' } },
+            { id: 25, category: 'CORE', title: '산후 골반 불안정성', sub: 'Postpartum Pelvic Instability', test: '보행 시 골반 통증 및 ASIS 동통', tpName: '치골결합 주변근 및 중둔근', tpPos: { x: 44, y: 56 }, vectorDir: '골반 압착 수평 활주 (Pelvic Compression)', mfr: { target: '중둔근, 내덕근군, 이상근', handPos: '장골능 외측 중둔근에 손바닥 밀착', direction: '원형 이완', details: '릴랙신 호르몬 고려 강한 신전 금지' }, mob: { position: 'Side-lying', fixedHand: '상부 장골 고정', gliding: '골반을 중앙으로 부드럽게 압착 (Compression)', grade: 'Grade I~II' }, active: { target: '골반저근 (Pelvic Floor) 및 복횡근', pos: 'Kegel Exercise & Gentle Bridge', breath: '내쉬며 골반저근 끌어올림', tip: '과도한 부하 금지' }, passive: { anchor: '골반 좌우 고정', direction: '부드러운 고관절 가동', duration: '20초', warning: '관절 과가동성 주의' } },
+            { id: 26, category: 'CORE', title: '척추측만 양상 (Scoliotic Posture)', sub: 'Functional Scoliosis', test: 'Adam\'s Forward Bend Test 시 늑골 돌출(Rib Hump)', tpName: '요방형근 凹(오목) 부위', tpPos: { x: 44, y: 40 }, vectorDir: '척추 측방 3차원 정렬 활주', mfr: { target: '척추 함몰 측(Concave side) 근육군', handPos: '흉요추 휘어진 오목한 부위에 엄지 밀착', direction: '신장 방향으로 45도 압박', details: '볼록한 부위는 경미한 유화만 진행' }, mob: { position: 'Sitting 또는 Side-lying', fixedHand: '볼록한 척추 측면 고정', gliding: '오목한 방향 확장 3차원 가동 (Schroth 원리)', grade: 'Grade II~III' }, active: { target: '오목 측 신전근 및 코어', pos: 'Side-plank on Convex Side & Breathing Exercise', breath: '오목한 흉복부로 깊은 흡기 유도', tip: '3차원 호흡법 병행' }, passive: { anchor: '골반 고정', direction: '오목 측 측굴 스트레칭', duration: '40초 3회', warning: '회전 변위 고려' } },
+            { id: 27, category: 'CORE', title: '장요근 증후군 (Psoas Syndrome)', sub: 'Psoas Tendinitis / Tightness', test: '고관절 신전 제한 및 요추 측굴 변위', tpName: '장요근 건 (Iliopsoas Tendon) 고관절 전면', tpPos: { x: 44, y: 54 }, vectorDir: '대퇴골 두 후방 활주', mfr: { target: '장요근 소전차 부착부 및 장골근복', handPos: '서타구니(Inguinal) 삼각 부위에 엄지 밀착', direction: '후상방 깊이 이완', details: '대퇴동맥 맥박 확인 필수' }, mob: { position: 'Supine (다리 바닥 아래로 늘어뜨림)', fixedHand: '골반 ASIS 고정', gliding: '대퇴골 후방 활주', grade: 'Grade II' }, active: { target: '대둔근 및 햄스트링', pos: 'Single Leg Bridge', breath: '엉덩이 올릴 때 내쉼', tip: '장요근 길항근 강화' }, passive: { anchor: '골반 전방 고정', direction: 'Thomas Position Hip Extension Stretch', duration: '40초 3회', warning: '요추 과전만 방지' } },
 
-            // 하지 파트 (14가지)
+            // --- LOWER BODY (28~40) ---
             {
-                id: 27,
-                category: 'LOWER',
-                name: '퇴행성 무릎 관절염',
-                sub: 'Knee Osteoarthritis',
-                remote: '관절 간격 협소 ➔ 하경골 마찰 및 보행 시 무릎 내측 통증',
-                tp: '대퇴사두근 건, 내측광근(VMO)',
-                position: 'Supine (무릎 30도 굴곡)',
-                vector: 'Longitudinal Tibial Distraction',
-                mfr: '대퇴사두근, 햄스트링 MFR.',
-                mob_12: '[Grade I~II] 경골 근위부를 잡고 수직 장축으로 부드럽게 견인하여 관절 내압 감소.',
-                mob_34: '[Grade III~IV] 경골 장축 견인을 강하게 유지한 상태에서 경골 회전 가동성 적용.',
-                active: 'VMO 내측광근 Q-setting 훈련.',
-                passive: '무릎 견인 상태 수동 굴곡.'
+                id: 28, category: 'LOWER', title: '고관절 충돌 증후군 (FAI)', sub: 'Femoroacetabular Impingement',
+                test: 'FADIR Test (굴곡/내전/내회전 시 찝힘 통증)',
+                tpName: '대퇴근막장근 (TFL) & 대퇴직근 원위부', tpPos: { x: 38, y: 58 },
+                vectorDir: '대퇴골 두 하방 및 후방 활주 (Inferior & Posterior Glide)',
+                mfr: {
+                    target: '대퇴근막장근(TFL), 장두근, 이상근',
+                    handPos: 'ASIS 외하방 3cm TFL 근복에 주먹 관절 밀착',
+                    direction: '대전자 방향으로 쓸어내리며 이완',
+                    details: '고관절 굴곡근 단축 해소'
+                },
+                mob: {
+                    position: 'Supine (고관절 굴곡 90도)',
+                    fixedHand: '골반 상부 고정',
+                    gliding: '이동 벨트를 대퇴 근위부에 걸고 하방/후방 활주 (MWM)',
+                    grade: 'Grade III'
+                },
+                active: {
+                    target: '대둔근 후부, 중둔근, 고관절 외회전근',
+                    pos: 'Clamshell with Band & Lateral Band Walk',
+                    breath: '외전 시 내쉼',
+                    tip: '고관절 전방 찝힘 느낌 발생 직전까지 동작'
+                },
+                passive: {
+                    anchor: '골반 고정',
+                    direction: '고관절 신전 및 외회전 수동 스트레칭',
+                    duration: '30초 3회', warning: '굴곡 내회전 강제 스트레칭 금지'
+                }
             },
             {
-                id: 28,
-                category: 'LOWER',
-                name: '슬개대퇴 통증 증후군',
-                sub: 'Patellofemoral Pain Syndrome',
-                remote: '슬개골 트래킹 오작동 ➔ 대퇴골 외측 관절면 찝힘',
-                tp: '외측광근 하부, 외측 보강인대',
-                position: 'Supine (무릎 완벽히 편 자세)',
-                vector: 'Medial-Inferior Patellar Glide',
-                mfr: '외측광근 및 장경골단 하부 이완.',
-                mob_12: '[Grade I~II] 슬개골 상단/측면 미세 내하방 리듬 가동.',
-                mob_34: '[Grade III~IV] 슬개골을 내측 및 하방으로 강하게 밀어 슬개골 트래킹 완전 복원.',
-                active: 'VMO 강화 및 힙 어덕션.',
-                passive: '슬개골 수동 4방향 가동.'
+                id: 29, category: 'LOWER', title: '장경골대 증후군 (ITB Syndrome)', sub: 'Iliotibial Band Friction Syndrome',
+                test: 'Noble Compression Test / Ober Test 양성',
+                tpName: '대퇴근막장근 (TFL) 및 외측광근 유착부', tpPos: { x: 34, y: 65 },
+                vectorDir: '대퇴골 외측 외전 관절 활주',
+                mfr: {
+                    target: '대퇴근막장근(TFL) 및 외측광근(Vastus Lateralis)',
+                    handPos: '장경골대 자체보다 외측광근과의 유착 수직 경계면에 손날 밀착',
+                    direction: '전후 횡단 마찰 이완 (Cross-Friction)',
+                    details: 'ITB 지강 자체는 둔감하므로 외측광근 분리에 집중'
+                },
+                mob: {
+                    position: 'Side-lying',
+                    fixedHand: '골반 고정',
+                    gliding: '대퇴골 외측 활주',
+                    grade: 'Grade II'
+                },
+                active: {
+                    target: '중둔근 (Gluteus Medius), 대둔근',
+                    pos: 'Side Lying Leg Raise & Single Leg Squat',
+                    breath: '올릴 때 내쉼',
+                    tip: '무릎이 내측으로 무너지지 않도록 고정'
+                },
+                passive: {
+                    anchor: '골반 상부 고정',
+                    direction: 'Ober Test 자세 활용 ITB 및 TFL 신전',
+                    duration: '40초 3회', warning: '무릎 외측 마찰 통증 확인'
+                }
             },
-            {
-                id: 29,
-                category: 'LOWER',
-                name: '거위발건염',
-                sub: 'Pes Anserinus Bursitis',
-                remote: '봉공근/박근/반건양근 긴장 ➔ 무릎 내측 하단 통증',
-                tp: '경골 내측 사경상 부착부',
-                position: 'Supine (무릎 90도 굴곡)',
-                vector: 'Posterior-Internal Rotation Tibial Glide',
-                mfr: '내측 햄스트링 및 박근 근막 해제.',
-                mob_12: '[Grade I~II] 경골 근위부 내회전 미세 가동.',
-                mob_34: '[Grade III~IV] 대퇴골 내경상을 고정하고 경골 근위부를 후방 내회전으로 강하게 밀기.',
-                active: '햄스트링 내측 균형 강화.',
-                passive: '거위발건 3근육 수동 스트레칭.'
-            },
-            {
-                id: 30,
-                category: 'LOWER',
-                name: '장경골단 증후군',
-                sub: 'IT Band Syndrome',
-                remote: 'TFL 과단축 ➔ 대퇴 외측상과 장경구 마찰 통증',
-                tp: 'TFL, 대퇴 외측상과 2cm 상단',
-                position: 'Side-lying (옆으로 누운 자세)',
-                vector: 'Anterior-Posterior Fibular Head Glide',
-                mfr: 'TFL 및 외측 대퇴근막 폼롤러 MFR.',
-                mob_12: '[Grade I~II] 비골두(Fibular Head) 미세 전후 리듬 가동.',
-                mob_34: '[Grade III~IV] 비골두에 손날을 대고 전후방으로 강하게 밀어 외측 장력 박리.',
-                active: '중둔근 강화 & 대둔근 활성화.',
-                passive: '장경골단 수동 교차 스트레칭.'
-            },
-            {
-                id: 31,
-                category: 'LOWER',
-                name: '십자인대 수술 후 경직',
-                sub: 'Ligament Post-Op Stiffness',
-                remote: '관절낭 섬유화 ➔ 무릎 신전/굴곡 끝범위 제한',
-                tp: '슬화근(Popliteus), 슬개하지방체',
-                position: 'Supine (무릎 90도 굴곡)',
-                vector: 'Anterior/Posterior Tibial Glide',
-                mfr: '슬화근 및 대퇴사두근 MFR.',
-                mob_12: '[Grade I~II] 경골 상단 전후방 부드러운 미세 슬라이딩.',
-                mob_34: '[Grade III~IV] 경골 상단을 잡고 전방(ACL) 또는 후방(PCL)으로 강하게 체중 실어 당기기/밀기.',
-                active: '무릎 능동 신전/굴곡 훈련.',
-                passive: '무릎 끝범위 수동 신전 패시브.'
-            },
-            {
-                id: 32,
-                category: 'LOWER',
-                name: '햄스트링 과단축',
-                sub: 'Hamstring Tightness',
-                remote: '대둔근 억제 ➔ 햄스트링 대상작용 과수축 & 요통',
-                tp: '대퇴이두근 장두, 반건양근 근복',
-                position: 'Supine (고관절 90도 굴곡)',
-                vector: 'Axial Tibial Distraction',
-                mfr: '햄스트링 전체 라크로스 볼 MFR.',
-                mob_12: '[Grade I~II] 경골 장축 미세 견인.',
-                mob_34: '[Grade III~IV] 대퇴골 후면 고정 후 경골 근위부를 장축으로 당기며 무릎 패시브 신전.',
-                active: '대둔근 힙 스러스트.',
-                passive: '햄스트링 슬라이딩 수동 스트레칭.'
-            },
-            {
-                id: 33,
-                category: 'LOWER',
-                name: '만성 발목 염좌 & 불안정성',
-                sub: 'Ankle Instability',
-                remote: '전거비인대 유착/거골 전방 탈구 ➔ 발목 배측굴곡 제한',
-                tp: '전거비인대 부착부, 전경골근 하부',
-                position: 'Supine (발목을 테이블 끝으로 뺌)',
-                vector: 'Posterior Talar Glide (거골 후방 미끄러짐)',
-                mfr: '전경골근 및 비복근 건부 MFR.',
-                mob_12: '[Grade I~II] 거골 전면 부드러운 후방 리듬 밀기.',
-                mob_34: '[Grade III~IV] 손가락 웹스페이스로 거골(Talus) 전면을 잡고 후방으로 강하게 밀어 배측굴곡 각도 확보.',
-                active: '비골근 강화 & 밸런스 패드 훈련.',
-                passive: '발목 배측굴곡 수동 패시브.'
-            },
-            {
-                id: 34,
-                category: 'LOWER',
-                name: '족저근막염',
-                sub: 'Plantar Fasciitis',
-                remote: '종골 부착부 인대 장력 ➔ 아침 첫발 뒤꿈치 극통',
-                tp: '발뒤꿈치 뼈 내측 부착부, 가자미근',
-                position: 'Prone (무릎 90도 굴곡)',
-                vector: 'Plantar-Dorsal Midtarsal Glide',
-                mfr: '족저근막 핑거 MFR 및 종아리 MFR.',
-                mob_12: '[Grade I~II] 종골 미세 내외반 리듬 가동.',
-                mob_34: '[Grade III~IV] 종골을 고정하고 주상골/설상골을 발등/발바닥 방향으로 강하게 교차 밀기.',
-                active: '카프 레이즈(Eccentric Down).',
-                passive: '족저근막-아킬레스 수동 스트레칭.'
-            },
-            {
-                id: 35,
-                category: 'LOWER',
-                name: '아킬레스 건염',
-                sub: 'Achilles Tendinopathy',
-                remote: '가자미근/비복근 과단축 ➔ 아킬레스건 미세 파열 통증',
-                tp: '아킬레스건 상부 3cm, 비복근 근복',
-                position: 'Prone (발목 중립)',
-                vector: 'Inferior Calcaneal Traction',
-                mfr: '비복근/가자미근 Deep MFR.',
-                mob_12: '[Grade I~II] 종골(Calcaneus) 하방 미세 견인.',
-                mob_34: '[Grade III~IV] 종골을 잡고 아킬레스건 반대 방향(하방)으로 강한 수평 견인 가동.',
-                active: '가자미근 힐 드롭 훈련.',
-                passive: '종아리-아킬레스 수동 스트레칭.'
-            },
-            {
-                id: 36,
-                category: 'LOWER',
-                name: '무지외반증',
-                sub: 'Hallux Valgus',
-                remote: '제1 중족골 외반 ➔ 엄지발가락 관절 통증 & 변형',
-                tp: '무지외반근, 제1 중족지절관절',
-                position: 'Supine 또는 Sitting',
-                vector: 'Distraction & Medial Rotation Glide',
-                mfr: '무지외반근 및 발바닥 내측 이완.',
-                mob_12: '[Grade I~II] 엄지발가락 기절골 원위부 미세 견인.',
-                mob_34: '[Grade III~IV] 제1 중족골 머리를 고정하고 기절골을 외측 견인 후 내측으로 회전 재정렬.',
-                active: '발가락 타월 쥐기(Short Foot).',
-                passive: '엄지발가락 수동 견인 스트레칭.'
-            },
-            {
-                id: 37,
-                category: 'LOWER',
-                name: '지간신경종',
-                sub: 'Morton\'s Neuroma',
-                remote: '중족골 간 신경 압박 ➔ 발가락 3, 4번 화끈거림 및 타는 통증',
-                tp: '제3-4 중족골 사이 공간',
-                position: 'Supine (바로 누운 자세)',
-                vector: 'Transverse Intermetatarsal Glide',
-                mfr: '발바닥 중족골 사이 미세 MFR.',
-                mob_12: '[Grade I~II] 중족골 간 미세 전후 교차 가동.',
-                mob_34: '[Grade III~IV] 제3, 4 중족골 관절을 양손으로 잡고 서로 반대 방향으로 강하게 전후 교차 가동.',
-                active: '발가락 펼치기(Toe Spread) 훈련.',
-                passive: '중족골 간 수동 횡단 스트레칭.'
-            },
-            {
-                id: 38,
-                category: 'LOWER',
-                name: '평발 / Flat Foot',
-                sub: 'Pes Planus',
-                remote: '주상골 하강 & 후경골근 약화 ➔ 발목 내번 & 무릎 내측 무너짐',
-                tp: '주상골 하단, 후경골근 근복',
-                position: 'Supine (바로 누운 자세)',
-                vector: 'Superior-Dorsal Navicular Glide',
-                mfr: '비골근 및 전경골근 근막 해제.',
-                mob_12: '[Grade I~II] 주상골 하단 미세 상방 압박.',
-                mob_34: '[Grade III~IV] 주상골(Navicular) 하단에 엄지를 대고 발등 방향으로 강하게 수직 밀어 아치 재정렬.',
-                active: 'Short Foot 숏풋 아치 만들기.',
-                passive: '후경골근 수동 활성화 스트레칭.'
-            },
-            {
-                id: 39,
-                category: 'LOWER',
-                name: '요족 / 높은 아치',
-                sub: 'Pes Cavus',
-                remote: '족저근막 강직 & 주상골 고정 ➔ 발바닥 충격 흡수 불가',
-                tp: '족저근막 중앙부, 비골근',
-                position: 'Supine (바로 누운 자세)',
-                vector: 'Plantar Midtarsal Glide',
-                mfr: '족저근막 및 장종골인대 딥 MFR.',
-                mob_12: '[Grade I~II] 족중골 부위 미세 발바닥 방향 누르기.',
-                mob_34: '[Grade III~IV] 거골을 고정하고 족중골 부위를 발바닥 방향으로 강하게 눌러 아치 유연성 확보.',
-                active: '발바닥 유연성 유도 보행.',
-                passive: '족저 근막 수동 신전 스트레칭.'
-            },
-            {
-                id: 40,
-                category: 'LOWER',
-                name: '족하수 & 전경골근 경직',
-                sub: 'Foot Drop',
-                remote: '비골신경 포착/전경골근 마비 ➔ 발가락 림핑 보행',
-                tp: '비골두 하단 비골신경 경로, 전경골근',
-                position: 'Supine (바로 누운 자세)',
-                vector: 'Posterior Distal Fibular Glide',
-                mfr: '비골근 및 전경골근 근막 이완.',
-                mob_12: '[Grade I~II] 원위 비골 하단 미세 후방 가동.',
-                mob_34: '[Grade III~IV] 원위 비경관절 부위를 잡고 비골 하단을 후방으로 강하게 밀어 배측굴곡 각도 확보.',
-                active: '전경골근 자극 능동 배측굴곡.',
-                passive: '발목 수동 배측굴곡 패시브.'
-            }
+            // ... 30 to 40 LOWER ...
+            { id: 30, category: 'LOWER', title: '슬개대퇴 통증 증후군 (PFPS)', sub: 'Patellofemoral Pain Syndrome', test: 'Clark\'s Sign (슬개골 압박 시 통증) / 계단 하강 통증', tpName: '외측광근 및 대퇴직근 하부', tpPos: { x: 38, y: 72 }, vectorDir: '슬개골 내측 및 하방 내측 활주 (Medial Patellar Glide)', mfr: { target: '외측광근, 대퇴근막장근, 외측 슬개지대', handPos: '슬개골 외측 연에 두 엄지 밀착', direction: '외측에서 내측으로 슬개골 밀어내기', details: '외측 지대 구조물 이완' }, mob: { position: 'Supine (무릎 완전 신전)', fixedHand: '대퇴골 원위부 고정', gliding: '슬개골을 내측(Medial) 및 하방으로 부드럽게 글라이딩', grade: 'Grade III' }, active: { target: '내측광근 (VMO - Vastus Medialis Oblique)', pos: 'Terminal Knee Extension (TKE) with Band', breath: '무릎 완전히 펴며 내쉼', tip: 'VMO 마지막 15도 신전 자극 집중' }, passive: { anchor: '대퇴골 고정', direction: '대퇴사두근 수동 스트레칭', duration: '30초 3회', warning: '슬개골 과도한 압박 금지' } },
+            { id: 31, category: 'LOWER', title: '전방 십자인대 손상 재활 양상', sub: 'ACL Reconstruction / Sprain Stage', test: 'Lachman Test / Anterior Drawer Test 역사 확인', tpName: '대퇴사두근 및 햄스트링 위축 부위', tpPos: { x: 36, y: 70 }, vectorDir: '경골 후방 활주 (Posterior Glide of Tibia)', mfr: { target: '대퇴사두근, 햄스트링, 비복근', handPos: '슬관절 주변 근복 전체에 손바닥 밀착', direction: '심장 방향 순환 이완', details: '수술 흉부 직접 압박 금지' }, mob: { position: 'Supine', fixedHand: '대퇴골 하단 고정', gliding: '경골 근위부 후방 활주 (전방 전이 방지)', grade: 'Grade II' }, active: { target: '대퇴사두근 동시 수축 및 둔근', pos: 'Quad Sets (수건 밑 누르기) & Straight Leg Raise', breath: '누르며 내쉼', tip: '전방 전단력 유발 동작 피함' }, passive: { anchor: '대퇴골 고정', direction: '무릎 수동 신전/굴곡 범위 확보', duration: '20초', warning: '경골 전방 끌어당김 절대 금지' } },
+            { id: 32, category: 'LOWER', title: '후방 십자인대 손상 재활 양상', sub: 'PCL Post-Rehab', test: 'Posterior Drawer Test 양성 역사', tpName: '슬안근 (Popliteus) & 비복근 근위부', tpPos: { x: 40, y: 74 }, vectorDir: '경골 전방 활주 (Anterior Glide of Tibia)', mfr: { target: '슬안근, 비복근 내/외측두, 햄스트링', handPos: '오금(Popliteal fossa) 부근 슬안근에 손가락 지문 착지', direction: '부드러운 횡단 유화', details: '오금 신경/혈관 고려 부드럽게' }, mob: { position: 'Supine', fixedHand: '대퇴골 고정', gliding: '경골 근위부를 전방(Anterior)으로 끌어당김', grade: 'Grade II' }, active: { target: '대퇴사두근 (Hamstring 길항 자극)', pos: 'Closed Kinetic Chain Squat (0-60도)', breath: '내려갈 때 흡기, 올 때 내쉼', tip: '햄스트링 단독 강하게 수축 자극 피함' }, passive: { anchor: '대퇴골 고정', direction: '무릎 완전 신전 수동 보조', duration: '20초', warning: '경골 후방 처짐 주의' } },
+            { id: 33, category: 'LOWER', title: '거골 전방 탈구 및 발목 불안정성', sub: 'Ankle Anterior Talofibular Sprain', test: 'Anterior Drawer Test Ankle 양성 (전거비인대 손상)', tpName: '전경골근 및 장비골근', tpPos: { x: 36, y: 84 }, vectorDir: '거골 후방 활주 (Posterior Glide of Talus)', mfr: { target: '장비골근, 단비골근, 전경골근', handPos: '외사슬 비골근복에 주먹 밀착', direction: '발목 방향으로 쓸어내림', details: '비골근 긴장 완화' }, mob: { position: 'Sitting (발목 90도)', fixedHand: '경골/척골 원위부 고정', gliding: '거골(Talus)을 후방(Posterior)으로 미는 활주 (MWM)', grade: 'Grade III' }, active: { target: '비골근군 및 고유수용감각', pos: 'Single Leg Balance & Calf Raise on Board', breath: '자연스러운 호흡', tip: '발목 회내/회외 흔들림 제어' }, passive: { anchor: '하간 고정', direction: '발목 배족굴곡 (Dorsiflexion) 수동 신전', duration: '30초 3회', warning: '과도한 족저굴곡 내번 금지' } },
+            { id: 34, category: 'LOWER', title: '족저근막염', sub: 'Plantar Fasciitis', test: '아침 첫 발 디딜 때 뒤꿈치 극심한 통증', tpName: '족저근막 내측 부착부 / 비복근 내측두', tpPos: { x: 38, y: 92 }, vectorDir: '족근골 수직 견인 및 관절 활주', mfr: { target: '족저근막, 아킬레스건, 비복근/가장근', handPos: '발바닥 종아치 내측에 엄지 밀착', direction: '뒤꿈치에서 발가락 방향으로 압박 이완', details: '발가락 신전 상태에서 진행' }, mob: { position: 'Sitting', fixedHand: '종골(Calcaneus) 고정', gliding: '제1중족골 및 입방골 수평 활주', grade: 'Grade II~III' }, active: { target: '족부 내발근 (Intrinsic Foot Muscles)', pos: 'Toe Towel Curls & Short Foot Exercise', breath: '아치 끌어올릴 때 내쉼', tip: '발가락 구부리지 않고 발바닥 아치 축소' }, passive: { anchor: '종골 고정', direction: '발가락 및 발목 배족굴곡 스트레칭', duration: '40초 3회', warning: '통증 유발선 바로 전까지' } },
+            { id: 35, category: 'LOWER', title: '아킬레스 건염', sub: 'Achilles Tendinitis', test: '아킬레스건 부착부 2-6cm 위 압통 및 부종', tpName: '가자미근 (Soleus) & 비복근 결절', tpPos: { x: 42, y: 82 }, vectorDir: '종골 하방 견인 및 회외 활주', mfr: { target: '가자미근, 비복근, 아킬레스건 주변부', handPos: '종아리 심층 가자미근 내외측연에 엄지 밀착', direction: '아킬레스건 방향으로 미끄러짐', details: '건 자체 직접 강한 마찰 금지' }, mob: { position: 'Prone (발 바닥 밖으로)', fixedHand: '경골 하단 고정', gliding: '종골(Calcaneus) 하방 견인', grade: 'Grade II' }, active: { target: '비복근/가자미근 편심성 (Eccentric) 강화', pos: 'Eccentric Heel Drop (계단 끝에서 천천히 뒤꿈치 내리기)', breath: '내릴 때 4초 내쉼', tip: '올라올 때는 반대발 이용' }, passive: { anchor: '무릎 완전 신전 고정', direction: '비복근 수동 배족굴곡 스트레칭', duration: '30초 3회', warning: '급성 염증 시 신전 제한' } },
+            { id: 36, category: 'LOWER', title: '평발 양상 (족부 과회내)', sub: 'Pes Planus & Hyperpronation', test: 'Navicular Drop Test 10mm 이상 하강', tpName: '후경골근 (Tibialis Posterior) 단축/약화', tpPos: { x: 42, y: 80 }, vectorDir: '거골 외회전 및 경골 외회전 활주', mfr: { target: '비골근군, 대퇴근막장근, 외측 비복근', handPos: '전경골근 외측 장비골근 근복 압박', direction: '하방 이완', details: '과회내 유발 근육 긴장 완화' }, mob: { position: 'Sitting', fixedHand: '경골 하단 고정', gliding: '주상골(Navicular) 상방 하중 분산 활주', grade: 'Grade III' }, active: { target: '후경골근 (Tibialis Posterior) 및 Short Foot', pos: 'Seated Inversion with Band & Short Foot Hold', breath: '수축 시 내쉼', tip: '내측 아치 생성 집중' }, passive: { anchor: '거골 고정', direction: '비골근 수동 신전', duration: '30초', warning: '아치 무너짐 유도 금지' } },
+            { id: 37, category: 'LOWER', title: '요족 양상 (High Arch)', sub: 'Pes Cavus', test: '발바닥 아치 고도 상승 및 충격 흡수 저하', tpName: '족저근막 중심부 및 전경골근', tpPos: { x: 40, y: 90 }, vectorDir: '족근골 수평 유연성 활주', mfr: { target: '족저근막, 전경골근, 비복근', handPos: '발바닥 아치 중앙 부위에 주먹 밀착', direction: '외측으로 펼쳐주듯 이완', details: '족부 강직 유화' }, mob: { position: 'Sitting', fixedHand: '종골 고정', gliding: '중족골 간 수평 활주 유도', grade: 'Grade II' }, active: { target: '발목 배족굴곡 및 족부 유연성 운동', pos: 'Ankle Mobility Circle & Calf Stretch', breath: '자연스러운 호흡', tip: '충격 완화 가동성 확보' }, passive: { anchor: '발목 고정', direction: '족저근막 유연성 신전', duration: '30초', warning: '과도한 족저 압박 방지' } },
+            { id: 38, category: 'LOWER', title: '정골 스플린트 (신스플린트)', sub: 'Shin Splints (MTSS)', test: '경골 내측 후방 하부 1/3 부위 광범위 압통', tpName: '후경골근 및 가자미근 경골 부착부', tpPos: { x: 40, y: 82 }, vectorDir: '경골-비골 간막 유화 활주', mfr: { target: '후경골근, 전경골근, 가자미근', handPos: '경골 내측 연 바짝 붙여 엄지 밀착', direction: '뼈 방향이 아닌 근육 방향으로 이완', details: '골막 자극을 피하여 근복 압박' }, mob: { position: 'Supine', fixedHand: '경골 근위부 고정', gliding: '비골 원위부 후방 활주', grade: 'Grade II' }, active: { target: '전경골근 및 발목 안정화 근육', pos: 'Toe Raises (벽에 등 대고 발가락 들기)', breath: '올릴 때 내쉼', tip: '경골 부하 줄이고 발목 강화' }, passive: { anchor: '무릎 굴곡 고정', direction: '가자미근 수동 스트레칭', duration: '30초 3회', warning: '골절 여부 확인 (피로골절 주의)' } },
+            { id: 39, category: 'LOWER', title: '무지외반증', sub: 'Hallux Valgus', test: '엄지발가락 중족지관절(MTP) 외반각 15도 이상', tpName: '엄지외전근 (Abductor Hallucis)', tpPos: { x: 36, y: 94 }, vectorDir: '제1 중수골 내전 및 내측 관절 활주', mfr: { target: '엄지내전근(Adductor Hallucis), 단엄지굴근', handPos: '발바닥 1-2 중족골 사이에 엄지 밀착', direction: '외측으로 횡단 이완', details: '단축된 내전근 해소' }, mob: { position: 'Sitting', fixedHand: '제1중족골 고정', gliding: '엄지발가락 근위지골 내측 견인 활주', grade: 'Grade II~III' }, active: { target: '엄지외전근 (Abductor Hallucis)', pos: 'Toe Spread Out (발가락 펼치고 엄지 내측 누르기)', breath: '자연스러운 호흡', tip: '엄지발가락을 벌리는 힘에 집중' }, passive: { anchor: '발바닥 고정', direction: '엄지발가락 수동 내전/견인 스트레칭', duration: '30초 3회', warning: '관절 염증 부위 변형 주의' } },
+            { id: 40, category: 'LOWER', title: '거위발건염 (Pes Anserinus Bursitis)', sub: 'Pes Anserine Tendinitis', test: '경골 내측 관절면 하단 2cm 부위 압통 및 부종', tpName: '봉공근/박근/반건양근 부착부', tpPos: { x: 42, y: 72 }, vectorDir: '경골 내측 관절면 수평 활주', mfr: { target: '봉공근(Sartorius), 박근(Gracilis), 반건양근', handPos: '허벅지 내측 하단 근복에 손바닥 밀착', direction: '경골 부착부 상방으로 쓸어 올리기', details: '점액낭 부종 부위 직접 강한 압박 금지' }, mob: { position: 'Supine', fixedHand: '대퇴골 내측 고정', gliding: '경골 내측 활주 및 부드러운 회전', grade: 'Grade II' }, active: { target: '내덕근군 및 대퇴사두근 균형', pos: 'Inner Thigh Squeeze with Pillow', breath: '조일 때 내쉼', tip: '무릎 내측 마찰 과부하 피함' }, passive: { anchor: '골반 내측 고정', direction: '햄스트링 내측 및 박근 수동 스트레칭', duration: '30초 3회', warning: '부종 및 마찰 통증 확인' } }
         ];
 
         /* ==========================================================================
-           2. 상태 관리 (State Management) & LocalStorage Sync
+           GLOBAL APP STATE & INITIALIZATION
            ========================================================================== */
-        let appState = {
-            members: [],
-            activeMemberId: null,
-            currentCategory: 'ALL',
-            searchKeyword: '',
-            selectedSymptom: null,
-            currentGrade: 'I_II', // 'I_II' or 'III_IV'
-            timerSeconds: 180,
-            timerInterval: null,
-            vasChartInstance: null
-        };
+        let currentSymptomId = 1;
+        let selectedCategory = 'ALL';
+        let clientsDB = JSON.parse(localStorage.getItem('rehab_pro_clients')) || [
+            { id: 101, name: '김철수', symptom: '거북목 및 경추 전만 상실', vasHistory: [8, 7, 6, 4, 3], totalSessions: 5 },
+            { id: 102, name: '이영희', symptom: '요추 전만증 (골반 전방경사)', vasHistory: [7, 6, 5], totalSessions: 3 }
+        ];
+        let currentSelectedClientId = 101;
 
-        // Initialize App
+        // Timer State
+        let timerInterval = null;
+        let timerTimeLeft = 180;
+        let isTimerRunning = false;
+
         window.onload = function() {
-            loadMembersFromStorage();
-            renderSymptoms();
-            updateHeaderAndBanner();
+            renderSymptomList();
+            renderSymptomDetail(1);
+            populateGeneratorCheckboxes();
+            renderClientList();
         };
 
-        function saveMembersToStorage() {
-            localStorage.setItem('rehab_pro_members', JSON.stringify(appState.members));
-            localStorage.setItem('rehab_pro_active_id', appState.activeMemberId);
-        }
+        /* ==========================================================================
+           TAB SWITCHING & NAVIGATION
+           ========================================================================== */
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('border-accentLime', 'border-accentCyan', 'border-accentYellow', 'border-purple-400');
+                el.classList.add('border-transparent');
+            });
 
-        function loadMembersFromStorage() {
-            const savedMembers = localStorage.getItem('rehab_pro_members');
-            const savedActiveId = localStorage.getItem('rehab_pro_active_id');
-            if (savedMembers) {
-                appState.members = JSON.parse(savedMembers);
-            } else {
-                // Default Dummy Member for Instant Testing
-                appState.members = [
-                    {
-                        id: 'm_101',
-                        name: '김민준 회원',
-                        currentSession: 3,
-                        vasLogs: { 1: 8, 2: 6, 3: 5 }
-                    }
-                ];
-            }
-            appState.activeMemberId = savedActiveId || (appState.members[0] ? appState.members[0].id : null);
-        }
-
-        function getActiveMember() {
-            return appState.members.find(m => m.id === appState.activeMemberId);
-        }
-
-        function updateHeaderAndBanner() {
-            const member = getActiveMember();
-            if (member) {
-                document.getElementById('headerMemberName').innerText = member.name;
-                document.getElementById('displayMemberName').innerText = member.name;
-                
-                const curSess = member.currentSession || 1;
-                const curVas = member.vasLogs[curSess] !== undefined ? member.vasLogs[curSess] : 5;
-                
-                document.getElementById('displayMemberMeta').innerText = `30세션 컨디셔닝 일지 연동 중 | 현재 ${curSess}/30회차 (VAS: ${curVas})`;
-                document.getElementById('currentSessionNum').innerText = `${curSess}/30`;
-                document.getElementById('vasSlider').value = curVas;
-                document.getElementById('vasDisplay').innerText = curVas;
-            } else {
-                document.getElementById('headerMemberName').innerText = "회원 등록/선택";
-                document.getElementById('displayMemberName').innerText = "회원 미선택 (클릭하여 설정)";
-                document.getElementById('displayMemberMeta').innerText = "회원을 선택하고 30세션 누적 관리 데이터를 로드하세요.";
+            document.getElementById(`tab-${tabName}-content`).classList.remove('hidden');
+            const activeNav = document.getElementById(`nav-${tabName}`);
+            
+            if (tabName === 'symptoms') activeNav.classList.add('border-accentLime');
+            if (tabName === 'grid') activeNav.classList.add('border-accentCyan');
+            if (tabName === 'generator') activeNav.classList.add('border-accentYellow');
+            if (tabName === 'clients') {
+                activeNav.classList.add('border-purple-400');
+                renderClientDetail(currentSelectedClientId);
             }
         }
 
         /* ==========================================================================
-           3. 증상 카드 렌더링 & 필터링 Engine
+           SECTION 1: SYMPTOMS RENDERING & INTERACTIVE VECTOR CANVAS
            ========================================================================== */
-        function renderSymptoms() {
-            const grid = document.getElementById('symptomGrid');
-            grid.innerHTML = '';
+        function filterCategory(cat) {
+            selectedCategory = cat;
+            document.querySelectorAll('.cat-pill').forEach(btn => {
+                btn.classList.remove('bg-accentLime', 'text-darkBg');
+                btn.classList.add('bg-borderBg', 'text-gray-300');
+            });
+            const activePill = document.getElementById(`cat-${cat}`);
+            activePill.classList.remove('bg-borderBg', 'text-gray-300');
+            activePill.classList.add('bg-accentLime', 'text-darkBg');
 
-            const filtered = SYMPTOMS_DB.filter(s => {
-                const matchCat = (appState.currentCategory === 'ALL') || (s.category === appState.currentCategory);
-                const matchSearch = s.name.includes(appState.searchKeyword) || 
-                                    s.sub.toLowerCase().includes(appState.searchKeyword.toLowerCase()) || 
-                                    s.remote.includes(appState.searchKeyword) ||
-                                    s.tp.includes(appState.searchKeyword);
-                return matchCat && matchSearch;
+            renderSymptomList();
+        }
+
+        function searchSymptoms() {
+            renderSymptomList();
+        }
+
+        function renderSymptomList() {
+            const container = document.getElementById('symptom-list-container');
+            const query = document.getElementById('symptom-search').value.toLowerCase();
+            container.innerHTML = '';
+
+            const filtered = SYMPTOMS_DB.filter(item => {
+                const matchCat = (selectedCategory === 'ALL') || (item.category === selectedCategory);
+                const matchQuery = item.title.toLowerCase().includes(query) || item.sub.toLowerCase().includes(query) || item.tpName.toLowerCase().includes(query);
+                return matchCat && matchQuery;
             });
 
             if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-12 text-darkgray text-sm">검색 결과에 일치하는 증상 프로토콜이 없습니다.</div>`;
+                container.innerHTML = `<div class="text-xs text-gray-500 text-center py-8">검색 결과가 없습니다.</div>`;
                 return;
             }
 
-            filtered.forEach(s => {
+            filtered.forEach(item => {
+                const isSelected = item.id === currentSymptomId;
                 const card = document.createElement('div');
-                card.className = "bg-darkcard border border-darkborder hover:border-lime/60 rounded-2xl p-4 transition-all duration-200 cursor-pointer flex flex-col justify-between space-y-3 group hover:shadow-lg";
-                card.onclick = () => openProtocolModal(s.id);
-
-                card.innerHTML = `
-                    <div class="space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-lime/10 text-lime border border-lime/20">
-                                ${s.category === 'UPPER' ? '상체/어깨' : s.category === 'CORE' ? '흉추/코어/골반' : '하지/무릎'}
-                            </span>
-                            <span class="text-xs text-darkgray font-mono">No.${s.id < 10 ? '0' + s.id : s.id}</span>
-                        </div>
-                        <div>
-                            <h3 class="text-base font-bold text-white group-hover:text-lime transition-colors">${s.name}</h3>
-                            <p class="text-xs text-darkgray font-mono">${s.sub}</p>
-                        </div>
-                        <div class="bg-darkbg p-2.5 rounded-xl border border-darkborder text-[11px] text-cyan space-y-1">
-                            <div class="font-bold flex items-center gap-1">
-                                <i class="fa-solid fa-diagram-project text-[10px]"></i> 원격지 연쇄 반응
-                            </div>
-                            <p class="text-gray-300 leading-tight line-clamp-2">${s.remote}</p>
-                        </div>
-                    </div>
-
-                    <div class="pt-2 border-t border-darkborder flex items-center justify-between text-xs">
-                        <span class="text-darkgray text-[11px]"><i class="fa-solid fa-hand-holding-medical text-lime mr-1"></i>4단계 핸즈온</span>
-                        <span class="text-lime font-bold group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                            프로토콜 실행 <i class="fa-solid fa-chevron-right text-[10px]"></i>
-                        </span>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function filterCategory(cat) {
-            appState.currentCategory = cat;
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.className = "cat-btn border px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border-darkborder text-gray-300 hover:border-lime/50 bg-darkcard";
-            });
-            event.target.className = "cat-btn active border px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border-lime text-darkbg bg-lime";
-            renderSymptoms();
-        }
-
-        function handleSearch() {
-            appState.searchKeyword = document.getElementById('searchInput').value.trim();
-            renderSymptoms();
-        }
-
-        /* ==========================================================================
-           4. 회원 관리 & 30세션 카운터 Engine
-           ========================================================================== */
-        function openMemberModal() {
-            renderMemberList();
-            document.getElementById('memberModal').classList.remove('hidden');
-        }
-
-        function closeMemberModal() {
-            document.getElementById('memberModal').classList.add('hidden');
-        }
-
-        function registerNewMember() {
-            const input = document.getElementById('newMemberName');
-            const name = input.value.trim();
-            if (!name) return;
-
-            const newMem = {
-                id: 'm_' + Date.now(),
-                name: name,
-                currentSession: 1,
-                vasLogs: { 1: 5 }
-            };
-
-            appState.members.push(newMem);
-            appState.activeMemberId = newMem.id;
-            saveMembersToStorage();
-            updateHeaderAndBanner();
-            renderMemberList();
-            input.value = '';
-        }
-
-        function renderMemberList() {
-            const container = document.getElementById('memberListContainer');
-            container.innerHTML = '';
-
-            appState.members.forEach(m => {
-                const isSelected = m.id === appState.activeMemberId;
-                const div = document.createElement('div');
-                div.className = `p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${isSelected ? 'bg-lime/10 border-lime text-white' : 'bg-darkbg border-darkborder text-gray-400 hover:border-gray-600'}`;
-                div.onclick = () => {
-                    appState.activeMemberId = m.id;
-                    saveMembersToStorage();
-                    updateHeaderAndBanner();
-                    renderMemberList();
+                card.className = `p-3 rounded-xl cursor-pointer transition border ${isSelected ? 'bg-accentLime/10 border-accentLime neon-border' : 'bg-cardBg border-borderBg hover:border-gray-600'}`;
+                card.onclick = () => {
+                    currentSymptomId = item.id;
+                    renderSymptomList();
+                    renderSymptomDetail(item.id);
                 };
 
-                div.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-user text-xs ${isSelected ? 'text-lime' : 'text-darkgray'}"></i>
-                        <span class="text-xs font-bold">${m.name}</span>
+                let catBadgeColor = item.category === 'UPPER' ? 'text-accentCyan bg-accentCyan/10' : item.category === 'CORE' ? 'text-accentYellow bg-accentYellow/10' : 'text-accentLime bg-accentLime/10';
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded ${catBadgeColor}">${item.category} #${item.id}</span>
+                        <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i>
                     </div>
-                    <span class="text-[10px] px-2 py-0.5 rounded ${isSelected ? 'bg-lime text-darkbg font-bold' : 'bg-darkcard text-darkgray'}">
-                        ${m.currentSession || 1}/30 회차
-                    </span>
+                    <div class="font-bold text-xs text-white mt-1.5">${item.title}</div>
+                    <div class="text-[11px] text-gray-400 truncate mt-0.5">${item.sub}</div>
                 `;
-                container.appendChild(div);
+                container.appendChild(card);
             });
         }
 
-        function adjustSession(delta) {
-            const member = getActiveMember();
-            if (!member) return openMemberModal();
+        function renderSymptomDetail(id) {
+            const item = SYMPTOMS_DB.find(s => s.id === id);
+            if (!item) return;
 
-            let cur = (member.currentSession || 1) + delta;
-            if (cur < 1) cur = 1;
-            if (cur > 30) cur = 30;
+            const panel = document.getElementById('symptom-detail-panel');
+            panel.innerHTML = `
+                <div class="space-y-4">
+                    <!-- Title Header -->
+                    <div class="border-b border-borderBg pb-3 flex justify-between items-start">
+                        <div>
+                            <span class="text-xs font-bold text-accentLime">[증상 #${item.id}] ${item.category} 모빌리티</span>
+                            <h2 class="text-lg font-black text-white mt-0.5">${item.title}</h2>
+                            <p class="text-xs text-gray-400">${item.sub}</p>
+                        </div>
+                        <button onclick="openTimerModal()" class="px-3 py-1 bg-accentLime text-darkBg font-bold text-xs rounded-lg hover:bg-yellow-300">
+                            <i class="fa-solid fa-play"></i> 타이머
+                        </button>
+                    </div>
 
-            member.currentSession = cur;
-            if (member.vasLogs[cur] === undefined) {
-                // Carry over previous VAS or default to 5
-                member.vasLogs[cur] = member.vasLogs[cur - 1] !== undefined ? member.vasLogs[cur - 1] : 5;
-            }
+                    <!-- TEST & TP Vector Canvas Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+                        <div class="sm:col-span-7 bg-darkBg p-3 rounded-xl border border-borderBg space-y-2">
+                            <div class="text-xs font-bold text-accentCyan flex items-center gap-1">
+                                <i class="fa-solid fa-microscope"></i> 현장 이학적 평가법 (TEST)
+                            </div>
+                            <p class="text-xs text-gray-200 bg-cardBg p-2.5 rounded-lg border border-borderBg/60">${item.test}</p>
 
-            saveMembersToStorage();
-            updateHeaderAndBanner();
+                            <div class="text-xs font-bold text-accentLime flex items-center gap-1 pt-1">
+                                <i class="fa-solid fa-crosshair"></i> 타겟 트리거 포인트 (TP) & 관절 활주
+                            </div>
+                            <div class="text-xs text-gray-300"><span class="text-accentLime font-bold">포인트 부위:</span> ${item.tpName}</div>
+                            <div class="text-xs text-gray-300"><span class="text-accentCyan font-bold">활주 방향:</span> ${item.vectorDir}</div>
+                        </div>
+
+                        <!-- Canvas Dynamic Anatomical Map -->
+                        <div class="sm:col-span-5 bg-darkBg rounded-xl border border-borderBg p-2 flex flex-col items-center justify-center relative min-h-[160px]">
+                            <span class="absolute top-2 left-2 text-[10px] text-gray-500 font-bold">TP & VECTOR MAP</span>
+                            <canvas id="tp-vector-canvas" width="180" height="150" class="w-full h-[150px] object-contain"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- 4-STEP DETAILED PROTOCOL ACCORDION/CARDS -->
+                    <div class="space-y-3 pt-2">
+                        <h3 class="text-xs font-bold text-gray-300 uppercase tracking-widest">4-Step Master Conditioning Protocol</h3>
+                        
+                        <!-- STEP 1: MFR -->
+                        <div class="bg-cardBg p-3 rounded-xl border-l-4 border-accentLime space-y-1.5">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold text-accentLime flex items-center gap-1">
+                                    <i class="fa-solid fa-hand-holding-medical"></i> 1단계: MFR (근막이완)
+                                </span>
+                                <span class="text-[10px] bg-accentLime/20 text-accentLime px-2 py-0.5 rounded">권장 3분</span>
+                            </div>
+                            <div class="text-xs text-gray-200"><strong class="text-gray-400">타겟 근육:</strong> ${item.mfr.target}</div>
+                            <div class="text-xs text-gray-200"><strong class="text-gray-400">정밀 손위치/Grip:</strong> ${item.mfr.handPos}</div>
+                            <div class="text-xs text-gray-200"><strong class="text-gray-400">이동/압박 방향:</strong> ${item.mfr.direction}</div>
+                            <div class="text-xs text-gray-300 bg-darkBg p-2 rounded border border-borderBg/40 text-[11px]"><i class="fa-solid fa-circle-info text-accentLime"></i> ${item.mfr.details}</div>
+                        </div>
+
+                        <!-- STEP 2: JOINT MOBILIZATION -->
+                        <div class="bg-cardBg p-3 rounded-xl border-l-4 border-accentCyan space-y-1.5">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold text-accentCyan flex items-center gap-1">
+                                    <i class="fa-solid fa-bone"></i> 2단계: 관절가동술 (Mobilization)
+                                </span>
+                                <span class="text-[10px] bg-accentCyan/20 text-accentCyan px-2 py-0.5 rounded">Grade: ${item.mob.grade}</span>
+                            </div>
+                            <div class="text-xs text-gray-200"><strong class="text-gray-400">컨디셔닝 포지션:</strong> ${item.mob.position}</div>
+                            <div class="text-xs text-gray-200"><strong class="text-gray-400">고정 손 위치:</strong> ${item.mob.fixedHand}</div>
+                            <div class="text-xs text-gray-200"><strong class="text-gray-400">활주(Gliding) 수순:</strong> ${item.mob.gliding}</div>
+                        </div>
+
+                        <!-- STEP 3: ACTIVE MOVEMENT -->
+                        <div class="bg-cardBg p-3 rounded-xl border-l-4 border-accentYellow space-y-1.5">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold text-accentYellow flex items-center gap-1">
+                                    <i class="fa-solid fa-child-reaching"></i> 3단계: Active (능동 운동)
+                                </span>
+                                <span class="text-[10px] bg-accentYellow/20 text-accentYellow px-2 py-0.5 rounded">12회 3세트</span>
+                            </div>
+                            <div class="text-xs text-gray-200"><strong class="text-gray-400">타겟 강화 근육:</strong> ${item.active.target}</div>
+                            <div class="text-xs text-gray-200"><strong class="text-gray-400">시작/끝 자세:</strong> ${item.active.pos}</div>
+                            <div class="text-xs text-gray-200"><strong class="text-gray-400">호흡법 연동:</strong> ${item.active.breath}</div>
+                            <div class="text-xs text-accentYellow bg-darkBg p-2 rounded border border-borderBg/40 text-[11px]"><i class="fa-solid fa-triangle-exclamation"></i> 보상작용 차단: ${item.active.tip}</div>
+                        </div>
+
+                        <!-- STEP 4: PASSIVE STRETCHING -->
+                        <div class="bg-cardBg p-3 rounded-xl border-l-4 border-purple-400 space-y-1.5">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold text-purple-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-arrows-up-down-left-right"></i> 4단계: Passive (수동 스트레칭)
+                                </span>
+                                <span class="text-[10px] bg-purple-400/20 text-purple-300 px-2 py-0.5 rounded">${item.passive.duration}</span>
+                            </div>
+                            <div class="text-xs text-gray-200"><strong class="text-gray-400">고정축(Anchor):</strong> ${item.passive.anchor}</div>
+                            <div class="text-xs text-gray-200"><strong class="text-gray-400">3차원 신전 방향:</strong> ${item.passive.direction}</div>
+                            <div class="text-xs text-red-400 bg-darkBg p-2 rounded border border-borderBg/40 text-[11px]"><i class="fa-solid fa-shield text-red-400"></i> 주의사항: ${item.passive.warning}</div>
+                        </div>
+
+                    </div>
+                </div>
+            `;
+
+            drawTpVectorMap(item);
         }
 
-        function updateVasDisplay(val) {
-            document.getElementById('vasDisplay').innerText = val;
-            const member = getActiveMember();
-            if (member) {
-                const cur = member.currentSession || 1;
-                member.vasLogs[cur] = parseInt(val);
-                saveMembersToStorage();
-                updateHeaderAndBanner();
+        function drawTpVectorMap(item) {
+            const canvas = document.getElementById('tp-vector-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Body Silhouette Baseline
+            ctx.strokeStyle = '#30363D';
+            ctx.lineWidth = 2;
+            
+            // Simple Anatomical Mesh Guide
+            ctx.beginPath();
+            ctx.arc(90, 25, 12, 0, Math.PI * 2); // Head
+            ctx.moveTo(90, 37); ctx.lineTo(90, 85); // Spine
+            ctx.moveTo(60, 48); ctx.lineTo(120, 48); // Shoulder Line
+            ctx.moveTo(60, 48); ctx.lineTo(45, 90); // Left Arm
+            ctx.moveTo(120, 48); ctx.lineTo(135, 90); // Right Arm
+            ctx.moveTo(90, 85); ctx.lineTo(75, 135); // Left Leg
+            ctx.moveTo(90, 85); ctx.lineTo(105, 135); // Right Leg
+            ctx.stroke();
+
+            // Map TP Position
+            const tpX = (item.tpPos.x / 100) * canvas.width;
+            const tpY = (item.tpPos.y / 100) * canvas.height;
+
+            // Trigger Point Glow Dot (Lime #CCFF00)
+            ctx.shadowColor = '#CCFF00';
+            ctx.shadowBlur = 12;
+            ctx.fillStyle = '#CCFF00';
+            ctx.beginPath();
+            ctx.arc(tpX, tpY, 6, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Gliding Vector Arrow (Cyan #00E5FF)
+            ctx.shadowColor = '#00E5FF';
+            ctx.shadowBlur = 8;
+            ctx.strokeStyle = '#00E5FF';
+            ctx.lineWidth = 2.5;
+
+            ctx.beginPath();
+            ctx.moveTo(tpX, tpY);
+            ctx.lineTo(tpX + 25, tpY - 15);
+            ctx.stroke();
+
+            // Arrow Head
+            ctx.fillStyle = '#00E5FF';
+            ctx.beginPath();
+            ctx.arc(tpX + 25, tpY - 15, 3, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Reset Shadow
+            ctx.shadowBlur = 0;
+        }
+
+        /* ==========================================================================
+           SECTION 2: PHOTO ATTACHMENT & POSTURE GRID
+           ========================================================================== */
+        function loadPhoto(event, type) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.getElementById(`${type}-img`);
+                const placeholder = document.getElementById(`${type}-placeholder`);
+                img.src = e.target.result;
+                img.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        let isDraggingPin = false;
+        let activePinType = null;
+
+        function startDragPin(e, type) {
+            isDraggingPin = true;
+            activePinType = type;
+            document.addEventListener('mousemove', dragPin);
+            document.addEventListener('touchmove', dragPin);
+            document.addEventListener('mouseup', stopDragPin);
+            document.addEventListener('touchend', stopDragPin);
+        }
+
+        function dragPin(e) {
+            if (!isDraggingPin) return;
+            const container = document.getElementById(`${activePinType}-box`);
+            const rect = container.getBoundingClientRect();
+            
+            let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+            let x = clientX - rect.left;
+            let y = clientY - rect.top;
+
+            x = Math.max(0, Math.min(x, rect.width));
+            y = Math.max(0, Math.min(y, rect.height));
+
+            const pin = document.getElementById(`${activePinType}-pin`);
+            pin.style.left = `${x}px`;
+            pin.style.top = `${y}px`;
+        }
+
+        function stopDragPin() {
+            isDraggingPin = false;
+            document.removeEventListener('mousemove', dragPin);
+            document.removeEventListener('touchmove', dragPin);
+        }
+
+        function resetGridLines() {
+            document.getElementById('before-pin').style.left = '50%';
+            document.getElementById('before-pin').style.top = '40%';
+            document.getElementById('after-pin').style.left = '50%';
+            document.getElementById('after-pin').style.top = '40%';
+        }
+
+        let isFineGrid = false;
+        function toggleGridDensity() {
+            isFineGrid = !isFineGrid;
+            const bGrid = document.getElementById('before-grid-layer');
+            const aGrid = document.getElementById('after-grid-layer');
+
+            if (isFineGrid) {
+                bGrid.style.backgroundSize = '10px 10px';
+                aGrid.style.backgroundSize = '10px 10px';
+            } else {
+                bGrid.style.backgroundSize = '20px 20px';
+                aGrid.style.backgroundSize = '20px 20px';
             }
         }
 
         /* ==========================================================================
-           5. 30세션 VAS 그래프 시각화 (Chart.js)
+           SECTION 3: 50-MIN PROGRAM GENERATOR & KAKAO REPORT
            ========================================================================== */
-        function openChartModal() {
-            const member = getActiveMember();
-            if (!member) return openMemberModal();
+        function populateGeneratorCheckboxes() {
+            const container = document.getElementById('generator-symptom-checkboxes');
+            container.innerHTML = '';
 
-            document.getElementById('chartMemberName').innerText = member.name;
-            document.getElementById('chartModal').classList.remove('hidden');
-
-            const labels = Array.from({length: 30}, (_, i) => `${i + 1}회`);
-            const data = labels.map((_, i) => {
-                const sessNum = i + 1;
-                return member.vasLogs[sessNum] !== undefined ? member.vasLogs[sessNum] : null;
+            SYMPTOMS_DB.forEach(item => {
+                const label = document.createElement('label');
+                label.className = "flex items-center space-x-2 text-xs text-gray-300 cursor-pointer hover:text-white p-1 rounded bg-cardBg/50";
+                label.innerHTML = `
+                    <input type="checkbox" value="${item.id}" class="gen-chk accent-accentLime rounded">
+                    <span class="truncate">${item.title}</span>
+                `;
+                container.appendChild(label);
             });
+        }
 
-            const ctx = document.getElementById('vasChartCanvas').getContext('2d');
-            if (appState.vasChartInstance) {
-                appState.vasChartInstance.destroy();
+        function generate50MinSession() {
+            const checkboxes = document.querySelectorAll('.gen-chk:checked');
+            const selectedIds = Array.from(checkboxes).map(cb => parseInt(cb.value));
+
+            if (selectedIds.length === 0) {
+                alert('최소 1개 이상의 증상을 선택해주세요.');
+                return;
             }
 
-            appState.vasChartInstance = new Chart(ctx, {
+            const selectedItems = SYMPTOMS_DB.filter(s => selectedIds.includes(s.id));
+            const card = document.getElementById('generator-result-card');
+            const stepsContainer = document.getElementById('timetable-steps');
+            const kakaoPreview = document.getElementById('kakao-preview-text');
+
+            card.classList.remove('hidden');
+            stepsContainer.innerHTML = '';
+
+            // Generate Steps Breakdown
+            const mfrMinutes = 10;
+            const mobMinutes = 15;
+            const activeMinutes = 15;
+            const passiveMinutes = 10;
+
+            stepsContainer.innerHTML = `
+                <div class="p-3 bg-darkBg rounded-xl border border-accentLime/30">
+                    <div class="font-bold text-accentLime mb-1">1. MFR 타겟 (10분)</div>
+                    <ul class="list-disc list-inside text-gray-300 text-[11px] space-y-1">
+                        ${selectedItems.map(i => `<li>${i.mfr.target}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="p-3 bg-darkBg rounded-xl border border-accentCyan/30">
+                    <div class="font-bold text-accentCyan mb-1">2. 관절가동 (15분)</div>
+                    <ul class="list-disc list-inside text-gray-300 text-[11px] space-y-1">
+                        ${selectedItems.map(i => `<li>${i.vectorDir}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="p-3 bg-darkBg rounded-xl border border-accentYellow/30">
+                    <div class="font-bold text-accentYellow mb-1">3. 능동운동 (15분)</div>
+                    <ul class="list-disc list-inside text-gray-300 text-[11px] space-y-1">
+                        ${selectedItems.map(i => `<li>${i.active.target}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="p-3 bg-darkBg rounded-xl border border-purple-400/30">
+                    <div class="font-bold text-purple-400 mb-1">4. 수동신전 (10분)</div>
+                    <ul class="list-disc list-inside text-gray-300 text-[11px] space-y-1">
+                        ${selectedItems.map(i => `<li>${i.passive.anchor} 중심 신전</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+
+            // Kakao Briefing Text Formulation
+            const kakaoMsg = `[Rehab Pro] 오늘 컨디셔닝 세션 브리핑 리포트
+
+■ 타겟 개선 증상:
+${selectedItems.map(i => `- ${i.title}`).join('\n')}
+
+■ 오늘 진행된 50분 프로토콜:
+1. 근막이완(MFR): ${selectedItems.map(i => i.mfr.target).join(', ')}
+2. 관절가동술: ${selectedItems.map(i => i.vectorDir).join(' / ')}
+3. 능동재활운동: ${selectedItems.map(i => i.active.target).join(', ')}
+4. 마무리 스트레칭: 관절 가동범위 정상화 완료
+
+■ 홈케어 가이드:
+- 수분 500ml 이상 섭취
+- 취침 전 10분 온열 찜질 권장합니다.`;
+
+            kakaoPreview.textContent = kakaoMsg;
+        }
+
+        function copyKakaoReport() {
+            const text = document.getElementById('kakao-preview-text').textContent;
+            if (!text) return;
+
+            const dummy = document.createElement('textarea');
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+
+            alert('카카오톡 브리핑 텍스트가 클립보드에 복사되었습니다.');
+        }
+
+        /* ==========================================================================
+           SECTION 4: CLIENT 30-SESSION MANAGER & VAS CHART
+           ========================================================================== */
+        let vasChartInstance = null;
+
+        function renderClientList() {
+            const container = document.getElementById('client-list-box');
+            container.innerHTML = '';
+
+            clientsDB.forEach(client => {
+                const isSelected = client.id === currentSelectedClientId;
+                const card = document.createElement('div');
+                card.className = `p-3 rounded-xl cursor-pointer border ${isSelected ? 'bg-purple-500/10 border-purple-400' : 'bg-darkBg border-borderBg hover:border-gray-600'}`;
+                card.onclick = () => {
+                    currentSelectedClientId = client.id;
+                    renderClientList();
+                    renderClientDetail(client.id);
+                };
+
+                const lastVas = client.vasHistory[client.vasHistory.length - 1] || 0;
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-xs text-white">${client.name} 회원</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-purple-400/20 text-purple-300 font-bold">${client.totalSessions}/30 회차</span>
+                    </div>
+                    <div class="text-[11px] text-gray-400 truncate mt-1">${client.symptom}</div>
+                    <div class="text-[10px] text-accentLime mt-1">최근 VAS: ${lastVas} / 10</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderClientDetail(clientId) {
+            const client = clientsDB.find(c => c.id === clientId);
+            const container = document.getElementById('client-tracker-detail');
+
+            if (!client) {
+                container.innerHTML = `<div class="text-center text-gray-500 py-12">회원을 선택해주세요.</div>`;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-borderBg pb-3">
+                        <div>
+                            <h3 class="text-base font-bold text-white">${client.name} 회원 세션 기록 추적</h3>
+                            <p class="text-xs text-gray-400">주요 증상: ${client.symptom}</p>
+                        </div>
+                        <button onclick="addSessionLog(${client.id})" class="px-3 py-1.5 bg-purple-500 text-white font-bold text-xs rounded-lg hover:bg-purple-600">
+                            + 세션 완료 & VAS 기록
+                        </button>
+                    </div>
+
+                    <!-- Progress Bar 30 Chain -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs text-gray-300">
+                            <span>30 세션 체인 달성률</span>
+                            <span class="font-bold text-accentLime">${client.totalSessions} / 30 회 완료 (${Math.round((client.totalSessions/30)*100)}%)</span>
+                        </div>
+                        <div class="w-full h-3 bg-darkBg rounded-full overflow-hidden border border-borderBg">
+                            <div class="h-full bg-gradient-to-r from-accentCyan via-accentLime to-purple-400" style="width: ${(client.totalSessions/30)*100}%"></div>
+                        </div>
+                    </div>
+
+                    <!-- VAS Pain Score Graph -->
+                    <div class="bg-darkBg p-3 rounded-xl border border-borderBg space-y-2">
+                        <div class="text-xs font-bold text-gray-300 flex items-center gap-1">
+                            <i class="fa-solid fa-chart-line text-accentLime"></i> VAS 통증 점수 변화 그래프 (10점 -> 0점 타겟)
+                        </div>
+                        <div class="h-48 w-full">
+                            <canvas id="vasChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            renderVasChart(client.vasHistory);
+        }
+
+        function renderVasChart(vasHistory) {
+            const ctx = document.getElementById('vasChart');
+            if (!ctx) return;
+
+            if (vasChartInstance) {
+                vasChartInstance.destroy();
+            }
+
+            const labels = vasHistory.map((_, idx) => `${idx + 1}회차`);
+
+            vasChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: '통증 수치 (VAS)',
-                        data: data,
+                        label: 'VAS 통증 지수',
+                        data: vasHistory,
                         borderColor: '#CCFF00',
                         backgroundColor: 'rgba(204, 255, 0, 0.1)',
-                        borderWidth: 2,
-                        pointBackgroundColor: '#00E5FF',
-                        pointRadius: 4,
+                        borderWidth: 3,
                         fill: true,
-                        spanGaps: true,
-                        tension: 0.3
+                        tension: 0.3,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#00E5FF'
                     }]
                 },
                 options: {
@@ -1231,222 +1265,136 @@
                         y: {
                             min: 0,
                             max: 10,
-                            ticks: { color: '#888888', stepSize: 2 },
-                            grid: { color: '#2A2A2A' }
+                            grid: { color: '#30363D' },
+                            ticks: { color: '#8B949E' }
                         },
                         x: {
-                            ticks: { color: '#888888', font: { size: 9 } },
-                            grid: { color: '#2A2A2A' }
+                            grid: { color: '#30363D' },
+                            ticks: { color: '#8B949E' }
                         }
                     },
                     plugins: {
-                        legend: { labels: { color: '#EEEEEE', font: { size: 12 } } }
+                        legend: { display: false }
                     }
                 }
             });
         }
 
-        function closeChartModal() {
-            document.getElementById('chartModal').classList.add('hidden');
+        function addSessionLog(clientId) {
+            const client = clientsDB.find(c => c.id === clientId);
+            if (!client) return;
+
+            if (client.totalSessions >= 30) {
+                alert('이미 30회 세션이 완료된 회원입니다.');
+                return;
+            }
+
+            const vasInput = prompt('오늘 세션 종료 후 회원 VAS 통증 점수를 입력하세요 (1~10):', '3');
+            if (vasInput !== null) {
+                const score = parseInt(vasInput);
+                if (!isNaN(score) && score >= 0 && score <= 10) {
+                    client.totalSessions += 1;
+                    client.vasHistory.push(score);
+                    localStorage.setItem('rehab_pro_clients', JSON.stringify(clientsDB));
+                    renderClientList();
+                    renderClientDetail(clientId);
+                } else {
+                    alert('1에서 10 사이의 올바른 숫자를 입력해주세요.');
+                }
+            }
+        }
+
+        function openNewClientModal() {
+            document.getElementById('client-modal').classList.remove('hidden');
+        }
+
+        function closeNewClientModal() {
+            document.getElementById('client-modal').classList.add('hidden');
+        }
+
+        function saveNewClient() {
+            const name = document.getElementById('new-client-name').value.trim();
+            const symptom = document.getElementById('new-client-symptom').value.trim();
+            const vas = parseInt(document.getElementById('new-client-vas').value);
+
+            if (!name || !symptom) {
+                alert('회원 이름과 증상을 모두 입력해주세요.');
+                return;
+            }
+
+            const newClient = {
+                id: Date.now(),
+                name: name,
+                symptom: symptom,
+                vasHistory: [vas],
+                totalSessions: 1
+            };
+
+            clientsDB.push(newClient);
+            localStorage.setItem('rehab_pro_clients', JSON.stringify(clientsDB));
+            currentSelectedClientId = newClient.id;
+
+            closeNewClientModal();
+            renderClientList();
+            renderClientDetail(newClient.id);
         }
 
         /* ==========================================================================
-           6. 프로토콜 상세 모달 & 2D 메디컬 라인아트 SVG 생성기
+           TIMER MODAL FUNCTIONALITY
            ========================================================================== */
-        function openProtocolModal(id) {
-            const s = SYMPTOMS_DB.find(item => item.id === id);
-            if (!s) return;
-
-            appState.selectedSymptom = s;
-            appState.currentGrade = 'I_II'; // default Grade I~II
-
-            document.getElementById('modalCategoryBadge').innerText = s.category === 'UPPER' ? '상체/어깨' : s.category === 'CORE' ? '흉추/코어/골반' : '하지/무릎';
-            document.getElementById('modalSymptomId').innerText = `No.${s.id < 10 ? '0' + s.id : s.id}`;
-            document.getElementById('modalSymptomTitle').innerText = s.name + ` (${s.sub})`;
-            document.getElementById('modalRemoteChain').innerHTML = `<i class="fa-solid fa-diagram-project mr-1"></i> <strong>원격지 연쇄 반응:</strong> ${s.remote}`;
-            
-            document.getElementById('modalTpText').innerText = s.tp;
-            document.getElementById('modalPositionText').innerText = s.position;
-            document.getElementById('modalVectorText').innerText = s.vector;
-
-            updateMobilizationDisplay();
-            render2DMedicalSVG(s);
-
-            resetTimer();
-            document.getElementById('protocolModal').classList.remove('hidden');
+        function openTimerModal() {
+            document.getElementById('timer-modal').classList.remove('hidden');
         }
 
-        function closeProtocolModal() {
+        function closeTimerModal() {
+            document.getElementById('timer-modal').classList.add('hidden');
             pauseTimer();
-            document.getElementById('protocolModal').classList.add('hidden');
         }
 
-        function setMobilizationGrade(grade) {
-            appState.currentGrade = grade;
-            const btn12 = document.getElementById('btnGrade12');
-            const btn34 = document.getElementById('btnGrade34');
-
-            if (grade === 'I_II') {
-                btn12.className = "px-2.5 py-1 rounded-md text-[11px] font-bold transition-all bg-lime text-darkbg";
-                btn34.className = "px-2.5 py-1 rounded-md text-[11px] font-bold transition-all text-darkgray hover:text-white";
-            } else {
-                btn12.className = "px-2.5 py-1 rounded-md text-[11px] font-bold transition-all text-darkgray hover:text-white";
-                btn34.className = "px-2.5 py-1 rounded-md text-[11px] font-bold transition-all bg-cyan text-darkbg";
-            }
-
-            updateMobilizationDisplay();
+        function setTimerSec(sec) {
+            pauseTimer();
+            timerTimeLeft = sec;
+            updateTimerDisplay();
         }
 
-        function updateMobilizationDisplay() {
-            const s = appState.selectedSymptom;
-            if (!s) return;
+        function updateTimerDisplay() {
+            const min = Math.floor(timerTimeLeft / 60);
+            const sec = timerTimeLeft % 60;
+            document.getElementById('timer-display').textContent = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+        }
 
-            document.getElementById('step1Text').innerText = s.mfr;
-            document.getElementById('step3Text').innerText = s.active;
-            document.getElementById('step4Text').innerText = s.passive;
-
-            const badge = document.getElementById('currentGradeBadge');
-            const step2P = document.getElementById('step2Text');
-
-            if (appState.currentGrade === 'I_II') {
-                badge.className = "text-[10px] bg-lime/20 text-lime px-1.5 py-0.5 rounded font-bold";
-                badge.innerText = "Grade I~II (이완/감압)";
-                step2P.innerText = s.mob_12;
+        function toggleTimer() {
+            if (isTimerRunning) {
+                pauseTimer();
             } else {
-                badge.className = "text-[10px] bg-cyan/20 text-cyan px-1.5 py-0.5 rounded font-bold";
-                badge.innerText = "Grade III~IV (저항극복)";
-                step2P.innerText = s.mob_34;
+                startTimer();
             }
         }
 
-        /* Clean 2D Medical Line Art SVG Generator */
-        function render2DMedicalSVG(s) {
-            const container = document.getElementById('svgGraphicContainer');
-            
-            // Clean vector line art with Lime (Hands-on) & Cyan (Gliding Arrow)
-            container.innerHTML = `
-                <svg viewBox="0 0 300 160" class="w-full h-full">
-                    <!-- Dark Background Grid -->
-                    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2A2A2A" stroke-width="0.5"/>
-                    </pattern>
-                    <rect width="300" height="160" fill="url(#grid)" />
-
-                    <!-- Anatomical Joint Outline (Clean Line Art) -->
-                    <path d="M 60,110 C 90,100 120,70 150,70 C 180,70 210,100 240,110" fill="none" stroke="#666666" stroke-width="3" stroke-dasharray="4,2"/>
-                    <circle cx="150" cy="70" r="28" fill="#1E1E1E" stroke="#888888" stroke-width="2"/>
-                    <circle cx="150" cy="70" r="10" fill="none" stroke="#CCFF00" stroke-width="1.5"/>
-
-                    <!-- Stabilizing Hand (Lime Point) -->
-                    <g transform="translate(100, 50)">
-                        <rect x="0" y="0" width="24" height="14" rx="4" fill="#CCFF00" opacity="0.2" stroke="#CCFF00" stroke-width="1.5"/>
-                        <text x="12" y="10" fill="#CCFF00" font-size="8" font-weight="bold" text-anchor="middle">고정</text>
-                    </g>
-
-                    <!-- Mobilizing Force / Gliding Arrow (Cyan Vector) -->
-                    <g transform="translate(165, 70)">
-                        <line x1="0" y1="0" x2="50" y2="25" stroke="#00E5FF" stroke-width="3" marker-end="url(#arrow)"/>
-                        <text x="30" y="-5" fill="#00E5FF" font-size="9" font-weight="bold">활주 Vector</text>
-                    </g>
-
-                    <!-- SVG Marker Definition for Arrowhead -->
-                    <defs>
-                        <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#00E5FF"/>
-                        </marker>
-                    </defs>
-
-                    <!-- Label Overlays -->
-                    <text x="150" y="145" fill="#EEEEEE" font-size="10" font-weight="bold" text-anchor="middle">
-                        [${s.position}] 2D 관절 가동 수기 메커니즘
-                    </text>
-                </svg>
-            `;
-        }
-
-        /* ==========================================================================
-           7. 3분 스마트 타이머
-           ========================================================================== */
         function startTimer() {
-            if (appState.timerInterval) return;
-            appState.timerInterval = setInterval(() => {
-                if (appState.timerSeconds > 0) {
-                    appState.timerSeconds--;
+            isTimerRunning = true;
+            document.getElementById('timer-icon').className = 'fa-solid fa-pause';
+            timerInterval = setInterval(() => {
+                if (timerTimeLeft > 0) {
+                    timerTimeLeft--;
                     updateTimerDisplay();
                 } else {
                     pauseTimer();
-                    alert("3분 단계 컨디셔닝 타이머가 완료되었습니다.");
+                    alert('단계 설정 시간이 완료되었습니다.');
                 }
             }, 1000);
         }
 
         function pauseTimer() {
-            if (appState.timerInterval) {
-                clearInterval(appState.timerInterval);
-                appState.timerInterval = null;
-            }
+            isTimerRunning = false;
+            if (timerInterval) clearInterval(timerInterval);
+            document.getElementById('timer-icon').className = 'fa-solid fa-play';
         }
 
         function resetTimer() {
             pauseTimer();
-            appState.timerSeconds = 180;
+            timerTimeLeft = 180;
             updateTimerDisplay();
-        }
-
-        function updateTimerDisplay() {
-            const m = Math.floor(appState.timerSeconds / 60);
-            const s = appState.timerSeconds % 60;
-            document.getElementById('timerDisplay').innerText = 
-                `${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`;
-        }
-
-        /* ==========================================================================
-           8. 카카오톡 브리핑 리포트 자동 생성기 & 클립보드 복사
-           ========================================================================== */
-        function generateKakaoReport() {
-            const member = getActiveMember();
-            const s = appState.selectedSymptom;
-
-            if (!s) return;
-
-            const name = member ? member.name : "회원";
-            const session = member ? (member.currentSession || 1) : 1;
-            const vas = member ? (member.vasLogs[session] || 5) : 5;
-            const gradeText = appState.currentGrade === 'I_II' ? 'Grade I~II (이완/감압)' : 'Grade III~IV (관절저항 극복)';
-
-            const reportText = 
-`[리햅프로(Rehab Pro) 1:1 맞춤 컨디셔닝 세션 리포트]
-
-■ 회원명: ${name}
-■ 회차: ${session}/30 회차
-■ 통증 수치(VAS): ${vas} / 10
-■ 적용 증상: ${s.name} (${s.sub})
-
-----------------------------------------
-[금일 진행된 4단계 컨디셔닝 프로토콜]
-1단계 MFR: ${s.mfr}
-2단계 관절가동술: ${appState.currentGrade === 'I_II' ? s.mob_12 : s.mob_34}
-   └ 적용 등급: ${gradeText}
-   └ 가동 자세: ${s.position}
-3단계 Active: ${s.active}
-4단계 Passive: ${s.passive}
-
-----------------------------------------
-* 본 케어는 1:1 전담 전문가의 정밀 관절가동 핸즈온이 포함된 고난도 컨디셔닝 세션입니다.
-* 리햅프로 서비스는 의료법을 준수하며 법적 진단/치료가 아닌 기능적 체형 재정렬 관리를 제공합니다.`;
-
-            // Copy to Clipboard (Fallback for iFrame constraints)
-            const tempTextArea = document.createElement('textarea');
-            tempTextArea.value = reportText;
-            document.body.appendChild(tempTextArea);
-            tempTextArea.select();
-            try {
-                document.execCommand('copy');
-                alert("카카오톡 브리핑 리포트가 클립보드에 복사되었습니다!\n카카오톡 단톡방이나 회원 메시지 창에 붙여넣기(Ctrl+V) 하세요.");
-            } catch (err) {
-                alert("복사에 실패했습니다. 직접 복사해주세요.");
-            }
-            document.body.removeChild(tempTextArea);
         }
     </script>
 </body>
