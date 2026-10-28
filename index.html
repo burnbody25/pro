@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>리햅프로 (Rehab Pro) - AI 컨디셔닝 에이전트 & 통합 기능검사 매뉴얼</title>
+    <title>리햅프로 (Rehab Pro) - AI 컨디셔닝 에이전트 & 마스터 통합 진단</title>
     <!-- Tailwind CSS & Lucide Icons -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -53,9 +53,9 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-bold tracking-wider text-white flex items-center gap-2">
-                        REHAB PRO <span class="text-xs px-2 py-0.5 rounded bg-brand-500/20 text-brand-400 border border-brand-500/30">v4.5 MASTER</span>
+                        REHAB PRO <span class="text-xs px-2 py-0.5 rounded bg-brand-500/20 text-brand-400 border border-brand-500/30">v5.0 MASTER</span>
                     </h1>
-                    <p class="text-xs text-gray-400">통합 증상 DB 및 보상작용 해제 AI 컨디셔닝 에이전트</p>
+                    <p class="text-xs text-gray-400">전체 증상 DB 및 정밀 기능검사·보상작용 통합 에이전트</p>
                 </div>
             </div>
             <div class="flex items-center space-x-3">
@@ -131,25 +131,25 @@
 
         </section>
 
-        <!-- CENTER COLUMN: 통합 증상 및 정밀 검사 선택 (5 Cols) -->
+        <!-- CENTER COLUMN: 마스터 통합 진단 및 검사 (5 Cols) -->
         <section class="lg:col-span-5 space-y-6">
             
             <div class="bg-darkcard border border-darkborder rounded-2xl p-5 glow-effect">
                 <h2 class="text-base font-semibold text-white mb-4 flex items-center justify-between">
-                    <span class="flex items-center gap-2"><i data-lucide="database" class="w-5 h-5 text-brand-400"></i> 통합 증상 DB & 정밀 기능검사</span>
+                    <span class="flex items-center gap-2"><i data-lucide="database" class="w-5 h-5 text-brand-400"></i> 마스터 통합 증상 DB & 정밀 기능검사</span>
                     <span class="text-xs text-brand-400">복수 선택 가능</span>
                 </h2>
 
-                <!-- Category Tabs -->
+                <!-- Main Category Tabs -->
                 <div class="grid grid-cols-2 gap-1 bg-darkbg p-1 rounded-xl mb-4 text-xs font-medium text-center">
-                    <button id="tabPresetBtn" onclick="switchMainTab('preset')" class="py-2 rounded-lg bg-brand-500/20 text-brand-400 border border-brand-500/30 font-bold">핵심 체형·통증 증상 (7선)</button>
-                    <button id="tabManualBtn" onclick="switchMainTab('manual')" class="py-2 rounded-lg text-gray-400 hover:text-white">정밀 기능검사 매뉴얼 (10선+)</button>
+                    <button id="tabPresetBtn" onclick="switchMainTab('preset')" class="py-2 rounded-lg bg-brand-500/20 text-brand-400 border border-brand-500/30 font-bold">핵심 증상 및 검사 DB (10선)</button>
+                    <button id="tabManualBtn" onclick="switchMainTab('manual')" class="py-2 rounded-lg text-gray-400 hover:text-white">정밀 보상작용 검사 매뉴얼</button>
                 </div>
 
-                <!-- Preset DB Section -->
+                <!-- Preset DB Section (10 Comprehensive Symptoms & Tests) -->
                 <div id="presetContainer" class="space-y-3">
                     <div class="relative">
-                        <input type="text" id="dbSearchInput" oninput="filterSymptoms()" placeholder="통증 부위 또는 체형 검색..." class="w-full bg-darkbg border border-darkborder rounded-xl px-3 py-2 text-xs text-white pl-9 focus:outline-none focus:border-brand-500">
+                        <input type="text" id="dbSearchInput" oninput="filterSymptoms()" placeholder="통증 부위, 체형, 검사명 검색..." class="w-full bg-darkbg border border-darkborder rounded-xl px-3 py-2 text-xs text-white pl-9 focus:outline-none focus:border-brand-500">
                         <i data-lucide="search" class="w-4 h-4 text-gray-500 absolute left-3 top-2.5"></i>
                     </div>
                     <div id="symptomGrid" class="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto pr-1">
@@ -160,9 +160,9 @@
                 <!-- Manual Functional Test Section (Hidden by default) -->
                 <div id="manualContainer" class="hidden space-y-3">
                     <div class="grid grid-cols-3 gap-1 bg-darkbg p-1 rounded-xl mb-2 text-[11px] font-medium text-center">
-                        <button id="subNeckBtn" onclick="switchSubRegion('neck')" class="py-1.5 rounded-lg bg-brand-500/20 text-brand-400 border border-brand-500/30">경추·어깨</button>
-                        <button id="subSpineBtn" onclick="switchSubRegion('spine')" class="py-1.5 rounded-lg text-gray-400 hover:text-white">요추·골반</button>
-                        <button id="subLowerBtn" onclick="switchSubRegion('lower')" class="py-1.5 rounded-lg text-gray-400 hover:text-white">하지·보상작용</button>
+                        <button id="subNeckBtn" onclick="switchSubRegion('neck')" class="py-1.5 rounded-lg bg-brand-500/20 text-brand-400 border border-brand-500/30">경추·승모</button>
+                        <button id="subSpineBtn" onclick="switchSubRegion('spine')" class="py-1.5 rounded-lg text-gray-400 hover:text-white">요추·스웨이백</button>
+                        <button id="subLowerBtn" onclick="switchSubRegion('lower')" class="py-1.5 rounded-lg text-gray-400 hover:text-white">하지보상·회전</button>
                     </div>
                     <div id="subEvalSection" class="space-y-2 max-h-52 overflow-y-auto pr-1">
                         <!-- Manual test items injected -->
@@ -286,31 +286,34 @@
 
     <!-- Script Logic -->
     <script>
-        // 1. 기존 핵심 증상 DB (7선 이상 완벽 보존)
+        // 1. 기존 핵심 체형 및 통증 진단 검사 DB (토마스, 윈들라스, 켐프, 오벌 테스트 등 10선 완벽 보존)
         const symptomDB = [
             { id: 1, name: "거북목 및 헤드포워드", test: "측면 경추 이개 라인 검사", tp: "판상근, 사각근, 후두하근", mfr: "후두하근 폼롤러 압박", mobility: "경추 굴곡-신전 가동성", active: "친턱(Chin-tuck) 등척성 강화", passive: "상부승모근 수동 신전" },
             { id: 2, name: "라운드숄더 (굽은등)", test: "소흉근 단축 길이 검사", tp: "소흉근, 대흉근, 견갑하근", mfr: "소흉근 마사지볼 릴리즈", mobility: "흉추 회전 가동성 확보", active: "Y-Raise 및 밴드 풀아파트", passive: "흉근 수동 수평외번 스트레칭" },
             { id: 3, name: "익상견갑 (날개뼈 돌출)", test: "벽 푸시업 안정성 검사", tp: "전거근, 상완삼두근", mfr: "전거근 측면 폼롤러 롤링", mobility: "견갑골 전인-후인 모빌리티", active: "서라투스 펀치 & 월 슬라이드", passive: "견갑골 수동 유동화" },
-            { id: 4, name: "골반 전방경사 (오리엉덩이)", test: "토마스 테스트 (Thomas)", tp: "장요근, 대퇴직근, 내전근", mfr: "장요근 및 대퇴직근 릴리즈", mobility: "고관절 신전 런지 모빌리티", active: "글루트 브릿지 & 복직근 활성화", passive: "장요근 수동 신전 스트레칭" },
-            { id: 5, name: "골반 후방경사 (납작골반)", test: "직거상 검사 (SLR)", tp: "햄스트링, 대둔근", mfr: "햄스트링 폼롤러 이완", mobility: "고관절 굴곡 가동성 개선", active: "루마니안 데드리프트 패턴", passive: "햄스트링 PNF 스트레칭" },
-            { id: 6, name: "족저근막염 및 발바닥 통증", test: "윈들라스 테스트 (Windlass)", tp: "족저근막, 비복근, 가자미근", mfr: "발바닥 골프공 롤링 마사지", mobility: "발목 배측굴곡(Dorsiflexion)", active: "숏풋 엑서사이즈 (Short Foot)", passive: "아킬레스건 수동 신전" },
-            { id: 7, name: "요추 통증 및 허리 뻐근함", test: "켐프 테스트 (Kemp)", tp: "요방형근, 다열근, 척주기립근", mfr: "요방형근 마사지볼 압박", mobility: "캣앤카우 (Cat-Cow) 척추 가동성", active: "버드독 & 데드버그 코어 안정화", passive: "요추 수동 견인 및 신전 이완" }
+            { id: 4, name: "골반 전방경사 (오리엉덩이)", test: "토마스 테스트 (Thomas Test)", tp: "장요근, 대퇴직근, 내전근", mfr: "장요근 및 대퇴직근 릴리즈", mobility: "고관절 신전 런지 모빌리티", active: "글루트 브릿지 & 복직근 활성화", passive: "장요근 수동 신전 스트레칭" },
+            { id: 5, name: "골반 후방경사 (납작골반)", test: "직거상 검사 (SLR Test)", tp: "햄스트링, 대둔근", mfr: "햄스트링 폼롤러 이완", mobility: "고관절 굴곡 가동성 개선", active: "루마니안 데드리프트 패턴", passive: "햄스트링 PNF 스트레칭" },
+            { id: 6, name: "족저근막염 및 발바닥 통증", test: "윈들라스 테스트 (Windlass Test)", tp: "족저근막, 비복근, 가자미근", mfr: "발바닥 골프공 롤링 마사지", mobility: "발목 배측굴곡(Dorsiflexion)", active: "숏풋 엑서사이즈 (Short Foot)", passive: "아킬레스건 수동 신전" },
+            { id: 7, name: "요추 통증 및 허리 뻐근함", test: "켐프 테스트 (Kemp Test)", tp: "요방형근, 다열근, 척주기립근", mfr: "요방형근 마사지볼 압박", mobility: "캣앤카우 (Cat-Cow) 척추 가동성", active: "버드독 & 데드버그 코어 안정화", passive: "요추 수동 견인 및 신전 이완" },
+            { id: 8, name: "무릎 외측 통증 (ITBS)", test: "오벌 테스트 (Ober Test)", tp: "장경인대, 대퇴근막장근", mfr: "허벅지 측면 장경인대 릴리즈", mobility: "고관절 내회전 가동성", active: "클램셸 (Clamshell) 외전 운동", passive: "TFL 수동 측면 스트레칭" },
+            { id: 9, name: "어깨 가동제한 및 충돌", test: "니어 테스트 (Neer Test)", tp: "극상근, 견갑하근, 이두근 장두", mfr: "회전근개 심부 압박 이완", mobility: "어깨 굴곡 및 외회전 모빌리티", active: "오버헤드 덤벨 리치", passive: "견관절 수동 캡슐 스트레칭" },
+            { id: 10, name: "골반 비대칭 및 측방경사", test: "오버헤드 스쿼트 비대칭 검사", tp: "요방형근, 중둔근, 내전근", mfr: "타이트한 측면 근막 릴리즈", mobility: "골반 상하 가동성 회복", active: "사이드 플랭크 & 싱글레그 브릿지", passive: "측면 사선 체인 수동 스트레칭" }
         ];
 
-        // 2. 신규 추가된 정밀 기능검사 매뉴얼 (10선 이상 추가)
+        // 2. 정밀 보상작용 및 기능검사 매뉴얼 (승모근, CVA, 스웨이백, 둔근 억제 등)
         const manualEvaluationData = {
             neck: {
                 title: "경추·승모근·거북목 정밀 검사표",
                 tests: [
-                    { id: "m1", name: "상부승모근 과신전·과단축 검사", method: "견갑골 상방회전 및 상부승모근/견갑거근 긴장도 평가", standard: "정상: 긴장도 대칭 / 양성: 어깨가 귀 쪽으로 상승" },
-                    { id: "m2", name: "거북목 및 일자목 CVA 각도 검사", method: "귓구멍 중심과 C7 극돌기 수평선 각도(CVA) 관찰", standard: "정상: 50도 이상 / 양성: 45도 미만 (거북목)" },
-                    { id: "m3", name: "심부경추굴곡근(DCF) 활성도 테스트", method: "누운 상태에서 턱 당기기(Node) 시 표면근 대신 심부 활성 관찰", standard: "정상: 깊은 근육으로 유지 / 양성: 흉쇄유돌근 과긴장" }
+                    { id: "m1", name: "상부승모근 과신전·과단축 검사", method: "견갑골 상방회전 상태 및 상부승모근 긴장도 촉진 평가", standard: "정상: 긴장도 대칭 / 양성: 어깨가 귀 쪽으로 상승 및 경추 측굴 제한" },
+                    { id: "m2", name: "거북목 및 일자목 CVA 각도 검사", method: "귓구멍 중심(Tragus)과 C7 극돌기 수평선 각도(CVA) 관찰", standard: "정상: 50도 이상 / 양성: 45도 미만 (거북목/일자목 변형)" },
+                    { id: "m3", name: "심부경추굴곡근(DCF) 활성도 테스트", method: "누운 상태에서 턱 당기기(Node) 시 표면근 대신 심부 활성 관찰", standard: "정상: 깊은 근육으로 10초 유지 / 양성: 흉쇄유돌근 과긴장" }
                 ]
             },
             spine: {
                 title: "요추·골반·스웨이백 정밀 검사표",
                 tests: [
-                    { id: "m4", name: "요추 전만 과다 (Lordosis) 평가", method: "벽에 등 대고 서서 허리와 벽 사이 공간 측정", standard: "정상: 손바닥 하나 / 양성: 주먹이 들어갈 정도로 꺾임" },
+                    { id: "m4", name: "요추 전만 과다 (Lordosis) 평가", method: "벽에 등 대고 서서 허리와 벽 사이 공간(손바닥/주먹) 측정", standard: "정상: 손바닥 하나 / 양성: 주먹이 통과할 정도로 허리가 꺾임" },
                     { id: "m5", name: "스웨이백 (Sway-back) 체형 검사", method: "골반 전방 이동 및 흉곽 후방 기울어짐 정렬 관찰", standard: "정상: 수직 정렬 / 양성: 골반 전방 변위 및 흉곽 후만" },
                     { id: "m6", name: "골반 전방경사 vs 후방경사 판정", method: "ASIS와 PSIS 높이 차이 촉진 및 시각적 비교", standard: "정상: 10도 경사 / 양성: 전방 또는 후방 과도 경사" }
                 ]
@@ -318,7 +321,7 @@
             lower: {
                 title: "하지 회전 변형 및 근육 보상작용 검사표",
                 tests: [
-                    { id: "m7", name: "정강이뼈 vs 허벅지 회전 변형", method: "슬개골 방향과 발끝 방향 불일치 여부 비교", standard: "정상: 정면 일직선 / 양성: 대퇴 내회전 또는 경골 외회전" },
+                    { id: "m7", name: "정강이뼈 vs 허벅지 회전 변형", method: "슬개골 방향과 발끝 방향 불일치 여부(경골 외회전 등) 비교", standard: "정상: 정면 일직선 / 양성: 대퇴 내회전 또는 경골 회전 변형" },
                     { id: "m8", name: "둔근 억제 및 종아리 보상작용 (부종 유발)", method: "글루트 브릿지 시 둔근 대신 햄스트링/종아리 과사용 징후", standard: "정상: 대둔근 선행 수축 / 양성: 종아리 쥐 및 부종 발생" },
                     { id: "m9", name: "고관절 외회전근(이상근 등) 타이트함", method: "복위에서 무릎 90도 굽혀 내회전 각도 측정", standard: "정상: 내회전 40도 / 양성: 회전 제한 및 골반 들림" }
                 ]
@@ -372,8 +375,11 @@
             const container = document.getElementById('symptomGrid');
             container.innerHTML = symptomDB.map(s => `
                 <div onclick="togglePreset(${s.id})" id="preset-${s.id}" class="p-2.5 rounded-xl border border-darkborder bg-darkbg cursor-pointer hover:border-brand-500/50 transition flex items-center justify-between">
-                    <span class="text-xs text-gray-300 font-medium">${s.name}</span>
-                    <i data-lucide="check-circle" class="w-3.5 h-3.5 text-gray-600 check-icon"></i>
+                    <div>
+                        <span class="text-xs text-gray-200 font-medium block">${s.name}</span>
+                        <span class="text-[10px] text-gray-500">${s.test}</span>
+                    </div>
+                    <i data-lucide="check-circle" class="w-3.5 h-3.5 text-gray-600 check-icon flex-shrink-0"></i>
                 </div>
             `).join('');
             lucide.createIcons();
@@ -399,7 +405,7 @@
             const query = document.getElementById('dbSearchInput').value.toLowerCase();
             symptomDB.forEach(s => {
                 const el = document.getElementById(`preset-${s.id}`);
-                if(s.name.toLowerCase().includes(query)) {
+                if(s.name.toLowerCase().includes(query) || s.test.toLowerCase().includes(query)) {
                     el.classList.remove('hidden');
                 } else {
                     el.classList.add('hidden');
@@ -427,7 +433,7 @@
         }
 
         function openGuideModal(title, method, standard) {
-            document.getElementById('guideModalTitleinnerHTML') = `<i data-lucide="help-circle" class="w-5 h-5 text-brand-400"></i> ${title}`;
+            document.getElementById('guideModalTitle').innerHTML = `<i data-lucide="help-circle" class="w-5 h-5 text-brand-400"></i> ${title}`;
             document.getElementById('guideModalContent').innerHTML = `
                 <p><strong class="text-white">🔍 검사 방법:</strong><br>${method}</p>
                 <p class="pt-2 border-t border-darkborder"><strong class="text-white">📊 정상 판정 기준:</strong><br>${standard}</p>
@@ -441,16 +447,14 @@
             let apiKey = localStorage.getItem('rehab_gemini_api_key');
             if(!apiKey) { openApiKeyModal(); return; }
 
-            // Collect selected presets
-            let presetItems = symptomDB.filter(s => selectedPresetIds.includes(s.id)).map(s => `[증상 DB] ${s.name} (TEST: ${s.test}, TP: ${s.tp})`);
+            let presetItems = symptomDB.filter(s => selectedPresetIds.includes(s.id)).map(s => `[증상 및 테스트 DB] ${s.name} (검사법: ${s.test}, TP: ${s.tp})`);
 
-            // Collect selected manual tests
             let manualItems = [];
             ['neck', 'spine', 'lower'].forEach(reg => {
                 manualEvaluationData[reg].tests.forEach(t => {
                     const el = document.getElementById(t.id);
                     if(el && el.checked) {
-                        manualItems.push(`[정밀기능검사] ${t.name} (이상 소견 감지)`);
+                        manualItems.push(`[정밀 보상작용 검사] ${t.name} (이상 소견 감지)`);
                     }
                 });
             });
@@ -465,17 +469,17 @@
             const reportBox = document.getElementById('reportBox');
             const reportContent = document.getElementById('reportContent');
             reportBox.classList.remove('hidden');
-            reportContent.innerHTML = `<div class="text-center py-6"><i data-lucide="loader" class="w-6 h-6 animate-spin text-brand-400 mx-auto mb-2"></i><p class="text-xs text-gray-400">제미나이 2.5 AI가 복합 증상 및 보상작용 해제 프로그램을 분석 중입니다...</p></div>`;
+            reportContent.innerHTML = `<div class="text-center py-6"><i data-lucide="loader" class="w-6 h-6 animate-spin text-brand-400 mx-auto mb-2"></i><p class="text-xs text-gray-400">제미나이 2.5 AI가 전체 검사 결과 및 보상작용 해제 프로그램을 분석 중입니다...</p></div>`;
             lucide.createIcons();
 
             const prompt = `
 당신은 리햅프로(Rehab Pro)의 수석 운동 컨디셔닝 AI 에이전트입니다.
-아래 선택된 증상 DB, 정밀 기능검사 결과, 그리고 보상작용(예: 둔근 억제로 인한 종아리 부종 등) 패턴을 종합하여 트레이너를 위한 맞춤 솔루션을 작성해 주십시오.
+아래 선택된 증상/테스트 DB, 정밀 기능검사 결과, 그리고 보상작용(예: 둔근 억제로 인한 종아리 부종 등) 패턴을 종합하여 현장 트레이너를 위한 맞춤 솔루션을 작성해 주십시오.
 
-[선택된 핵심 증상 DB]
+[선택된 증상 및 기능검사 DB (10선)]
 ${presetItems.length > 0 ? presetItems.join('\n') : '선택 없음'}
 
-[정밀 기능검사 이상 소견]
+[정밀 보상작용 검사 이상 소견]
 ${manualItems.length > 0 ? manualItems.join('\n') : '체크 없음'}
 
 [추가 호소 및 보상작용 패턴]
