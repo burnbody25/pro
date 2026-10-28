@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>리햅프로 (Rehab Pro) - AI 컨디셔닝 에이전트 & 부위별 평가표</title>
+    <title>리햅프로 (Rehab Pro) - AI 컨디셔닝 에이전트 & 기능검사 매뉴얼</title>
     <!-- Tailwind CSS & Lucide Icons -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -53,13 +53,12 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-bold tracking-wider text-white flex items-center gap-2">
-                        REHAB PRO <span class="text-xs px-2 py-0.5 rounded bg-brand-500/20 text-brand-400 border border-brand-500/30">v3.0 PRO</span>
+                        REHAB PRO <span class="text-xs px-2 py-0.5 rounded bg-brand-500/20 text-brand-400 border border-brand-500/30">v3.5 PRO</span>
                     </h1>
-                    <p class="text-xs text-gray-400">부위별 기능 평가 및 제미나이 맞춤 프로토콜</p>
+                    <p class="text-xs text-gray-400">부위별 기능검사 매뉴얼 및 제미나이 맞춤 프로토콜</p>
                 </div>
             </div>
             <div class="flex items-center space-x-3">
-                <!-- API Key Config Modal Trigger -->
                 <button onclick="openApiKeyModal()" class="px-3 py-1.5 bg-brand-500/10 border border-brand-500/30 text-brand-400 rounded-xl text-xs font-medium hover:bg-brand-500/20 flex items-center gap-1.5 transition">
                     <i data-lucide="key" class="w-3.5 h-3.5"></i> API 키 설정
                 </button>
@@ -76,7 +75,6 @@
         <!-- LEFT COLUMN: Client Profiles & Grid Photo (3 Cols) -->
         <section class="lg:col-span-4 space-y-6">
             
-            <!-- Client Manager -->
             <div class="bg-darkcard border border-darkborder rounded-2xl p-5 glow-effect">
                 <h2 class="text-base font-semibold text-white mb-4 flex items-center gap-2">
                     <i data-lucide="user-check" class="w-5 h-5 text-brand-400"></i> 회원 세션 관리
@@ -122,7 +120,6 @@
                 </div>
             </div>
 
-            <!-- Session History Archive -->
             <div class="bg-darkcard border border-darkborder rounded-2xl p-5 glow-effect">
                 <h2 class="text-base font-semibold text-white mb-3 flex items-center gap-2">
                     <i data-lucide="history" class="w-5 h-5 text-brand-400"></i> 지난 세션 이력
@@ -134,36 +131,34 @@
 
         </section>
 
-        <!-- CENTER COLUMN: 부위별 기능 평가표 & AI 프로토콜 생성 (5 Cols) -->
+        <!-- CENTER COLUMN: 부위별 기능 검사표 & AI 프로토콜 (5 Cols) -->
         <section class="lg:col-span-5 space-y-6">
             
             <div class="bg-darkcard border border-darkborder rounded-2xl p-5 glow-effect">
                 <h2 class="text-base font-semibold text-white mb-4 flex items-center justify-between">
-                    <span class="flex items-center gap-2"><i data-lucide="clipboard-check" class="w-5 h-5 text-brand-400"></i> 부위별 기능 평가표 & AI 분석</span>
-                    <span class="text-xs text-brand-400">부위별 체크 & 통증 입력</span>
+                    <span class="flex items-center gap-2"><i data-lucide="clipboard-check" class="w-5 h-5 text-brand-400"></i> 부위별 기능검사 & AI 분석</span>
+                    <span class="text-xs text-brand-400">검사 방법 가이드 지원</span>
                 </h2>
 
-                <!-- Target Body Region Selection Tabs -->
+                <!-- Target Region Tabs -->
                 <div class="grid grid-cols-3 gap-1 bg-darkbg p-1 rounded-xl mb-4 text-xs font-medium text-center">
                     <button id="regionScapulaBtn" onclick="switchRegion('scapula')" class="py-2 rounded-lg bg-brand-500/20 text-brand-400 border border-brand-500/30">견갑골 / 상지</button>
                     <button id="regionPelvisBtn" onclick="switchRegion('pelvis')" class="py-2 rounded-lg text-gray-400 hover:text-white">골반 / 코어</button>
                     <button id="regionAnkleBtn" onclick="switchRegion('ankle')" class="py-2 rounded-lg text-gray-400 hover:text-white">발목 / 하지</button>
                 </div>
 
-                <!-- Region Evaluation Questionnaires -->
-                <div id="evalSection" class="space-y-4 mb-4">
-                    <!-- Dynamically injected evaluation checklist -->
+                <!-- Evaluation Checklist Container -->
+                <div id="evalSection" class="space-y-3 mb-4 max-h-72 overflow-y-auto pr-1">
+                    <!-- Injected dynamically -->
                 </div>
 
-                <!-- Custom Pain & Movement Notes -->
                 <div class="space-y-2 pt-3 border-t border-darkborder">
-                    <label class="block text-xs text-gray-400">추가 통증 부위 및 동작 특이사항</label>
+                    <label class="block text-xs text-gray-400">추가 통증 부위 및 동작 양상</label>
                     <input type="text" id="customPainInput" placeholder="예: 스쿼트 시 우측 고관절 찝힘, 만세할 때 어깨 통증" class="w-full bg-darkbg border border-darkborder rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500">
                 </div>
 
-                <!-- Generate Action Button -->
                 <button onclick="generateAiProtocol()" class="w-full mt-4 py-3 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-white text-sm font-bold rounded-xl shadow-lg shadow-brand-500/20 flex items-center justify-center gap-2 transition">
-                    <i data-lucide="sparkles" class="w-4 h-4"></i> 평가표 기반 맞춤 프로그램 생성
+                    <i data-lucide="sparkles" class="w-4 h-4"></i> 기능검사 기반 맞춤 프로그램 생성
                 </button>
             </div>
 
@@ -177,9 +172,7 @@
                         <i data-lucide="copy" class="w-3.5 h-3.5"></i> 복사
                     </button>
                 </div>
-                <div id="reportContent" class="text-xs text-gray-300 space-y-4 leading-relaxed max-h-96 overflow-y-auto pr-1">
-                    <!-- Dynamic Protocol Content -->
-                </div>
+                <div id="reportContent" class="text-xs text-gray-300 space-y-4 leading-relaxed max-h-96 overflow-y-auto pr-1"></div>
                 <div class="mt-4 pt-3 border-t border-darkborder/60 text-[10px] text-gray-500 text-center">
                     ※ 본 리포트는 의료법을 준수하며, 질환의 진단·치료가 아닌 기능적 체형 개선 및 운동 컨디셔닝 목적의 가이드라인입니다.
                 </div>
@@ -190,7 +183,6 @@
         <!-- RIGHT COLUMN: 4-Phase Timer & Session Logger (4 Cols) -->
         <section class="lg:col-span-4 space-y-6">
             
-            <!-- 4-Phase Session Timer -->
             <div class="bg-darkcard border border-darkborder rounded-2xl p-5 glow-effect">
                 <h2 class="text-base font-semibold text-white mb-3 flex items-center gap-2">
                     <i data-lucide="timer" class="w-5 h-5 text-brand-400"></i> 4단계 세션 타이머
@@ -218,7 +210,6 @@
                 </div>
             </div>
 
-            <!-- Session Log & VAS Score Saver -->
             <div class="bg-darkcard border border-darkborder rounded-2xl p-5 glow-effect">
                 <h2 class="text-base font-semibold text-white mb-3 flex items-center gap-2">
                     <i data-lucide="save" class="w-5 h-5 text-brand-400"></i> 세션 마감 & 저장
@@ -248,7 +239,22 @@
 
     </main>
 
-    <!-- API Key Setting Modal -->
+    <!-- Guide Modal for Test Instruction -->
+    <div id="guideModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden">
+        <div class="bg-darkcard border border-darkborder rounded-2xl p-6 max-w-lg w-full mx-4 space-y-4 glow-effect">
+            <h3 id="guideModalTitle" class="text-base font-bold text-white flex items-center gap-2 text-brand-400">
+                <i data-lucide="help-circle" class="w-5 h-5"></i> 기능검사 가이드
+            </h3>
+            <div id="guideModalContent" class="text-xs text-gray-300 space-y-3 leading-relaxed bg-darkbg p-4 rounded-xl border border-darkborder">
+                <!-- Injected guide -->
+            </div>
+            <div class="flex justify-end">
+                <button onclick="closeGuideModal()" class="px-4 py-2 bg-brand-500 text-white rounded-xl text-xs font-bold">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- API Key Modal -->
     <div id="apiKeyModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden">
         <div class="bg-darkcard border border-darkborder rounded-2xl p-6 max-w-md w-full mx-4 space-y-4 glow-effect">
             <h3 class="text-base font-bold text-white flex items-center gap-2">
@@ -263,35 +269,83 @@
         </div>
     </div>
 
-    <!-- JavaScript Application Logic -->
+    <!-- Script Logic -->
     <script>
-        // 부위별 평가표 질문지 데이터베이스
+        // 부위별 전문 기능검사 12선 및 상세 가이드 데이터베이스
         const evaluationData = {
             scapula: {
-                title: "견갑골 및 상지 기능 평가표",
-                questions: [
-                    { id: "s1", label: "견갑골 전인/후인 시 날개뼈 뜸 현상 (익상견갑)", type: "checkbox" },
-                    { id: "s2", label: "오버헤드 동작 시 상완골 외회전 제한 (라운드숄더)", type: "checkbox" },
-                    { id: "s3", label: "팔을 올릴 때 어깨 충돌 및 통증 (경봉하 찝힘)", type: "checkbox" },
-                    { id: "s4", label: "흉추 회전 가동성 좌우 비대칭 (T-spine 제한)", type: "checkbox" }
+                title: "견갑골 및 상지 기능 검사표",
+                tests: [
+                    { 
+                        id: "s1", name: "익상견갑 검사 (Winging Scapula)", 
+                        method: "회원을 벽을 보고 서게 한 뒤 양손으로 벽을 밀게(Wall Push-up) 지시합니다. 이때 견갑골 하각이 흉곽에서 들떠 뜨는 현상을 관찰합니다.", 
+                        standard: "정상: 견갑골이 흉곽에 완전히 밀착 유지됨 / 양성: 하각이 외측 및 후방으로 돌출됨 (전거근 약화)" 
+                    },
+                    { 
+                        id: "s2", name: "소흉근 단축 테스트", 
+                        method: "회원을 바닥에 편하게 눕히고(앙와위) 양쪽 어깨 오훼돌기 부위가 바닥에서 떠오르는지 관찰합니다.", 
+                        standard: "정상: 양측 어깨가 바닥에 편안하게 안착 / 양성: 어깨가 전방으로 말리며 바닥에서 뜸 (소흉근/대흉근 단축)" 
+                    },
+                    { 
+                        id: "s3", name: "어깨 충돌증후군 검사 (Neer Test)", 
+                        method: "트레이너가 회원의 팔을 내회전(엄지손가락이 아래로)시킨 상태에서 귀 옆으로 수직 상향 굴곡시킵니다.", 
+                        standard: "정상: 통증 없이 180도 완전 굴곡 가능 / 양성: 90~120도 구간에서 견봉하 통증 및 찝힘 호소" 
+                    },
+                    { 
+                        id: "s4", name: "흉추 회전 가동성 검사", 
+                        method: "네발 기기(Quadruped) 자세에서 한 손을 머리 뒤에 대고 팔꿈치를 반대쪽 겨드랑이 밑으로 넣었다가 하늘 위로 회전시킵니다.", 
+                        standard: "정상: 좌우 대칭적으로 흉추가 50도 이상 회전 / 양성: 한쪽 회전 각도가 현저히 부족하거나 요추로 보상 작용 발생" 
+                    }
                 ]
             },
             pelvis: {
-                title: "골반 및 코어 기능 평가표",
-                questions: [
-                    { id: "p1", label: "토마스 테스트 시 요추 전만 및 장요근 단축", type: "checkbox" },
-                    { id: "p2", label: "싱글레그 스탠딩 시 골반 측방 경사 (트렌델렌버그 징후)", type: "checkbox" },
-                    { id: "p3", label: "오버헤드 스쿼트 시 골반 회전 및 체중 쏠림", type: "checkbox" },
-                    { id: "p4", label: "고관절 내회전/외회전 가동범위 제한", type: "checkbox" }
+                title: "골반 및 코어 기능 검사표",
+                tests: [
+                    { 
+                        id: "p1", name: "토마스 테스트 (Thomas Test)", 
+                        method: "벤치 끝에 앉아 한쪽 다리를 가슴으로 감싸 안으며 뒤로 눕게 합니다. 반대쪽 다리가 벤치에서 뜨거나 무릎이 펴지는지 관찰합니다.", 
+                        standard: "정상: 대퇴부가 벤치 바닥에 밀착되고 무릎이 90도 자연스럽게 이완 / 양성: 허벅지가 뜨거나(장요근 단축) 무릎이 펴짐(대퇴직근 단축)" 
+                    },
+                    { 
+                        id: "p2", name: "트렌델렌버그 징후 (Trendelenburg)", 
+                        method: "회원이 한 발로 서서 체중을 지지하게 하고, 뒤에서 골반의 좌우 수평 유지 상태를 관찰합니다.", 
+                        standard: "정상: 체중 지지 측 골반이 상향 유지됨 / 양성: 지지하지 않는 반대쪽 골반이 아래로 툭 떨어짐 (중둔근 약화)" 
+                    },
+                    { 
+                        id: "p3", name: "오버헤드 스쿼트 평가", 
+                        method: "양팔을 만세(Overhead)한 상태에서 맨몸 스쿼트를 5회 수행하게 하며 정면과 측면에서 체형 정렬을 관찰합니다.", 
+                        standard: "정상: 상체 전방 숙여짐 없이 고관절-무릎-발목 유기적 굴곡 / 양성: 무릎 안쪽 무너짐, 상체 숙여짐, 골반 회전 발생" 
+                    },
+                    { 
+                        id: "p4", name: "고관절 내·외회전 가동범위 검사", 
+                        method: "엎드린 상태(복위)에서 무릎을 90도 구부린 후 발목을 좌우로 쓰러뜨려 고관절 회전 각도를 측정합니다.", 
+                        standard: "정상: 내회전 35~45도, 외회전 45도 좌우 대칭 / 양성: 특정 방향 회전 제한 및 골반 들림 보상" 
+                    }
                 ]
             },
             ankle: {
-                title: "발목 및 하지 기능 평가표",
-                questions: [
-                    { id: "a1", label: "발목 배측굴곡 제한 (벽 테스트 10cm 미만)", type: "checkbox" },
-                    { id: "a2", label: "스쿼트 시 발뒤꿈치 들림 현상", type: "checkbox" },
-                    { id: "a3", label: "족저근막 및 아킬레스건 타이트함", type: "checkbox" },
-                    { id: "a4", label: "무릎 발가락 정렬 무너짐 (Valgus Collapse)", type: "checkbox" }
+                title: "발목 및 하지 기능 검사표",
+                tests: [
+                    { 
+                        id: "a1", name: "무릎 벽 테스트 (WBTD)", 
+                        method: "발가락을 벽에 수직으로 대고 뒤꿈치가 떨어지지 않은 채 무릎이 벽에 닿는지 점진적으로 거리를 벌려가며 측정합니다.", 
+                        standard: "정상: 발끝과 벽의 거리가 10cm 이상 확보되며 무릎이 벽에 닿음 / 양성: 10cm 미만 또는 발뒤꿈치가 들림 (발목 배측굴곡 제한)" 
+                    },
+                    { 
+                        id: "a2", name: "스쿼트 힐 리프트 테스트", 
+                        method: "맨몸 스쿼트를 수행할 때 하강 구간에서 발뒤꿈치가 바닥에서 떨어지는지 관찰합니다.", 
+                        standard: "정상: 발바닥 전체(발가락-발뒤꿈치)가 바닥에 밀착 유지 / 양성: 족관절 배측굴곡 제한으로 뒤꿈치가 떠오름" 
+                    },
+                    { 
+                        id: "a3", name: "윈들라스 테스트 (Windlass Test)", 
+                        method: "엄지발가락을 위로 신전(젖혀)시킬 때 발바닥 아치 중앙부의 긴장도 변화와 통증 유무를 확인합니다.", 
+                        standard: "정상: 내측 종아치 탄탄히 형성되며 통증 없음 / 양성: 발바닥 근막 당김 및 발바닥 내측 통증 발생 (족저근막염)" 
+                    },
+                    { 
+                        id: "a4", name: "무릎 외반 정렬 검사 (Valgus Collapse)", 
+                        method: "싱글레그 스쿼트 또는 런지 동작 시 무릎 관절이 발가락 두 번째 방향과 일치하는지 관찰합니다.", 
+                        standard: "정상: 고관절-무릎-발목 정렬이 수직선상 일치 / 양성: 무릎이 안쪽으로 꺾이는 현상 발생" 
+                    }
                 ]
             }
         };
@@ -306,7 +360,6 @@
             lucide.createIcons();
             renderEvaluationForm();
             loadClientList();
-            checkApiKeyOnLoad();
         };
 
         function switchRegion(region) {
@@ -327,18 +380,37 @@
             const data = evaluationData[currentRegion];
             
             let html = `<p class="text-xs font-bold text-brand-400 mb-2">${data.title}</p>`;
-            data.questions.forEach(q => {
+            data.tests.forEach(t => {
                 html += `
-                    <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-darkborder bg-darkbg cursor-pointer hover:border-brand-500/50 transition">
-                        <input type="checkbox" id="${q.id}" class="w-4 h-4 rounded border-darkborder text-brand-500 focus:ring-brand-500 bg-darkcard">
-                        <span class="text-xs text-gray-300 font-medium">${q.label}</span>
-                    </label>
+                    <div class="flex items-center justify-between p-2.5 rounded-xl border border-darkborder bg-darkbg hover:border-brand-500/50 transition">
+                        <label class="flex items-center gap-2.5 cursor-pointer flex-1">
+                            <input type="checkbox" id="${t.id}" class="w-4 h-4 rounded border-darkborder text-brand-500 focus:ring-brand-500 bg-darkcard">
+                            <span class="text-xs text-gray-300 font-medium">${t.name}</span>
+                        </label>
+                        <button onclick="openGuideModal('${t.name}', \`${t.method}\`, \`${t.standard}\`)" class="px-2 py-1 bg-brand-500/10 border border-brand-500/30 text-brand-400 rounded-lg text-[10px] hover:bg-brand-500/20 flex items-center gap-1">
+                            <i data-lucide="info" class="w-3 h-3"></i> 가이드
+                        </button>
+                    </div>
                 `;
             });
             container.innerHTML = html;
+            lucide.createIcons();
         }
 
-        // Gemini Direct AI Call (Using @google/genai browser SDK standard or REST fetch)
+        function openGuideModal(title, method, standard) {
+            document.getElementById('guideModalTitle').innerHTML = `<i data-lucide="help-circle" class="w-5 h-5 text-brand-400"></i> ${title} 가이드`;
+            document.getElementById('guideModalContent').innerHTML = `
+                <p><strong class="text-white">🔍 검사 방법:</strong><br>${method}</p>
+                <p class="pt-2 border-t border-darkborder"><strong class="text-white">📊 판정 기준:</strong><br>${standard}</p>
+            `;
+            document.getElementById('guideModal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeGuideModal() {
+            document.getElementById('guideModal').classList.add('hidden');
+        }
+
         async function generateAiProtocol() {
             let apiKey = localStorage.getItem('rehab_gemini_api_key');
             if(!apiKey) {
@@ -346,13 +418,12 @@
                 return;
             }
 
-            // Collect checked evaluation items across regions or current region
             let evaluatedItems = [];
             ['scapula', 'pelvis', 'ankle'].forEach(reg => {
-                evaluationData[reg].questions.forEach(q => {
-                    const el = document.getElementById(q.id);
+                evaluationData[reg].tests.forEach(t => {
+                    const el = document.getElementById(t.id);
                     if(el && el.checked) {
-                        evaluatedItems.push(`[${evaluationData[reg].title}] ${q.label}`);
+                        evaluatedItems.push(`[${evaluationData[reg].title}] ${t.name} (이상 소견 감지)`);
                     }
                 });
             });
@@ -360,21 +431,21 @@
             const customPain = document.getElementById('customPainInput').value;
 
             if(evaluatedItems.length === 0 && !customPain) {
-                alert('최소한 하나 이상의 평가 항목을 체크하거나 통증 부위를 입력해 주세요.');
+                alert('최소한 하나 이상의 기능검사 항목을 체크하거나 통증 부위를 입력해 주세요.');
                 return;
             }
 
             const reportBox = document.getElementById('reportBox');
             const reportContent = document.getElementById('reportContent');
             reportBox.classList.remove('hidden');
-            reportContent.innerHTML = `<div class="text-center py-6"><i data-lucide="loader" class="w-6 h-6 animate-spin text-brand-400 mx-auto mb-2"></i><p class="text-xs text-gray-400">제미나이 2.5 AI가 부위별 평가표를 분석하여 맞춤 프로그램을 생성 중입니다...</p></div>`;
+            reportContent.innerHTML = `<div class="text-center py-6"><i data-lucide="loader" class="w-6 h-6 animate-spin text-brand-400 mx-auto mb-2"></i><p class="text-xs text-gray-400">제미나이 2.5 AI가 기능검사 결과를 분석하여 4단계 프로그램을 생성 중입니다...</p></div>`;
             lucide.createIcons();
 
             const prompt = `
 당신은 리햅프로(Rehab Pro)의 수석 운동 컨디셔닝 AI 에이전트입니다.
-아래 회원 기능 평가 결과와 통증 양상을 분석하여 현장 트레이너를 위한 4단계 맞춤 프로그램을 작성해 주십시오.
+아래 회원 기능 검사 결과와 통증 양상을 분석하여 현장 트레이너를 위한 4단계 맞춤 프로그램을 작성해 주십시오.
 
-[회원 기능 평가 체크리스트 결과]
+[회원 기능 검사 이상 소견 결과]
 ${evaluatedItems.length > 0 ? evaluatedItems.join('\n') : '체크된 항목 없음'}
 
 [추가 통증 부위 및 동작 양상]
@@ -383,18 +454,17 @@ ${customPain || '특이사항 없음'}
 [출력 요구사항]
 1. 의료법 준수: '진단', '처방', '치료', '병명' 등 의료법 저촉 용어 절대 사용 금지 ('기능적 평가', '운동 컨디셔닝', 'MFR', '관절 가동성'으로 표현).
 2. 구조화된 4단계 프로그램 포맷:
-   - 📌 1. 체형 불균형 및 가동범위 제한 원인 분석
+   - 📌 1. 기능 검사 결과에 따른 체형 및 가동범위 제한 원인 분석
    - 🎯 2. 타겟 근육 및 Trigger Point (TP)
    - 🛠️ 3. 4단계 맞춤 컨디셔닝 프로토콜:
      * 1단계 MFR (근막이완 & 압박)
      * 2단계 Joint Mobility (관절 가동성)
      * 3단계 Active Movement (능동 활성화 운동)
      * 4단계 Passive Stretching (수동 이완)
-   - ⚠️ 4. 트레이너 현장 지도 팁
+   - ⚠️ 4. 트레이너 현장 지도 및 회원 상담 설득 팁
 `;
 
             try {
-                // Call Gemini API directly via REST endpoint (gemini-2.5-flash)
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -419,7 +489,6 @@ ${customPain || '특이사항 없음'}
             }
         }
 
-        // API Key Modal Handlers
         function openApiKeyModal() { document.getElementById('apiKeyModal').classList.remove('hidden'); }
         function closeApiKeyModal() { document.getElementById('apiKeyModal').classList.add('hidden'); }
         function saveApiKey() {
@@ -429,13 +498,7 @@ ${customPain || '특이사항 없음'}
             closeApiKeyModal();
             alert('API 키가 안전하게 저장되었습니다.');
         }
-        function checkApiKeyOnLoad() {
-            if(!localStorage.getItem('rehab_gemini_api_key')) {
-                // Optional auto popup on first visit
-            }
-        }
 
-        // Timer Logic
         function setTimerPhase(phase) {
             currentPhase = phase;
             [1,2,3,4].forEach(p => {
@@ -487,7 +550,6 @@ ${customPain || '특이사항 없음'}
             document.getElementById('timerDisplay').innerText = `${m}:${s}`;
         }
 
-        // CRM Storage
         function createNewClient() {
             const name = prompt('신규 회원 이름을 입력하세요:');
             if(!name) return;
