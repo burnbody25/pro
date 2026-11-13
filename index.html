@@ -1,1913 +1,602 @@
-<!DOCTYPE html>
+html_code = """<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>리햅프로 (Rehab Pro) - 야구선수 전문 컨디셔닝·재활 SaaS 2.0</title>
-    <!-- Tailwind CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>리햅프로 (Rehab Pro) - 퍼포먼스·컨디셔닝 통합 SaaS v2.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-        * {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-            box-sizing: border-box;
-        }
-        body {
-            background-color: #f8fafc;
-            color: #0f172a;
-        }
-        .clean-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
-        }
-        .item-selected {
-            background-color: #eff6ff;
-            border-color: #2563eb;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
-        }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
-
-        /* Print Media Styles */
-        @media print {
-            body { background: #ffffff !important; color: #000000 !important; }
-            .no-print { display: none !important; }
-            .print-full { width: 100% !important; max-width: 100% !important; border: none !important; box-shadow: none !important; padding: 0 !important; }
-            .phase-box { break-inside: avoid; border: 1px solid #cbd5e1 !important; margin-bottom: 10px; }
-        }
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .clean-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04); }
+        .prose h3 { font-size: 1rem; font-weight: 700; color: #0f172a; margin-top: 1rem; margin-bottom: 0.4rem; }
+        .prose ul { list-style-type: disc; padding-left: 1.25rem; margin-bottom: 0.75rem; font-size: 0.85rem; }
+        .prose li { margin-bottom: 0.35rem; line-height: 1.5; }
+        .prose a { color: #2563eb; font-weight: 700; text-decoration: underline; }
+        .prose table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.8rem; }
+        .prose th, .prose td { border: 1px solid #cbd5e1; padding: 0.5rem; text-align: left; }
+        .prose th { background-color: #f1f5f9; font-weight: 700; }
+        @media print { .no-print { display: none !important; } body { background: white; } }
     </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-blue-600 selection:text-white">
+<body class="min-h-screen flex flex-col">
 
-    <!-- TOP NAVIGATION HEADER -->
-    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 shadow-xs no-print">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-            <!-- Brand Identity -->
+    <!-- 1인 1계정 라이선스 보안 인증 모달 (최초 1회 또는 미인증 시) -->
+    <div id="licenseModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 no-print">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white font-black text-lg shadow-sm">
-                    RP
-                </div>
+                <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold">RP</div>
                 <div>
-                    <div class="flex flex-wrap items-center gap-2">
-                        <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900">리햅프로 (Rehab Pro)</h1>
-                        <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-bold">클린 프로페셔널 2.0</span>
-                        <span class="hidden md:inline-flex items-center text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold">
-                            <i data-lucide="shield-check" class="w-3 h-3 mr-1"></i>1인 1계정 Pro 라이선스 활성
-                        </span>
-                    </div>
-                    <p class="text-xs text-slate-500 font-medium">야구선수 특화 운동사슬(Kinetic Chain) 최적화 & 4단계 컨디셔닝 SaaS</p>
+                    <h3 class="text-lg font-bold text-slate-900">리햅프로 B2B/B2C 라이선스 인증</h3>
+                    <p class="text-xs text-slate-500">1인 1계정 보안 정책에 따라 기기당 1개의 세션만 허용됩니다.</p>
                 </div>
             </div>
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-1">
+                <p>• <strong>테스트 체험 키:</strong> <code class="bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded font-bold">REHAB-PRO-2026</code></p>
+                <p>• 기기 고유 ID가 자동 바인딩되어 무단 계정 공유가 차단됩니다.</p>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">라이선스 키 입력</label>
+                <input type="text" id="licenseInput" value="REHAB-PRO-2026" placeholder="발급받은 라이선스 키 입력" class="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+            <button onclick="verifyLicense()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-sm shadow-md transition">
+                라이선스 활성화 및 현장 시작하기
+            </button>
+        </div>
+    </div>
 
-            <!-- Action Toolbar -->
-            <div class="flex flex-wrap items-center gap-2">
-                <button onclick="openAiModal()" class="px-3.5 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white text-xs font-extrabold rounded-xl shadow-sm transition flex items-center space-x-1.5">
-                    <i data-lucide="bot" class="w-4 h-4"></i>
-                    <span>AI 맞춤 코칭</span>
+    <!-- Gemini API Key 설정 모달 -->
+    <div id="apiModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 no-print">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="text-base font-bold text-slate-900 flex items-center">
+                    <i data-lucide="key" class="w-4 h-4 text-blue-600 mr-2"></i> 트레이너 개별 Gemini API Key 설정
+                </h3>
+                <button onclick="toggleModal('apiModal', false)" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+                입력하신 API Key는 외부 서버로 전송되지 않고 <strong>현재 브라우저(LocalStorage)에만 안전하게 저장</strong>됩니다.
+            </p>
+            <input type="password" id="apiKeyInput" placeholder="AIzaSy..." class="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+            <div class="flex justify-end space-x-2">
+                <button onclick="toggleModal('apiModal', false)" class="px-4 py-2 text-xs font-semibold text-slate-600 bg-slate-100 rounded-xl">닫기</button>
+                <button onclick="saveApiKey()" class="px-4 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl">저장하기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 no-print">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-extrabold text-lg shadow-sm">RP</div>
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <h1 class="text-base sm:text-lg font-extrabold text-slate-900">리햅프로 (Rehab Pro)</h1>
+                        <span class="text-[11px] font-bold px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-full">v2.0 상용 에디션</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 hidden sm:block">40가지 증상 & 야구 특화 4단계 컨디셔닝 · AI 맞춤 처방 SaaS</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button onclick="toggleModal('apiModal', true)" class="flex items-center space-x-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl transition">
+                    <i data-lucide="key" class="w-3.5 h-3.5 text-blue-600"></i>
+                    <span id="apiStatusText">API 키 설정</span>
                 </button>
-                <button onclick="openApiKeyModal()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 text-xs font-bold rounded-xl transition flex items-center space-x-1.5" title="Gemini API Key 설정">
-                    <i data-lucide="key-round" class="w-3.5 h-3.5 text-amber-600"></i>
-                    <span class="hidden sm:inline">API 설정</span>
-                    <span id="apiKeyStatusDot" class="w-2 h-2 rounded-full bg-slate-400"></span>
-                </button>
-                <button onclick="openTimerModal()" class="px-3.5 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-extrabold rounded-xl transition flex items-center space-x-1.5">
-                    <i data-lucide="timer" class="w-4 h-4"></i>
-                    <span>3분 타이머</span>
-                </button>
-                <button onclick="openHistoryModal()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 text-xs font-bold rounded-xl transition flex items-center space-x-1.5">
-                    <i data-lucide="clipboard-list" class="w-4 h-4 text-emerald-600"></i>
-                    <span class="hidden md:inline">훈련 기록</span>
-                    <span id="historyBadge" class="bg-slate-800 text-white text-[10px] px-1.5 py-0.2 rounded-full">0</span>
-                </button>
-                <button onclick="window.print()" class="px-3 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl shadow-xs transition flex items-center space-x-1.5">
-                    <i data-lucide="printer" class="w-4 h-4"></i>
-                    <span class="hidden lg:inline">처방전 인쇄</span>
+                <button onclick="window.print()" class="hidden sm:flex items-center space-x-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-900 text-white px-3 py-2 rounded-xl transition">
+                    <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                    <span>리포트 출력</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- MAIN WORKSPACE -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-5 space-y-5">
+    <!-- Main Workspace -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 space-y-6">
 
-        <!-- MULTI-DIMENSIONAL FILTER PANEL -->
-        <section class="clean-card rounded-2xl p-4 sm:p-5 space-y-4 no-print">
-            <!-- Row 1: Position & Keyword Search -->
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 pb-3.5">
+        <!-- Top Tab Navigation -->
+        <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-3 no-print">
+            <button onclick="switchTab('library')" id="tab-library" class="px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white shadow-sm flex items-center">
+                <i data-lucide="layers" class="w-4 h-4 mr-1.5"></i> 4단계 운동 프로토콜 라이브러리 (야구·일반 통합)
+            </button>
+            <button onclick="switchTab('ai')" id="tab-ai" class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 flex items-center">
+                <i data-lucide="sparkles" class="w-4 h-4 mr-1.5 text-blue-600"></i> AI 4대 문진 맞춤 처방 & 실전 영상 URL 추천
+            </button>
+            <button onclick="switchTab('history')" id="tab-history" class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 flex items-center">
+                <i data-lucide="history" class="w-4 h-4 mr-1.5 text-emerald-600"></i> 현장 세션 완료 이력 (<span id="historyCount">0</span>)
+            </button>
+        </div>
+
+        <!-- SECTION 1: 4단계 운동 프로토콜 라이브러리 -->
+        <section id="section-library" class="space-y-5">
+            <!-- Filter Bar -->
+            <div class="clean-card rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 no-print">
                 <div class="flex flex-wrap items-center gap-2">
-                    <span class="text-xs font-extrabold text-slate-500 mr-1 flex items-center">
-                        <i data-lucide="users" class="w-3.5 h-3.5 mr-1 text-blue-600"></i>포지션:
-                    </span>
-                    <button onclick="setFilter('pos', 'all')" id="pos-all" class="pos-btn px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-blue-600 text-white shadow-xs transition">전체 (22종)</button>
-                    <button onclick="setFilter('pos', 'pitcher')" id="pos-pitcher" class="pos-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">투수 (Pitcher · 11종)</button>
-                    <button onclick="setFilter('pos', 'hitter')" id="pos-hitter" class="pos-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">타자 (Hitter · 11종)</button>
+                    <select id="posFilter" onchange="renderExercises()" class="bg-slate-50 border border-slate-300 text-xs rounded-xl px-3 py-2 font-semibold">
+                        <option value="all">전체 대상 (투수/타자/일반)</option>
+                        <option value="pitcher">투수 (Pitcher)</option>
+                        <option value="hitter">타자 (Hitter)</option>
+                        <option value="general">공통·일반 체형/통증</option>
+                    </select>
+                    <select id="catFilter" onchange="renderExercises()" class="bg-slate-50 border border-slate-300 text-xs rounded-xl px-3 py-2 font-semibold">
+                        <option value="all">모든 상태 카테고리 (A~D)</option>
+                        <option value="A">A타입 [통증 조절 및 MFR 보호]</option>
+                        <option value="B">B타입 [가동범위(ROM) 제한 해소]</option>
+                        <option value="C">C타입 [근육활성화 & Active 재교육]</option>
+                        <option value="D">D타입 [기능향상 & Passive/실전부하]</option>
+                    </select>
+                    <select id="toolFilter" onchange="renderExercises()" class="bg-slate-50 border border-slate-300 text-xs rounded-xl px-3 py-2 font-semibold">
+                        <option value="all">모든 소도구</option>
+                        <option value="plyo">플라이오케어 볼</option>
+                        <option value="band">J-Bands / 탄성 밴드</option>
+                        <option value="landmine">랜드마인 앵커</option>
+                        <option value="medball">메디신볼</option>
+                        <option value="roller">폼롤러 / 마사지공</option>
+                    </select>
                 </div>
-
-                <div class="relative w-full md:w-72">
-                    <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="searchInput" onkeyup="applyFilters()" placeholder="운동명, 증상, 관절, 코칭큐 검색..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:outline-none focus:border-blue-500 focus:bg-white transition">
+                <div class="relative w-full md:w-64">
+                    <input type="text" id="searchInput" onkeyup="renderExercises()" placeholder="운동명, 증상, 부위 검색..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 outline-none">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5"></i>
                 </div>
             </div>
 
-            <!-- Row 2: 4-Stage Condition Categories (A ~ D) -->
-            <div class="flex flex-wrap items-center gap-2">
-                <span class="text-xs font-extrabold text-slate-500 mr-1 flex items-center">
-                    <i data-lucide="layers" class="w-3.5 h-3.5 mr-1 text-emerald-600"></i>상태 카테고리:
-                </span>
-                <button onclick="setFilter('cat', 'all')" id="cat-all" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-extrabold bg-slate-900 text-white shadow-xs transition">전체 상태</button>
-                <button onclick="setFilter('cat', 'A')" id="cat-A" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 transition">A: 통증 조절 및 보호</button>
-                <button onclick="setFilter('cat', 'B')" id="cat-B" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition">B: 가동범위 제한 해소</button>
-                <button onclick="setFilter('cat', 'C')" id="cat-C" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 transition">C: 근육활성화 및 신경근 재교육</button>
-                <button onclick="setFilter('cat', 'D')" id="cat-D" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100 transition">D: 기능향상 및 실전 부하</button>
-            </div>
+            <!-- Grid Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left List -->
+                <div class="lg:col-span-4 space-y-2.5 max-h-[680px] overflow-y-auto pr-1 no-print" id="exerciseList"></div>
 
-            <!-- Row 3: Equipment / Tool Filters -->
-            <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
-                <span class="text-xs font-extrabold text-slate-500 mr-1 flex items-center">
-                    <i data-lucide="wrench" class="w-3.5 h-3.5 mr-1 text-amber-600"></i>소도구 필터:
-                </span>
-                <button onclick="setFilter('tool', 'all')" id="tool-all" class="tool-btn px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-slate-700 text-white transition">전체 도구</button>
-                <button onclick="setFilter('tool', '플라이오케어 볼')" id="tool-플라이오케어 볼" class="tool-btn px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">플라이오케어 볼</button>
-                <button onclick="setFilter('tool', 'J-Bands/튜빙')" id="tool-J-Bands/튜빙" class="tool-btn px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">J-Bands/튜빙</button>
-                <button onclick="setFilter('tool', '랜드마인 앵커')" id="tool-랜드마인 앵커" class="tool-btn px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">랜드마인 앵커</button>
-                <button onclick="setFilter('tool', '메디신볼')" id="tool-메디신볼" class="tool-btn px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">메디신볼</button>
-                <button onclick="setFilter('tool', '폼롤러/마사지공')" id="tool-폼롤러/마사지공" class="tool-btn px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">폼롤러/마사지공</button>
-                <button onclick="setFilter('tool', '맨몸/배트')" id="tool-맨몸/배트" class="tool-btn px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">맨몸/배트</button>
+                <!-- Right Detail 4-Stage Card -->
+                <div class="lg:col-span-8 space-y-4">
+                    <div class="clean-card rounded-2xl p-6">
+                        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-slate-200 pb-4 mb-5">
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                                    <span id="detailBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">투수 · D타입</span>
+                                    <span id="detailTool" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">플라이오케어 볼</span>
+                                </div>
+                                <h2 id="detailTitle" class="text-xl font-extrabold text-slate-900">피벗 픽오프 스로우 (Pivot Pickoff Throw)</h2>
+                                <p id="detailDesc" class="text-xs text-slate-600 mt-1 leading-relaxed"></p>
+                            </div>
+                            <div class="flex items-center gap-2 shrink-0 no-print">
+                                <a id="detailYoutubeLink" href="#" target="_blank" rel="noopener noreferrer" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl shadow-sm transition flex items-center">
+                                    <i data-lucide="play-circle" class="w-4 h-4 mr-1.5"></i> 실전 시연 영상
+                                </a>
+                                <button onclick="startSessionTimer()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl shadow-sm transition flex items-center">
+                                    <i data-lucide="timer" class="w-4 h-4 mr-1.5"></i> 3분 타이머
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Timer Bar (Hidden by default) -->
+                        <div id="timerPanel" class="hidden mb-5 bg-slate-900 text-white rounded-xl p-4 flex items-center justify-between no-print">
+                            <div>
+                                <span class="text-[11px] text-blue-400 font-bold uppercase tracking-wider">4단계 집중 컨디셔닝 세션 타이머</span>
+                                <div class="text-2xl font-mono font-extrabold mt-0.5" id="timerDisplay">03:00</div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="completeSession()" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-3.5 py-2 rounded-lg">세션 완료 기록</button>
+                                <button onclick="stopSessionTimer()" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold px-3 py-2 rounded-lg">종료</button>
+                            </div>
+                        </div>
+
+                        <!-- 4-Step Structured Typography Cards -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50/40 border border-blue-200 rounded-xl p-4 space-y-2">
+                                <span class="text-xs font-extrabold text-blue-700 bg-blue-100 px-2.5 py-0.5 rounded-md">1단계: 준비 및 부하 설정 (MFR/정렬)</span>
+                                <h4 id="s1Title" class="font-bold text-slate-900 text-sm"></h4>
+                                <p id="s1Body" class="text-xs text-slate-700 leading-relaxed"></p>
+                                <div id="s1Cue" class="text-xs font-bold text-blue-900 bg-blue-100/70 p-2.5 rounded-lg border border-blue-200"></div>
+                            </div>
+                            <div class="bg-emerald-50/40 border border-emerald-200 rounded-xl p-4 space-y-2">
+                                <span class="text-xs font-extrabold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-md">2단계: 운동사슬 연결 및 가동</span>
+                                <h4 id="s2Title" class="font-bold text-slate-900 text-sm"></h4>
+                                <p id="s2Body" class="text-xs text-slate-700 leading-relaxed"></p>
+                                <div id="s2Cue" class="text-xs font-bold text-emerald-900 bg-emerald-100/70 p-2.5 rounded-lg border border-emerald-200"></div>
+                            </div>
+                            <div class="bg-amber-50/40 border border-amber-200 rounded-xl p-4 space-y-2">
+                                <span class="text-xs font-extrabold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-md">3단계: 핵심 움직임 및 활성화</span>
+                                <h4 id="s3Title" class="font-bold text-slate-900 text-sm"></h4>
+                                <p id="s3Body" class="text-xs text-slate-700 leading-relaxed"></p>
+                                <div id="s3Cue" class="text-xs font-bold text-amber-900 bg-amber-100/70 p-2.5 rounded-lg border border-amber-200"></div>
+                            </div>
+                            <div class="bg-purple-50/40 border border-purple-200 rounded-xl p-4 space-y-2">
+                                <span class="text-xs font-extrabold text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-md">4단계: 감속 제어 및 피니시 유지</span>
+                                <h4 id="s4Title" class="font-bold text-slate-900 text-sm"></h4>
+                                <p id="s4Body" class="text-xs text-slate-700 leading-relaxed"></p>
+                                <div id="s4Cue" class="text-xs font-bold text-purple-900 bg-purple-100/70 p-2.5 rounded-lg border border-purple-200"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- MASTER-DETAIL CONTENT GRID -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            
-            <!-- LEFT: EXERCISE LIST (4 cols) -->
-            <aside class="lg:col-span-4 space-y-3 no-print">
-                <div class="flex items-center justify-between px-1">
-                    <span class="text-xs font-extrabold text-slate-700">맞춤 운동 리스트 (<span id="filteredCount" class="text-blue-600">22</span>개)</span>
-                    <button onclick="resetAllFilters()" class="text-[11px] text-slate-500 hover:text-blue-600 font-bold underline">필터 초기화</button>
-                </div>
-                <div id="exerciseList" class="space-y-2.5 max-h-[820px] overflow-y-auto pr-1.5">
-                    <!-- Dynamic List Rendered Here -->
-                </div>
-            </aside>
+        <!-- SECTION 2: AI 4대 문진 맞춤 처방 & 실전 영상 URL 추천 -->
+        <section id="section-ai" class="hidden space-y-5">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left 4-Question Intake Form -->
+                <div class="lg:col-span-5 clean-card rounded-2xl p-6 space-y-4 no-print">
+                    <div>
+                        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">토큰 끊김 방지 & 유튜브 영상 URL 자동 연동</span>
+                        <h2 class="text-lg font-extrabold text-slate-900 mt-2">AI 4대 필수 문진 맞춤 처방</h2>
+                        <p class="text-xs text-slate-500 mt-1">회원의 상태를 입력하면 4단계 프로토콜, 추천 소도구, 실전 영상 바로가기 링크를 즉시 생성합니다.</p>
+                    </div>
 
-            <!-- RIGHT: STRUCTURED 4-PHASE TYPOGRAPHY PROTOCOL (8 cols) -->
-            <section class="lg:col-span-8 clean-card rounded-2xl p-5 sm:p-7 space-y-6 print-full">
-                
-                <!-- Exercise Header & Direct Video Link -->
-                <div class="border-b border-slate-200 pb-5 flex flex-col md:flex-row md:items-start justify-between gap-4">
-                    <div class="space-y-2.5 flex-1">
-                        <div class="flex flex-wrap items-center gap-2">
-                            <span id="detailPosBadge" class="px-2.5 py-1 rounded-lg text-xs font-extrabold bg-blue-100 text-blue-800">투수 (Pitcher)</span>
-                            <span id="detailCatBadge" class="px-2.5 py-1 rounded-lg text-xs font-extrabold bg-purple-100 text-purple-800">D: 기능향상 및 실전 부하</span>
-                            <span id="detailToolBadge" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200">플라이오케어 볼</span>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-800 mb-1">1. 통증 부위 및 강도 (VAS 1~10)</label>
+                            <input type="text" id="qPain" placeholder="예: 우측 어깨 후방부, 투구 팔로우스루 시 통증 5점" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 outline-none">
                         </div>
-                        <h2 id="detailTitle" class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">피벗 픽오프 스로우 (Pivot Pickoff Throw)</h2>
-                        <p id="detailDesc" class="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">하체 이동을 통제하고 흉추 역회전 및 전완 회외-회내 전환을 고립 훈련하는 대표적인 투수 제약 드릴입니다.</p>
-                        
-                        <div class="flex flex-wrap items-center gap-2 pt-1">
-                            <div class="inline-flex items-center space-x-1.5 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700">
-                                <i data-lucide="repeat" class="w-3.5 h-3.5 text-blue-600"></i>
-                                <span id="detailPrescription">처방 기준: 3~5회 × 3세트</span>
-                            </div>
-                            <!-- Direct YouTube Demo Search Deep Link -->
-                            <a id="youtubeDemoLink" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 bg-red-600 hover:bg-red-700 text-white px-3.5 py-1.5 rounded-xl text-xs font-extrabold shadow-xs transition no-print">
-                                <i data-lucide="play-circle" class="w-4 h-4"></i>
-                                <span>실전 시연 영상 보기 (YouTube)</span>
-                                <i data-lucide="external-link" class="w-3 h-3 opacity-80"></i>
-                            </a>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-800 mb-1">2. 구체적 증상 및 동작 제한</label>
+                            <input type="text" id="qSymptom" placeholder="예: 레이백 동작에서 어깨 앞쪽이 찝히고 팔이 늦게 나옴" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-800 mb-1">3. 강화를 원하는 부위 (목표 근육)</label>
+                            <input type="text" id="qStrength" placeholder="예: 회전근개 감속근, 전거근, 하부승모근" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-800 mb-1">4. 가동성이 필요한 부위 (ROM 확보)</label>
+                            <input type="text" id="qMobility" placeholder="예: 흉추 신전 및 회전, 고관절 내회전" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 outline-none">
                         </div>
                     </div>
 
-                    <!-- Quick Session Buttons -->
-                    <div class="flex md:flex-col gap-2 shrink-0 no-print">
-                        <button onclick="openTimerModal()" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-extrabold rounded-xl shadow-xs transition flex items-center justify-center space-x-1.5">
-                            <i data-lucide="play" class="w-3.5 h-3.5"></i>
-                            <span>3분 세션 시작</span>
-                        </button>
-                        <button onclick="saveWorkoutLog()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold rounded-xl shadow-xs transition flex items-center justify-center space-x-1.5">
-                            <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
-                            <span>훈련 완료 기록</span>
-                        </button>
-                    </div>
+                    <button onclick="generateAiPrescription()" id="aiSubmitBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs shadow-md transition flex items-center justify-center">
+                        <i data-lucide="sparkles" class="w-4 h-4 mr-1.5"></i> 맞춤형 4단계 루틴 & 시연 영상 URL 생성하기
+                    </button>
                 </div>
 
-                <!-- 4-PHASE STRUCTURED TYPOGRAPHY CARDS (1. 준비 자세 -> 2. 핵심 움직임 -> 3. 현장 코칭 큐) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    
-                    <!-- Phase 1: Blue -->
-                    <div class="phase-box bg-blue-50/40 border border-blue-200 rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-3.5">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <span class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-blue-600 text-white tracking-wide">1단계 · 준비 및 부하 설정</span>
-                                <span class="text-[11px] font-bold text-blue-700">00:00 ~ 00:45</span>
-                            </div>
-                            <h3 id="p1Title" class="text-base font-extrabold text-slate-900">측면 정렬 및 그립 세팅</h3>
-                            
-                            <!-- Structured 3-Tier Typography -->
-                            <div class="space-y-2 text-xs">
-                                <div class="bg-white/90 border border-blue-100 rounded-xl p-2.5">
-                                    <span class="font-extrabold text-blue-700 block mb-0.5">[1. 준비 자세]</span>
-                                    <p id="p1Setup" class="text-slate-700 leading-relaxed font-medium">투구 측 어깨가 타겟 벽면을 바라보도록 90도 측면 정렬 후 양발을 지면에 고정합니다.</p>
-                                </div>
-                                <div class="bg-white/90 border border-blue-100 rounded-xl p-2.5">
-                                    <span class="font-extrabold text-slate-800 block mb-0.5">[2. 핵심 움직임]</span>
-                                    <p id="p1Action" class="text-slate-700 leading-relaxed font-medium">플라이오케어 볼을 가슴 앞에 두 손으로 쥐고 하체 흔들림 없이 코어 압력을 채웁니다.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Coaching Cue Highlight -->
-                        <div class="bg-blue-600/10 border border-blue-300 rounded-xl px-3 py-2.5 text-xs font-extrabold text-blue-950 flex items-start space-x-2">
-                            <span class="bg-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded font-black shrink-0 mt-0.5">CUE</span>
-                            <span id="p1Cue">"양발 바닥을 지면에 용접하듯 고정하고 몸 측면을 타겟에 정렬한다"</span>
-                        </div>
+                <!-- Right AI Output Result -->
+                <div class="lg:col-span-7 clean-card rounded-2xl p-6 flex flex-col min-h-[460px]">
+                    <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-4">
+                        <h3 class="text-sm font-extrabold text-slate-900 flex items-center">
+                            <i data-lucide="file-check-2" class="w-4 h-4 text-blue-600 mr-2"></i> AI 트레이닝 컨디셔닝 처방 리포트
+                        </h3>
+                        <span class="text-[11px] text-slate-400">근거 기반 스포츠 역학 프로토콜</span>
                     </div>
-
-                    <!-- Phase 2: Emerald -->
-                    <div class="phase-box bg-emerald-50/40 border border-emerald-200 rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-3.5">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <span class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-emerald-600 text-white tracking-wide">2단계 · 운동사슬 연결 및 분리</span>
-                                <span class="text-[11px] font-bold text-emerald-700">00:45 ~ 01:30</span>
-                            </div>
-                            <h3 id="p2Title" class="text-base font-extrabold text-slate-900">흉추 180도 역회전 및 상·하체 분리</h3>
-                            
-                            <div class="space-y-2 text-xs">
-                                <div class="bg-white/90 border border-emerald-100 rounded-xl p-2.5">
-                                    <span class="font-extrabold text-emerald-700 block mb-0.5">[1. 준비 자세]</span>
-                                    <p id="p2Setup" class="text-slate-700 leading-relaxed font-medium">골반과 양발이 타겟 측면 각도에서 돌아가지 않도록 하체 축을 단단히 잠급니다.</p>
-                                </div>
-                                <div class="bg-white/90 border border-emerald-100 rounded-xl p-2.5">
-                                    <span class="font-extrabold text-slate-800 block mb-0.5">[2. 핵심 움직임]</span>
-                                    <p id="p2Action" class="text-slate-700 leading-relaxed font-medium">흉추만을 타겟 반대쪽으로 180도 역회전시키며 던지는 손바닥이 위(회외)를 향하게 세팅합니다.</p>
-                                </div>
-                            </div>
+                    <div id="aiResultArea" class="flex-1 prose max-w-none text-slate-700 overflow-y-auto">
+                        <div class="h-full flex flex-col items-center justify-center text-center text-slate-400 py-12 space-y-2">
+                            <i data-lucide="bot" class="w-10 h-10 text-slate-300"></i>
+                            <p class="text-xs font-semibold">좌측 4가지 문진 항목을 입력하고 생성 버튼을 눌러주세요.</p>
+                            <p class="text-[11px]">끊김 없는 압축 처방표와 각 운동별 유튜브 실전 시연 링크가 함께 제공됩니다.</p>
                         </div>
-
-                        <div class="bg-emerald-600/10 border border-emerald-300 rounded-xl px-3 py-2.5 text-xs font-extrabold text-emerald-950 flex items-start space-x-2">
-                            <span class="bg-emerald-600 text-white text-[10px] px-1.5 py-0.5 rounded font-black shrink-0 mt-0.5">CUE</span>
-                            <span id="p2Cue">"골반은 묶어두고 가슴판을 뒤로 최대한 비틀어 팽팽하게 당긴다"</span>
-                        </div>
-                    </div>
-
-                    <!-- Phase 3: Amber -->
-                    <div class="phase-box bg-amber-50/40 border border-amber-200 rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-3.5">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <span class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-amber-500 text-white tracking-wide">3단계 · 폭발적 힘의 발현</span>
-                                <span class="text-[11px] font-bold text-amber-700">01:30 ~ 02:15</span>
-                            </div>
-                            <h3 id="p3Title" class="text-base font-extrabold text-slate-900">글러브 팔꿈치 폴드 & 흉추 해제</h3>
-                            
-                            <div class="space-y-2 text-xs">
-                                <div class="bg-white/90 border border-amber-100 rounded-xl p-2.5">
-                                    <span class="font-extrabold text-amber-700 block mb-0.5">[1. 준비 자세]</span>
-                                    <p id="p3Setup" class="text-slate-700 leading-relaxed font-medium">역회전으로 모인 흉추의 탄성 에너지를 유지하며 글러브 측 팔꿈치를 타겟 방향으로 세팅합니다.</p>
-                                </div>
-                                <div class="bg-white/90 border border-amber-100 rounded-xl p-2.5">
-                                    <span class="font-extrabold text-slate-800 block mb-0.5">[2. 핵심 움직임]</span>
-                                    <p id="p3Action" class="text-slate-700 leading-relaxed font-medium">글러브 팔꿈치를 후방 둔부로 강하게 당겨 내리면서 흉추를 폭발적으로 회전시켜 공을 릴리스합니다.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-amber-500/15 border border-amber-300 rounded-xl px-3 py-2.5 text-xs font-extrabold text-amber-950 flex items-start space-x-2">
-                            <span class="bg-amber-500 text-white text-[10px] px-1.5 py-0.5 rounded font-black shrink-0 mt-0.5">CUE</span>
-                            <span id="p3Cue">"글러브 팔꿈치를 뒤로 당기는 힘으로 흉추를 튕겨내듯 풀어준다"</span>
-                        </div>
-                    </div>
-
-                    <!-- Phase 4: Purple -->
-                    <div class="phase-box bg-purple-50/40 border border-purple-200 rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-3.5">
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <span class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-purple-600 text-white tracking-wide">4단계 · 감속 및 브레이킹 유지</span>
-                                <span class="text-[11px] font-bold text-purple-700">02:15 ~ 03:00</span>
-                            </div>
-                            <h3 id="p4Title" class="text-base font-extrabold text-slate-900">전완 회내 및 견갑 전인 브레이킹</h3>
-                            
-                            <div class="space-y-2 text-xs">
-                                <div class="bg-white/90 border border-purple-100 rounded-xl p-2.5">
-                                    <span class="font-extrabold text-purple-700 block mb-0.5">[1. 준비 자세]</span>
-                                    <p id="p4Setup" class="text-slate-700 leading-relaxed font-medium">공이 손끝을 떠나는 릴리스 직후 어깨 후면부 감속 근육과 코어에 브레이킹 텐션을 준비합니다.</p>
-                                </div>
-                                <div class="bg-white/90 border border-purple-100 rounded-xl p-2.5">
-                                    <span class="font-extrabold text-slate-800 block mb-0.5">[2. 핵심 움직임]</span>
-                                    <p id="p4Action" class="text-slate-700 leading-relaxed font-medium">전완이 강하게 안쪽(회내)으로 돌아가며 어깨가 전방으로 전인된 상태에서 2초간 정지합니다.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-purple-600/10 border border-purple-300 rounded-xl px-3 py-2.5 text-xs font-extrabold text-purple-950 flex items-start space-x-2">
-                            <span class="bg-purple-600 text-white text-[10px] px-1.5 py-0.5 rounded font-black shrink-0 mt-0.5">CUE</span>
-                            <span id="p4Cue">"릴리스 후 손바닥이 바깥쪽을 향하게 회전하며 어깨를 전방으로 누른다"</span>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Biomechanics & Field Coaching Point -->
-                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex items-start space-x-3 text-xs">
-                    <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center shrink-0 mt-0.5">
-                        <i data-lucide="activity" class="w-4 h-4"></i>
-                    </div>
-                    <div class="space-y-1">
-                        <strong class="text-slate-900 font-extrabold block">현장 트레이너 바이오매카닉스 핵심 포인트</strong>
-                        <p id="detailBiomech" class="text-slate-600 leading-relaxed font-medium">하체 이동을 통제함으로써 상체와 하체의 분리(Hip-Shoulder Separation) 감각을 극대화합니다. 관절에 날카로운 통증이 발생하면 즉시 중단하고 A타입(통증 조절 및 보호) 단계로 전환하십시오.</p>
                     </div>
                 </div>
+            </div>
+        </section>
 
-            </section>
-        </div>
+        <!-- SECTION 3: 현장 세션 완료 이력 -->
+        <section id="section-history" class="hidden">
+            <div class="clean-card rounded-2xl p-6 space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                    <h2 class="text-base font-extrabold text-slate-900">현장 트레이닝 세션 완료 기록 (LocalStorage)</h2>
+                    <button onclick="clearHistory()" class="text-xs text-red-600 hover:underline font-semibold">기록 전체 삭제</button>
+                </div>
+                <div id="historyList" class="space-y-2 text-xs text-slate-600"></div>
+            </div>
+        </section>
+
     </main>
 
-    <!-- FOOTER: LEGAL & MEDICAL COMPLIANCE NOTICE -->
-    <footer class="bg-white border-t border-slate-200 mt-10 py-5 px-4 text-center">
-        <div class="max-w-5xl mx-auto space-y-1.5">
-            <p class="text-xs font-bold text-slate-700 flex items-center justify-center gap-1.5">
-                <i data-lucide="alert-circle" class="w-4 h-4 text-amber-500 shrink-0"></i>
-                <span>본 서비스는 의료법상 질병의 진단이나 치료 행위가 아닌, 야구선수의 퍼포먼스 향상 및 부상 예방을 위한 비의료 피지컬 컨디셔닝 가이드입니다.</span>
-            </p>
-            <p class="text-[11px] text-slate-400">
-                급성 통증, 부종, 관절 잠김 현상이 지속될 경우 반드시 전문 의료기관의 진단을 받으시기 바랍니다. · © 2026 리햅프로 (Rehab Pro) Baseball Clean Edition 2.0
-            </p>
-        </div>
+    <!-- Legal Compliance Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-10 py-6 px-4 text-center text-xs text-slate-500 space-y-1.5">
+        <p class="font-semibold text-slate-700">
+            [의료법 준수 안내] 본 프로그램은 질병의 진단·치료 목적이 아닌, 체형 분석 및 퍼포먼스·컨디셔닝 향상을 위한 비의료 피지컬 트레이닝 가이드입니다.
+        </p>
+        <p class="text-[11px] text-slate-400">© 2026 리햅프로 (Rehab Pro) Corp. All rights reserved. | 1인 1계정 보안 정책 적용 중</p>
     </footer>
 
-    <!-- =========================================================================
-         MODAL 1: AI CUSTOM COACHING CHATBOT (4-QUESTION INTAKE FORM)
-         ========================================================================= -->
-    <div id="aiModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden flex items-center justify-center p-3 sm:p-4 no-print">
-        <div class="bg-white border border-slate-200 rounded-3xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
-            
-            <!-- Modal Header -->
-            <div class="px-6 py-4 bg-gradient-to-r from-slate-900 to-indigo-950 text-white flex items-center justify-between shrink-0">
-                <div class="flex items-center space-x-2.5">
-                    <div class="w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-300">
-                        <i data-lucide="sparkles" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-sm sm:text-base font-extrabold">리햅프로 AI 맞춤형 야구 컨디셔닝 코치</h3>
-                        <p class="text-[11px] text-slate-300">4대 필수 문진을 입력하면 맞춤형 4단계 루틴과 소도구 처방을 생성합니다.</p>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <button onclick="openApiKeyModal()" class="px-2.5 py-1.5 bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold rounded-lg transition flex items-center space-x-1">
-                        <i data-lucide="key" class="w-3 h-3 text-amber-300"></i>
-                        <span>API 키 관리</span>
-                    </button>
-                    <button onclick="closeAiModal()" class="text-slate-300 hover:text-white p-1">
-                        <i data-lucide="x" class="w-5 h-5"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Modal Body (Scrollable) -->
-            <div class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-5 bg-slate-50">
-                
-                <!-- 4-Question Intake Form Card -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xs">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                        <span class="text-xs font-extrabold text-indigo-700 flex items-center">
-                            <i data-lucide="clipboard-edit" class="w-4 h-4 mr-1.5"></i>선수 상태 4대 필수 문진표
-                        </span>
-                        <select id="aiPositionSelect" class="bg-slate-50 border border-slate-300 text-xs font-bold rounded-lg px-2.5 py-1 text-slate-700">
-                            <option value="투수 (Pitcher)">포지션: 투수 (Pitcher)</option>
-                            <option value="타자 (Hitter)">포지션: 타자 (Hitter)</option>
-                            <option value="야수/포수 (Fielder/Catcher)">포지션: 야수/포수</option>
-                        </select>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
-                        <div>
-                            <label class="font-extrabold text-slate-800 block mb-1">1. 현재 통증 위치 및 강도 (1~10)</label>
-                            <input type="text" id="q1Pain" placeholder="예: 투구 후 어깨 뒤쪽 뻐근함 (통증 4/10)" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500 focus:bg-white">
-                        </div>
-                        <div>
-                            <label class="font-extrabold text-slate-800 block mb-1">2. 구체적 증상 및 불편 동작</label>
-                            <input type="text" id="q2Symptom" placeholder="예: 레이백(코킹) 동작 시 어깨 위쪽 찝힘 느낌" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500 focus:bg-white">
-                        </div>
-                        <div>
-                            <label class="font-extrabold text-slate-800 block mb-1">3. 강화를 원하는 부위 및 목표</label>
-                            <input type="text" id="q3Strength" placeholder="예: 회전근개 감속 근력, 전거근 안정성, 구속 향상" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500 focus:bg-white">
-                        </div>
-                        <div>
-                            <label class="font-extrabold text-slate-800 block mb-1">4. 가동성이 필요한 부위</label>
-                            <input type="text" id="q4Mobility" placeholder="예: 어깨 안쪽 회전(GIRD), 흉추 신전 및 회전" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500 focus:bg-white">
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1">
-                        <span class="text-[11px] text-slate-500">※ 플라이오케어 볼, J-Bands, 랜드마인, 메디신볼, 폼롤러 등 현장 소도구 기반 맞춤 루틴을 제안합니다.</span>
-                        <button onclick="submitAiConsultation()" id="aiSubmitBtn" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-extrabold rounded-xl shadow-sm transition flex items-center justify-center space-x-1.5 shrink-0">
-                            <i data-lucide="send" class="w-3.5 h-3.5"></i>
-                            <span>AI 맞춤 운동 처방받기</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- AI Response Output Area -->
-                <div id="aiResponseContainer" class="bg-white border border-slate-200 rounded-2xl p-5 space-y-3 min-h-[180px]">
-                    <div class="flex items-center space-x-2 text-xs font-extrabold text-slate-400">
-                        <i data-lucide="message-square-text" class="w-4 h-4"></i>
-                        <span>AI 코칭 처방 리포트 출력 영역</span>
-                    </div>
-                    <div id="aiResponseContent" class="text-xs sm:text-sm text-slate-600 leading-relaxed space-y-2">
-                        위 4가지 문진 항목을 입력하고 <strong>[AI 맞춤 운동 처방받기]</strong> 버튼을 누르시면, 현장에서 즉시 활용 가능한 <strong>4단계 루틴(1. 이완 → 2. 가동성 → 3. 근육활성화 → 4. 기능향상)</strong>과 소도구 활용 가이드를 생성합니다.
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="px-6 py-3 bg-white border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-500 shrink-0">
-                <span>※ AI 제안 내용은 비의료 피지컬 컨디셔닝 참고용입니다.</span>
-                <button onclick="closeAiModal()" class="px-4 py-1.5 bg-slate-900 text-white font-bold rounded-xl text-xs">닫기</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- =========================================================================
-         MODAL 2: GEMINI API KEY CONFIGURATION MODAL
-         ========================================================================= -->
-    <div id="apiKeyModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden flex items-center justify-center p-4 no-print">
-        <div class="bg-white border border-slate-200 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 class="text-base font-extrabold text-slate-900 flex items-center">
-                    <i data-lucide="key-round" class="w-4 h-4 text-amber-600 mr-2"></i>
-                    개인 Gemini API Key 설정
-                </h3>
-                <button onclick="closeApiKeyModal()" class="text-slate-400 hover:text-slate-800 p-1">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <div class="space-y-3 text-xs">
-                <p class="text-slate-600 leading-relaxed">
-                    각 트레이너 및 센터 계정의 독립적인 AI 코칭 사용을 위해 본인의 <strong>Google Gemini API Key</strong>를 입력해 주세요. 입력된 키는 외부 서버로 전송되지 않고 현재 브라우저(LocalStorage)에만 안전하게 저장됩니다.
-                </p>
-                <div>
-                    <label class="font-extrabold text-slate-800 block mb-1">Gemini API Key (AIza...)</label>
-                    <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-mono text-xs focus:outline-none focus:border-blue-500 focus:bg-white">
-                </div>
-                <div class="flex items-center justify-between text-[11px] text-slate-500">
-                    <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-blue-600 font-bold underline flex items-center">
-                        Google AI Studio에서 무료 키 발급받기 <i data-lucide="external-link" class="w-3 h-3 ml-1"></i>
-                    </a>
-                    <button onclick="deleteApiKey()" class="text-red-500 hover:text-red-600 font-bold">저장된 키 삭제</button>
-                </div>
-            </div>
-
-            <div class="pt-2 flex justify-end space-x-2">
-                <button onclick="closeApiKeyModal()" class="px-4 py-2 bg-slate-100 text-slate-700 font-bold rounded-xl text-xs">취소</button>
-                <button onclick="saveApiKey()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl text-xs shadow-xs">API Key 저장</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- =========================================================================
-         MODAL 3: 3-MINUTE SESSION INTERVAL TIMER
-         ========================================================================= -->
-    <div id="timerModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden flex items-center justify-center p-4 no-print">
-        <div class="bg-white border border-slate-200 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <div class="flex items-center space-x-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-blue-600 animate-ping"></span>
-                    <h3 class="text-base font-extrabold text-slate-900">3분 4단계 인터벌 세션 타이머</h3>
-                </div>
-                <button onclick="closeTimerModal()" class="text-slate-400 hover:text-slate-800 p-1">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 text-center space-y-2">
-                <span id="timerTargetTitle" class="text-xs font-extrabold text-blue-600 block truncate">피벗 픽오프 스로우</span>
-                <div id="timerClock" class="text-5xl font-black font-mono text-slate-900 tracking-wider py-2">03:00</div>
-                <p id="timerPhaseIndicator" class="text-xs font-bold text-slate-600">1단계: 준비 및 부하 설정 (45초 구간)</p>
-                <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden mt-3">
-                    <div id="timerBar" class="bg-blue-600 h-full w-full transition-all duration-500"></div>
-                </div>
-            </div>
-
-            <!-- Stage Quick Jump -->
-            <div class="grid grid-cols-4 gap-1.5 text-[11px] font-extrabold">
-                <button onclick="jumpTimerStage(180)" class="py-2 rounded-xl bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 transition">1단계 (3:00)</button>
-                <button onclick="jumpTimerStage(135)" class="py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition">2단계 (2:15)</button>
-                <button onclick="jumpTimerStage(90)" class="py-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 transition">3단계 (1:30)</button>
-                <button onclick="jumpTimerStage(45)" class="py-2 rounded-xl bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100 transition">4단계 (0:45)</button>
-            </div>
-
-            <div class="grid grid-cols-3 gap-2.5 pt-1">
-                <button onclick="startSessionTimer()" class="py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl text-xs shadow-xs transition flex items-center justify-center space-x-1">
-                    <i data-lucide="play" class="w-3.5 h-3.5"></i><span>시작</span>
-                </button>
-                <button onclick="pauseSessionTimer()" class="py-3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-extrabold rounded-xl text-xs transition flex items-center justify-center space-x-1">
-                    <i data-lucide="pause" class="w-3.5 h-3.5"></i><span>일시정지</span>
-                </button>
-                <button onclick="resetSessionTimer()" class="py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-300 font-extrabold rounded-xl text-xs transition flex items-center justify-center space-x-1">
-                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i><span>리셋</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- =========================================================================
-         MODAL 4: LOCALSTORAGE WORKOUT HISTORY LOGS
-         ========================================================================= -->
-    <div id="historyModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden flex items-center justify-center p-4 no-print">
-        <div class="bg-white border border-slate-200 rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl max-h-[85vh] flex flex-col">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 class="text-base font-extrabold text-slate-900 flex items-center">
-                    <i data-lucide="check-square" class="w-4 h-4 text-emerald-600 mr-2"></i>
-                    완료된 컨디셔닝 훈련 기록 (LocalStorage)
-                </h3>
-                <button onclick="closeHistoryModal()" class="text-slate-400 hover:text-slate-800 p-1">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <div id="historyListContainer" class="flex-1 overflow-y-auto space-y-2.5 pr-1 text-xs">
-                <!-- Dynamic History Logs -->
-            </div>
-
-            <div class="border-t border-slate-100 pt-3 flex items-center justify-between">
-                <button onclick="clearWorkoutHistory()" class="text-xs text-red-600 hover:text-red-700 font-bold flex items-center">
-                    <i data-lucide="trash-2" class="w-3.5 h-3.5 mr-1"></i> 전체 기록 초기화
-                </button>
-                <button onclick="closeHistoryModal()" class="px-4 py-2 bg-slate-900 text-white text-xs font-bold rounded-xl">닫기</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- TOAST NOTIFICATION -->
-    <div id="toastNotification" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl text-xs font-bold flex items-center space-x-2 transform translate-y-24 opacity-0 transition-all duration-300 no-print">
-        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i>
-        <span id="toastMessage">알림 메시지</span>
-    </div>
-
-    <!-- =========================================================================
-         APPLICATION LOGIC & 22 BASEBALL EXERCISE MASTER DATABASE
-         ========================================================================= -->
     <script>
-        /* 1. 22 BASEBALL EXERCISE MASTER DATABASE (11 PITCHER + 11 HITTER) */
-        const EXERCISE_MASTER_DB = [
-            // ==================== PITCHER (투수 전용 11종) ====================
+        const MASTER_DB = [
             {
-                id: 'p_pivot_pickoff',
+                id: 'ex1', position: 'pitcher', posLabel: '투수', category: 'D', catLabel: 'D타입 [기능향상]', tool: 'plyo', toolLabel: '플라이오케어 볼 (350g~1kg)',
                 title: '피벗 픽오프 스로우 (Pivot Pickoff Throw)',
-                position: 'pitcher',
-                posLabel: '투수 (Pitcher)',
-                category: 'D',
-                catLabel: 'D: 기능향상 및 실전 부하',
-                tool: '플라이오케어 볼',
-                prescription: '3~5회 × 3세트 (제약 웜업 드릴)',
-                ytQuery: 'Pivot Pickoff Throw PlyoCare Baseball Driveline',
-                desc: '하체 이동을 통제하고 흉추 역회전 및 전완 회외-회내 전환을 고립 훈련하는 대표적인 투수 제약 드릴입니다.',
-                biomech: '골반과 양발을 지면에 고정한 채 상체(흉추)만 강하게 역회전시켜 상·하체 분리(Hip-Shoulder Separation) 감각과 릴리스 순간의 전완 회내(Pronation)를 극대화합니다.',
-                phases: [
-                    {
-                        title: '측면 정렬 및 그립 세팅',
-                        setup: '투구 측 어깨가 타겟 벽면을 바라보도록 90도 측면 정렬 후 양발을 어깨너비로 지면에 고정합니다.',
-                        action: '과적 플라이오케어 볼(Pink 350g~Green 1kg)을 투구 손에 쥐고 가슴 앞에 두 손으로 안정시킵니다.',
-                        cue: '양발 바닥을 지면에 용접하듯 고정하고 몸 측면을 타겟에 정렬한다'
-                    },
-                    {
-                        title: '흉추 180도 역회전 및 상·하체 분리',
-                        setup: '골반과 무릎이 타겟 측면 각도에서 돌아가지 않도록 하체 축을 단단히 잠급니다.',
-                        action: '흉추만을 타겟 반대쪽으로 180도 역회전시키며 손바닥이 위를 향하는 회외(Supination) 상태로 만듭니다.',
-                        cue: '골반은 묶어두고 가슴판을 뒤로 최대한 비틀어 팽팽하게 당긴다'
-                    },
-                    {
-                        title: '글러브 팔꿈치 폴드 & 폭발적 해제',
-                        setup: '역회전으로 모인 흉추의 탄성 에너지를 유지하며 글러브 측 팔꿈치를 타겟 방향으로 세팅합니다.',
-                        action: '글러브 팔꿈치를 후방 둔부로 강하게 당겨 내리면서(Glove Arm Fold) 흉추를 폭발적으로 해제해 공을 릴리스합니다.',
-                        cue: '글러브 팔꿈치를 뒤로 당기는 힘으로 흉추를 튕겨내듯 풀어준다'
-                    },
-                    {
-                        title: '전완 회내 및 견갑 전인 브레이킹',
-                        setup: '공이 손끝을 떠나는 직후 어깨 후면부 감속 근육과 코어에 브레이킹 텐션을 준비합니다.',
-                        action: '전완이 강하게 안쪽(회내)으로 돌아가며 어깨가 전방으로 전인된 상태에서 체중 중심을 잡고 2초간 정지합니다.',
-                        cue: '릴리스 후 손바닥이 바깥쪽을 향하게 회전하며 어깨를 전방으로 누른다'
-                    }
-                ]
+                desc: '하체 이동을 통제하고 흉추 역회전 및 전완 회외-회내 전환을 고립 훈련하는 제약 드릴입니다.',
+                s1: { t: '측면 정렬 및 그립', b: '투구 측 어깨가 타겟 벽면을 보도록 90도 정렬 후 양발을 지면에 고정합니다.', c: '코칭 큐: "양발 바닥을 지면에 용접하듯 고정한다"' },
+                s2: { t: '흉추 역회전 (Counter-Rotation)', b: '골반을 고정한 채 흉추만 타겟 반대쪽으로 180도 비틀며 손바닥을 위로 향하게 합니다.', c: '코칭 큐: "골반은 묶어두고 가슴판만 뒤로 비튼다"' },
+                s3: { t: '글러브 암 폴드 & 해제', b: '글러브 측 팔꿈치를 후방 둔부로 당겨 내리며 역회전된 흉추를 타겟으로 폭발시킵니다.', c: '코칭 큐: "글러브 팔꿈치를 뒤로 당겨 흉추를 튕겨낸다"' },
+                s4: { t: '전완 회내 및 견갑 전인', b: '릴리스 직후 전완이 강하게 회내되며 어깨가 전방으로 전인된 상태로 멈춥니다.', c: '코칭 큐: "손바닥이 바깥쪽을 향하게 회전하며 멈춘다"' }
             },
             {
-                id: 'p_reverse_throw',
+                id: 'ex2', position: 'pitcher', posLabel: '투수', category: 'C', catLabel: 'C타입 [근육활성화]', tool: 'plyo', toolLabel: '플라이오케어 볼 (350g~450g)',
                 title: '리버스 스로우 (Reverse Throw)',
-                position: 'pitcher',
-                posLabel: '투수 (Pitcher)',
-                category: 'C',
-                catLabel: 'C: 근육활성화 및 신경근 재교육',
-                tool: '플라이오케어 볼',
-                prescription: '5회 × 3세트 (감속 근육 활성화)',
-                ytQuery: 'Reverse Throw PlyoCare Baseball Pitcher',
-                desc: '투구 감속 시 어깨 후면부(극하근·소원근)에 가해지는 견인 부하를 수용하고 흉추 신전 가동성을 확보하는 역방향 드릴입니다.',
-                biomech: '볼 이탈 직후 어깨에는 체중의 1.5배에 달하는 견인력이 발생합니다. 뒤쪽 벽을 향해 공을 던지는 역방향 동작은 후방 회전근개의 편심성 감속 능력을 깨워줍니다.',
-                phases: [
-                    {
-                        title: '하프 닐링 후면 정렬',
-                        setup: '타겟 벽을 완전히 등지고 투구 측 무릎을 바닥에 대는 하프 닐링 자세를 취해 하체 이동을 단속합니다.',
-                        action: '플라이오케어 볼(350g~450g)을 투구 손에 쥐고 척추를 곧게 세워 정면을 바라봅니다.',
-                        cue: '벽을 뒤로 하고 무릎을 꿇어 하체 움직임을 완전히 잠근다'
-                    },
-                    {
-                        title: '흉추 신전 및 견갑골 후인',
-                        setup: '상체를 전방으로 살짝 숙여 복부와 등 근육에 예비 신장 텐션을 만듭니다.',
-                        action: '반동을 주며 흉추를 뒤로 펴고(신전) 어깨와 팔꿈치를 후상방으로 올려 날개뼈를 척추 쪽으로 강하게 모읍니다.',
-                        cue: '가슴을 접었다가 뒤로 펴며 날개뼈를 척추 쪽으로 접어 올린다'
-                    },
-                    {
-                        title: '어깨 후면부 역방향 투사',
-                        setup: '모아진 견갑골과 흉추의 탄성 에너지를 손끝까지 연결합니다.',
-                        action: '상체를 뒤쪽(타겟 벽 방향)으로 회전시키며 머리 높이 너머 벽을 향해 어깨 뒤쪽 힘으로 공을 쏘아 올립니다.',
-                        cue: '등 뒤의 벽을 향해 어깨 후면 전체로 공을 위로 쏘아 올린다'
-                    },
-                    {
-                        title: '상체 2초 동결 브레이킹',
-                        setup: '공을 던진 직후 상체가 뒤로 과도하게 꺾이지 않도록 복압을 유지합니다.',
-                        action: '코어와 등 근육으로 반동을 억제하며 상체를 곧게 세운 채 2초간 동결 자세로 버팁니다.',
-                        cue: '던진 뒤 등과 코어에 힘을 주어 상체가 넘어가지 않게 딱 버틴다'
-                    }
-                ]
+                desc: '투구 감속 시 어깨 후면부 감속근의 신장성 부하 수용 능력과 흉추 신전 가동성을 높입니다.',
+                s1: { t: '하프 닐링 역방향 정렬', b: '타겟 벽을 등지고 투구 측 무릎을 바닥에 대어 하체 반동을 차단합니다.', c: '코칭 큐: "벽을 뒤로 하고 무릎을 꿇어 하체를 단속한다"' },
+                s2: { t: '흉추 신전 및 견갑 후인', b: '상체를 숙였다가 반동을 주며 흉추를 펴고 팔꿈치를 후상방으로 접어 올립니다.', c: '코칭 큐: "가슴을 펴며 견갑골을 척추 쪽으로 접는다"' },
+                s3: { t: '어깨 후면 탄성 투사', b: '등 뒤 벽을 향해 상체를 회전시키며 머리 높이 너머로 공을 던집니다.', c: '코칭 큐: "등 뒤 벽을 향해 어깨 후면 전체로 공을 쏜다"' },
+                s4: { t: '감속 브레이킹 및 2초 동결', b: '릴리스 직후 상체가 뒤로 넘어가지 않도록 코어와 등근육으로 버티며 2초 정지합니다.', c: '코칭 큐: "던진 뒤 등과 코어에 힘을 주어 딱 버틴다"' }
             },
             {
-                id: 'p_roll_in_throw',
-                title: '롤인 스로우 (Roll-In Throw)',
-                position: 'pitcher',
-                posLabel: '투수 (Pitcher)',
-                category: 'D',
-                catLabel: 'D: 기능향상 및 실전 부하',
-                tool: '플라이오케어 볼',
-                prescription: '3회 × 3~4세트 (고강도 모멘텀 이행)',
-                ytQuery: 'Roll In Throw Plyo Baseball Pitching',
-                desc: '가벼운 보행 모멘텀을 이용해 하체 선회와 흉추 지체(Torso Delay), 전족 지지대(Lead Leg Brace)를 결합하는 이행 드릴입니다.',
-                biomech: '걸어 들어오는 전진 에너지를 앞다리(전족)가 지면을 강하게 밀어내며 회전 에너지로 전환시키는 투구 운동사슬의 핵심을 훈련합니다.',
-                phases: [
-                    {
-                        title: '리드미컬 보행 진입',
-                        setup: '타겟 벽에서 4~5m 떨어진 위치에서 투구할 공을 가슴 앞에 쥐고 편안하게 선 자세를 잡습니다.',
-                        action: '마운드에서 스텝을 밟듯 리듬감 있게 두 걸음 걸어 들어가며 몸의 전진 모멘텀을 만듭니다.',
-                        cue: '힘을 빼고 리듬감 있게 타겟을 향해 걸어 들어간다'
-                    },
-                    {
-                        title: '축발 착지 및 상체 지체(Torso Delay)',
-                        setup: '뒷발(축발)이 지면에 닿는 순간 골반이 타겟을 향해 먼저 회전을 시작합니다.',
-                        action: '골반이 돌아가는 동안 공을 잡은 어깨와 흉추는 최대한 뒤에 남겨 상·하체 꼬임을 극대화합니다.',
-                        cue: '골반은 먼저 출발하고 공을 든 어깨는 뒤에 남겨둔다'
-                    },
-                    {
-                        title: '전족 블로킹 & 채찍 릴리스',
-                        setup: '앞발(디딤발)이 지면에 닿자마자 무릎을 강하게 펴서 수직 브레이킹 벽을 세웁니다.',
-                        action: '앞다리가 버텨주는 반발력을 받아 상체를 채찍처럼 휘두르며 타겟을 향해 폭발적으로 공을 던집니다.',
-                        cue: '앞다리로 지면을 강하게 받치며 상체를 채찍처럼 쏜다'
-                    },
-                    {
-                        title: '단일 지지 감속 피니시',
-                        setup: '공을 놓은 직후 팔이 자연스럽게 반대쪽 무릎 방향으로 감속하며 내려옵니다.',
-                        action: '앞다리 한 발로 중심을 흔들림 없이 잡고 어깨 뒤쪽이 부드럽게 감속되도록 자세를 마무리합니다.',
-                        cue: '앞다리 하나로 흔들림 없이 중심을 잡고 버틴다'
-                    }
-                ]
+                id: 'ex3', position: 'pitcher', posLabel: '투수', category: 'C', catLabel: 'C타입 [근육활성화]', tool: 'band', toolLabel: 'J-Bands / 탄성 튜빙',
+                title: '밴드 숄더 익스터널 로테이션 프레스',
+                desc: '회전근개(극하근·소원근)의 동적 안정성을 확보하여 오버헤드 투구 시 어깨 내강을 보호합니다.',
+                s1: { t: '90/90 견갑면 세팅', b: '밴드를 정면에 고정하고 팔꿈치를 어깨 높이(견갑면 30도 전방)로 들어 올립니다.', c: '코칭 큐: "팔꿈치가 어깨 아래로 떨어지지 않게 받친다"' },
+                s2: { t: '전완 외회전 수축', b: '팔꿈치 위치를 고정한 채 손등을 뒤로 젖혀 전완을 수직으로 세웁니다.', c: '코칭 큐: "어깨 속 깊은 후면 근육으로 손등을 뒤로 당긴다"' },
+                s3: { t: '오버헤드 수직 프레스', b: '외회전 텐션을 유지한 상태에서 양팔을 머리 위로 천천히 밀어 올립니다.', c: '코칭 큐: "밴드가 앞으로 당기는 힘을 버티며 위로 민다"' },
+                s4: { t: '신장성 천천히 복귀', b: '3초에 걸쳐 천천히 시작 자세로 돌아오며 전거근과 회전근개의 버팀을 느낍니다.', c: '코칭 큐: "내려올 때 툭 떨어지지 않게 3초간 저항한다"' }
             },
             {
-                id: 'p_band_er_press',
-                title: '밴드 숄더 익스터널 로테이션 프레스 (Band ER Press)',
-                position: 'pitcher',
-                posLabel: '투수 (Pitcher)',
-                category: 'C',
-                catLabel: 'C: 근육활성화 및 신경근 재교육',
-                tool: 'J-Bands/튜빙',
-                prescription: '10~15회 × 3세트 (투구 전 필수 활성화)',
-                ytQuery: 'Band 90 90 External Rotation Press Baseball Shoulder',
-                desc: '회전근개(극하근·소원근)와 전거근의 동적 안정성을 확보하여 오버헤드 투구 시 어깨 관절 내강을 보호합니다.',
-                biomech: '외회전 상태에서 팔을 위로 밀어 올리는 동작은 견갑골의 상방 회전과 상완골두의 하방 활주를 동시에 유도해 어깨 찝힘을 원천 차단합니다.',
-                phases: [
-                    {
-                        title: '팔꿈치 90도 및 밴드 텐션 설정',
-                        setup: '밴드 앵커를 등지고 서서 한 손으로 그립을 쥐고 팔꿈치를 어깨 높이로 들어 90도 직각을 만듭니다.',
-                        action: '어깨가 귀 쪽으로 으쓱 올라가지 않도록 날개뼈를 아래로 지긋이 끌어내려 고정합니다.',
-                        cue: '어깨가 으쓱하지 않게 날개뼈를 아래로 꾹 내린다'
-                    },
-                    {
-                        title: '주먹을 뒤로 젖히는 90도 외회전',
-                        setup: '팔꿈치 높이가 떨어지지 않도록 수평 축을 단단히 유지합니다.',
-                        action: '밴드 저항을 이기며 손등이 뒤쪽 벽을 향하도록 팔뚝을 90도 뒤로 젖혀 세웁니다.',
-                        cue: '팔꿈치 높이는 고정하고 주먹만 뒤쪽 벽으로 넘긴다'
-                    },
-                    {
-                        title: '외회전 각도 유지 오버헤드 프레스',
-                        setup: '뒤로 젖힌 팔뚝 각도가 앞으로 기울어지지 않게 회전근개에 계속 힘을 줍니다.',
-                        action: '그 상태 그대로 머리 위 대각선 방향으로 팔을 천천히 끝까지 밀어 올립니다.',
-                        cue: '팔이 앞으로 쏠리지 않게 버티면서 천장 쪽으로 민다'
-                    },
-                    {
-                        title: '3초 편심성 통제 하강 복귀',
-                        setup: '최상단에서 1초간 겨드랑이 아래(전거근)와 어깨 뒤쪽 수축을 느낍니다.',
-                        action: '밴드가 앞으로 잡아당기는 힘에 끌려가지 않도록 3초를 세면서 천천히 시작 자세로 돌아옵니다.',
-                        cue: '밴드 탄성을 이기며 3초 동안 천천히 제자리로 내린다'
-                    }
-                ]
-            },
-            {
-                id: 'p_sleeper_stretch',
-                title: '슬리퍼 스트레칭 (어깨 뒤쪽 굳음 GIRD 해소)',
-                position: 'pitcher',
-                posLabel: '투수 (Pitcher)',
-                category: 'B',
-                catLabel: 'B: 가동범위 제한 해소',
-                tool: '폼롤러/마사지공',
-                prescription: '각 30초 × 3세트 (투구 후 필수 가동성)',
-                ytQuery: 'Sleeper Stretch Baseball Pitcher GIRD Mobility',
-                desc: '반복적인 투구 감속으로 딱딱하게 굳은 어깨 후방 관절낭을 이완하고 안쪽 회전(내회전) 가동범위를 회복합니다.',
-                biomech: '투구 팔의 내회전이 반대쪽보다 20도 이상 줄어들면 관절와순(SLAP) 손상 위험이 급증합니다. 날개뼈를 고정한 상태에서의 안전한 내회전 가동이 핵심입니다.',
-                phases: [
-                    {
-                        title: '마사지공 어깨 뒤쪽 근막 이완',
-                        setup: '스트레칭 전 벽과 날개뼈 바깥쪽 아래 사이에 마사지공을 끼우고 등을 기댑니다.',
-                        action: '체중을 가볍게 실어 뻐근하게 뭉친 후방 회전근개 부위를 30초간 천천히 문질러 풀어줍니다.',
-                        cue: '날개뼈 아래 뻐근한 지점을 공으로 지그시 눌러 이완한다'
-                    },
-                    {
-                        title: '옆으로 누워 날개뼈 바닥 고정',
-                        setup: '관리할 쪽 어깨를 아래로 하여 옆으로 눕고, 몸통을 살짝 뒤로 기울여 날개뼈를 바닥에 깔아둡니다.',
-                        action: '아래쪽 팔을 몸통과 90도가 되게 앞으로 뻗고 팔꿈치를 90도로 꺾어 천장을 향하게 세웁니다.',
-                        cue: '어깨가 앞으로 말리지 않게 날개뼈를 바닥에 꾹 고정한다'
-                    },
-                    {
-                        title: '반대 손으로 손목 바닥 누르기',
-                        setup: '위쪽 손으로 아래쪽 손목(손등 위)을 가볍게 감싸 쥡니다.',
-                        action: '숨을 길게 내쉬면서 어깨 앞쪽이 들리지 않는 범위까지만 손목을 바닥 방향으로 지긋이 눌러줍니다.',
-                        cue: '어깨 앞쪽이 뜨거나 찝히지 않는 선까지만 천천히 누른다'
-                    },
-                    {
-                        title: '5초 저항 수축 후 추가 가동',
-                        setup: '내려간 끝지점에서 호흡을 고르며 긴장을 유지합니다.',
-                        action: '누르는 반대 손에 5초간 가볍게 위로 밀어내는 힘을 주었다가 힘을 빼며 5도 더 바닥으로 내립니다.',
-                        cue: '5초 힘주고 후 내쉬며 조금 더 깊이 바닥으로 내린다'
-                    }
-                ]
-            },
-            {
-                id: 'p_thoracic_openbook',
-                title: '흉추 오픈북 회전 (Thoracic Open Book)',
-                position: 'pitcher',
-                posLabel: '투수 (Pitcher)',
-                category: 'B',
-                catLabel: 'B: 가동범위 제한 해소',
-                tool: '폼롤러/마사지공',
-                prescription: '좌우 8회 × 3세트 (상·하체 분리 기초)',
-                ytQuery: 'Thoracic Open Book Stretch Foam Roller Baseball',
-                desc: '굳어있는 등(흉추)의 회전 가동성을 넓혀 허리 과신전과 어깨 보상 작용을 예방하는 필수 가동성 드릴입니다.',
-                biomech: '흉추 회전 각도가 부족하면 투구 시 상·하체 분리가 일어나지 않아 팔 힘으로만 던지게 됩니다. 골반을 폼롤러로 잠그고 등만 비트는 것이 핵심입니다.',
-                phases: [
-                    {
-                        title: '옆으로 누워 폼롤러 무릎 고정',
-                        setup: '옆으로 누워 아래쪽 다리는 펴고 위쪽 다리 무릎을 90도로 굽혀 바닥의 폼롤러 위에 올립니다.',
-                        action: '위쪽 무릎으로 폼롤러를 지긋이 눌러 골반과 허리가 돌아가지 않도록 하체를 잠급니다.',
-                        cue: '위쪽 무릎이 폼롤러에서 떨어지지 않게 꾹 눌러 고정한다'
-                    },
-                    {
-                        title: '양팔 전방 합장 정렬',
-                        setup: '양팔을 가슴 앞으로 나란히 뻗어 양 손바닥이 서로 마주 보게 포갭니다.',
-                        action: '코로 숨을 깊게 들이마시며 등 뒤쪽 갈비뼈까지 공기가 차오르는 것을 느낍니다.',
-                        cue: '무릎은 폼롤러를 누르고 양손 끝을 앞으로 길게 뻗는다'
-                    },
-                    {
-                        title: '큰 반원을 그리며 흉추 오픈 회전',
-                        setup: '시선은 움직이는 위쪽 손끝을 끝까지 따라가도록 목과 등을 함께 연결합니다.',
-                        action: '숨을 길게 내쉬면서 위쪽 팔을 머리 위 반원을 그리듯 반대쪽 바닥을 향해 열어 가슴을 천장으로 비틉니다.',
-                        cue: '무릎은 고정한 채 반대쪽 날개뼈가 바닥에 닿도록 크게 연다'
-                    },
-                    {
-                        title: '최대 회전 호흡 확장 3초 유지',
-                        setup: '가슴이 활짝 열린 끝지점에서 어깨에 불필요한 힘을 뺍니다.',
-                        action: '그 상태에서 코로 한 번 더 깊게 숨을 마셔 옆구리와 가슴 앞쪽을 늘려준 뒤 천천히 원위치로 돌아옵니다.',
-                        cue: '열린 상태에서 깊게 숨을 쉬어 갈비뼈 사이를 늘린다'
-                    }
-                ]
-            },
-            {
-                id: 'p_wall_slide',
-                title: '월 슬라이드 (Wall Slide · 견갑 상방 회전)',
-                position: 'pitcher',
-                posLabel: '투수 (Pitcher)',
-                category: 'C',
-                catLabel: 'C: 근육활성화 및 신경근 재교육',
-                tool: '폼롤러/마사지공',
-                prescription: '10회 × 3세트 (어깨 찝힘 예방)',
-                ytQuery: 'Foam Roller Wall Slide Serratus Anterior Baseball',
-                desc: '팔을 머리 위로 들어 올릴 때 날개뼈가 부드럽게 위쪽으로 회전하도록 전거근과 하부승모근을 재교육합니다.',
-                biomech: '상완골이 올라갈 때 견갑골의 상방 회전이 지연되면 어깨 찝힘(충돌)이 발생합니다. 폼롤러를 벽에 밀며 올리는 동작이 견갑-상완 리듬을 정상화합니다.',
-                phases: [
-                    {
-                        title: '벽면 폼롤러 팔뚝 세팅',
-                        setup: '벽을 보고 서서 양 팔뚝(새끼손가락 날)을 벽의 폼롤러 위에 11자 평행하게 올려놓습니다.',
-                        action: '허리가 꺾이지 않게 배에 살짝 힘을 주고 날개뼈를 아래로 내려 목 주변 긴장을 풉니다.',
-                        cue: '갈비뼈가 앞으로 들리지 않게 배에 힘을 주고 팔뚝을 댄다'
-                    },
-                    {
-                        title: '벽을 밀어내는 전거근 활성화',
-                        setup: '팔꿈치가 바깥으로 벌어지지 않게 어깨너비를 유지합니다.',
-                        action: '양 팔뚝으로 폼롤러를 벽 쪽으로 지긋이 밀어내며 등 뒤 날개뼈가 갈비뼈에 밀착되게 만듭니다.',
-                        cue: '겨드랑이 아래 근육으로 벽을 밀어낸다는 느낌을 유지한다'
-                    },
-                    {
-                        title: '어깨 으쓱 없이 오버헤드 슬라이드',
-                        setup: '벽을 미는 힘을 유지한 상태에서 숨을 내쉴 준비를 합니다.',
-                        action: '폼롤러를 굴리며 양팔을 Y자 방향으로 천천히 머리 위까지 미끄러뜨려 올립니다.',
-                        cue: '어깨가 귀에 닿지 않게 날개뼈를 아래로 누르며 위로 민다'
-                    },
-                    {
-                        title: '최상단 3초 홀드 및 통제 하강',
-                        setup: '팔을 다 뻗은 최고점에서 허리가 뒤로 젖혀지지 않았는지 확인합니다.',
-                        action: '최상단에서 3초간 전거근 수축을 버틴 뒤 천천히 폼롤러를 굴려 시작 위치로 내려옵니다.',
-                        cue: '최고점에서 3초 버틴 뒤 천천히 통제하며 내려온다'
-                    }
-                ]
-            },
-            {
-                id: 'p_9090_er_hold',
-                title: '90/90 외회전 홀드 (90/90 External Rotation Hold)',
-                position: 'pitcher',
-                posLabel: '투수 (Pitcher)',
-                category: 'C',
-                catLabel: 'C: 근육활성화 및 신경근 재교육',
-                tool: '플라이오케어 볼',
-                prescription: '15초 버티기 × 3세트 (레이백 안정화)',
-                ytQuery: '90 90 Shoulder External Rotation Hold Baseball',
-                desc: '투구 코킹(Layback) 자세에서 상완골두가 앞쪽으로 밀리지 않도록 후방 회전근개의 지구력과 안정성을 기릅니다.',
-                biomech: '최대 외회전(MER) 구간에서는 어깨 앞쪽 인대에 큰 스트레스가 걸립니다. 극하근과 소원근이 등척성으로 관절 중심을 잡아주어야 안전하게 구속을 낼 수 있습니다.',
-                phases: [
-                    {
-                        title: '90/90 관절 각도 정렬',
-                        setup: '바르게 서거나 벤치에 앉아 투구 팔을 옆으로 90도 벌리고 팔꿈치를 90도 직각으로 꺾어 올립니다.',
-                        action: '가벼운 플라이오케어 볼(350g)을 손에 쥐고 손바닥이 정면을 향하도록 세웁니다.',
-                        cue: '어깨와 팔꿈치가 수평 일직선이 되게 직각을 만든다'
-                    },
-                    {
-                        title: '견갑골 후인 및 관절 중심화',
-                        setup: '어깨 앞쪽이 둥글게 말리지 않도록 가슴을 가볍게 펴줍니다.',
-                        action: '날개뼈를 등 중앙 아래쪽으로 부드럽게 당겨 어깨 관절이 소켓 중앙에 안착되게 합니다.',
-                        cue: '어깨 앞쪽을 뒤로 살짝 당겨 관절을 제자리에 넣는다'
-                    },
-                    {
-                        title: '미세 후방 외회전 텐션 유지',
-                        setup: '손목이 뒤로 과하게 꺾이지 않게 팔뚝과 일직선을 유지합니다.',
-                        action: '어깨 뒤쪽 근육의 힘으로 주먹을 뒤쪽 벽 방향으로 2cm 더 당겨 팽팽한 긴장을 만듭니다.',
-                        cue: '어깨 뒤쪽 깊은 곳에 묵직한 힘이 들어오게 뒤로 당긴다'
-                    },
-                    {
-                        title: '15초 등척성 정지 및 미세 진동 제어',
-                        setup: '호흡을 멈추지 않고 코와 입으로 편안하게 이어갑니다.',
-                        action: '팔꿈치가 처지지 않게 높이를 유지하며 15초간 정지하여 흔들림 없이 버팁니다.',
-                        cue: '팔꿈치가 떨어지지 않게 15초 동안 끝까지 버틴다'
-                    }
-                ]
-            },
-            {
-                id: 'p_pushup_plus',
-                title: '푸쉬업 플러스 (Push-Up Plus · 전거근 재교육)',
-                position: 'pitcher',
-                posLabel: '투수 (Pitcher)',
-                category: 'C',
-                catLabel: 'C: 근육활성화 및 신경근 재교육',
-                tool: 'J-Bands/튜빙',
-                prescription: '12회 × 3세트 (날개뼈 윙잉 교정)',
-                ytQuery: 'Serratus Push Up Plus Band Baseball Scapular',
-                desc: '투구 팔로스루 시 날개뼈가 들뜨는 현상(Scapular Winging)을 교정하고 하체 힘을 팔로 전달하는 전거근을 강화합니다.',
-                biomech: '전거근은 견갑골을 흉곽에 단단히 밀착시켜 상지 운동사슬의 에너지 누수를 막는 핵심 안정화 근육입니다.',
-                phases: [
-                    {
-                        title: '밴드 저항 세팅 및 플랭크 자세',
-                        setup: '탄성 밴드를 등 뒤 날개뼈에 감싸 양손으로 쥐고 무릎을 대거나 일반 푸쉬업 플랭크 자세를 취합니다.',
-                        action: '양손을 어깨 바로 아래 지면에 짚고 머리부터 발끝까지 몸통을 일직선으로 정렬합니다.',
-                        cue: '허리가 처지지 않게 배와 엉덩이에 힘을 주어 일직선을 만든다'
-                    },
-                    {
-                        title: '팔꿈치 고정 견갑골 모으기(후인)',
-                        setup: '팔꿈치를 굽히지 않고 완전히 편 상태를 유지합니다.',
-                        action: '가슴을 바닥 쪽으로 천천히 내리면서 양쪽 날개뼈가 등 중앙에서 부드럽게 모이게 합니다.',
-                        cue: '팔꿈치는 펴두고 날개뼈만 살짝 모이면서 가슴을 내린다'
-                    },
-                    {
-                        title: '플러스(Plus) 지면 강하게 밀기',
-                        setup: '날개뼈가 모인 지점에서 숨을 내쉴 준비를 합니다.',
-                        action: '양손으로 지면을 강하게 밀어내며 등 윗부분을 천장 쪽으로 둥글게 말아 날개뼈를 앞으로 감싸 냅니다.',
-                        cue: '겨드랑이 아래 힘으로 지면을 끝까지 밀어 등을 채운다'
-                    },
-                    {
-                        title: '최대 전인 상태 3초 버티기',
-                        setup: '목이나 승모근에 과도한 힘이 들어가지 않도록 시선은 바닥을 향합니다.',
-                        action: '밴드의 저항을 이겨내며 날개뼈가 갈비뼈에 딱 붙은 상태로 3초간 정지 후 반복합니다.',
-                        cue: '지면을 밀어낸 끝상태에서 3초간 단단히 버틴다'
-                    }
-                ]
-            },
-            {
-                id: 'p_forearm_ball_release',
-                title: '팔뚝 내측 공 이완 (팔꿈치 안쪽 보호)',
-                position: 'pitcher',
-                posLabel: '투수 (Pitcher)',
-                category: 'A',
-                catLabel: 'A: 통증 조절 및 보호',
-                tool: '폼롤러/마사지공',
-                prescription: '각 45초 × 2세트 (등판 후 통증 관리)',
-                ytQuery: 'Forearm Flexor Pronator Lacrosse Ball Release Baseball',
-                desc: '투구 후 뻣뻣하게 뭉친 전완 굴곡근과 회내근을 이완하여 팔꿈치 내측 인대(UCL)에 걸리는 긴장을 완화합니다.',
-                biomech: '전완 굴곡-회내근은 팔꿈치 내측의 동적 보호막입니다. 과긴장된 근육을 부드럽게 이완해야 혈류 순환과 회복 속도가 빨라집니다.',
-                phases: [
-                    {
-                        title: '테이블/벤치 마사지공 세팅',
-                        setup: '의자에 앉아 테이블이나 벤치 위에 마사지공을 올려놓고 투구 팔의 팔뚝 안쪽을 공 위에 올립니다.',
-                        action: '팔꿈치 안쪽 튀어나온 뼈에서 손목 방향으로 3cm 아래 부드러운 근육 부위에 공을 위치시킵니다.',
-                        cue: '뼈를 직접 누르지 말고 팔뚝 안쪽 두툼한 근육에 공을 댄다'
-                    },
-                    {
-                        title: '반대 손 압박 및 압통점 탐색',
-                        setup: '어깨 힘을 빼고 팔뚝을 편안하게 내려놓습니다.',
-                        action: '반대쪽 손으로 팔뚝 위를 지긋이 눌러 기분 좋은 뻐근함이 느껴지는 압통점을 찾습니다.',
-                        cue: '통증이 5/10 이하인 지점까지만 부드럽게 체중을 싣는다'
-                    },
-                    {
-                        title: '능동적 손목 굽힘-폄 핀앤스트레치',
-                        setup: '공으로 뭉친 지점을 누른 상태를 그대로 유지합니다.',
-                        action: '손목을 천천히 위로 꺾었다가 아래로 펴는 동작을 10회 반복하며 근육 결을 풀어줍니다.',
-                        cue: '공으로 누른 상태에서 손목을 천천히 까딱까딱 움직인다'
-                    },
-                    {
-                        title: '전완 회내-회외 회전 이완 마무리',
-                        setup: '손가락 힘을 빼고 편안한 상태를 유지합니다.',
-                        action: '손바닥이 천장과 바닥을 번갈아 보도록 팔뚝을 좌우로 천천히 비틀어 주며 마무리합니다.',
-                        cue: '손바닥을 뒤집었다 엎었다 하며 팔뚝 깊은 곳을 이완한다'
-                    }
-                ]
-            },
-            {
-                id: 'p_hip_airplane',
-                title: '힙 에어플레인 (Hip Airplane · 디딤발 고관절 제어)',
-                position: 'pitcher',
-                posLabel: '투수 (Pitcher)',
-                category: 'D',
-                catLabel: 'D: 기능향상 및 실전 부하',
-                tool: '맨몸/배트',
-                prescription: '좌우 5회 × 3세트 (하체 회전 안정성)',
-                ytQuery: 'Hip Airplane Exercise Baseball Pitcher Mobility',
-                desc: '투구 착지 시 디딤발(Lead Leg) 고관절의 내회전·외회전 조절 능력을 극대화하여 골반 흔들림과 허리 부상을 예방합니다.',
-                biomech: '한 다리로 체중을 지지한 상태에서 골반을 고관절 축 위에서 회전시키는 훈련은 투구 스트라이드 착지 안정성과 구속 전이에 직결됩니다.',
-                phases: [
-                    {
-                        title: '한 다리 힌지 & 배트 균형 세팅',
-                        setup: '한 발로 서서 무릎을 살짝 굽히고 반대쪽 다리를 뒤로 뻗어 상체와 다리가 T자(싱글렉 데드리프트)가 되게 숙입니다.',
-                        action: '균형이 흔들릴 경우 한 손으로 배트 끝이나 벽을 가볍게 짚어 고관절 움직임에 집중합니다.',
-                        cue: '지지하는 다리의 엉덩이에 체중을 싣고 등을 곧게 편다'
-                    },
-                    {
-                        title: '고관절 내회전(골반 닫기)',
-                        setup: '지지하는 발바닥 엄지발가락 뿌리가 지면에서 뜨지 않게 누릅니다.',
-                        action: '뒤로 뻗은 다리 쪽 골반을 바닥 방향으로 천천히 돌려 내려 지지하는 고관절 안쪽을 팽팽하게 감아줍니다.',
-                        cue: '배꼽이 지지하는 다리 안쪽을 향하도록 골반을 닫아준다'
-                    },
-                    {
-                        title: '고관절 외회전(골반 열기)',
-                        setup: '지지하는 무릎이 안쪽으로 무너지지 않게 정면을 유지합니다.',
-                        action: '지지하는 엉덩이(중둔근) 힘으로 골반을 천장 쪽으로 활짝 열어 비행기 날개처럼 몸통을 회전시킵니다.',
-                        cue: '지지하는 엉덩이 옆근육 힘으로 골반을 천장 쪽으로 연다'
-                    },
-                    {
-                        title: '수평 정렬 복귀 및 2초 제어',
-                        setup: '열린 상태에서 호흡을 내쉬며 중심을 잡습니다.',
-                        action: '다시 골반을 지면과 수평인 원래 T자 위치로 천천히 되돌려 2초간 정지한 뒤 반복합니다.',
-                        cue: '반동 없이 천천히 수평으로 돌아와 흔들림 없이 멈춘다'
-                    }
-                ]
-            },
-
-            // ==================== HITTER (타자 전용 11종) ====================
-            {
-                id: 'h_landmine_press',
+                id: 'ex4', position: 'hitter', posLabel: '타자', category: 'D', catLabel: 'D타입 [기능향상]', tool: 'landmine', toolLabel: '바벨 + 랜드마인 앵커',
                 title: '랜드마인 로테이션 프레스 (Landmine Rotational Press)',
-                position: 'hitter',
-                posLabel: '타자 (Hitter)',
-                category: 'D',
-                catLabel: 'D: 기능향상 및 실전 부하',
-                tool: '랜드마인 앵커',
-                prescription: '양측 5~8회 × 3~4세트 (폭발적 템포)',
-                ytQuery: 'Landmine Rotational Press Baseball Hitter Power',
-                desc: '후족 피벗 회전력에서 전족 블로킹(Lead Leg Brace) 및 대각선 밀기로 이어지는 타격 횡단면 파워를 재현합니다.',
-                biomech: '45도 대각선 궤적은 어깨 전방 충돌 위험 없이 지면 반발력과 고관절 피벗 에너지를 타격 펀치력으로 전이시키는 최적의 각도입니다.',
-                phases: [
-                    {
-                        title: '타격 스탠스 & 후족 힙 힌지 세팅',
-                        setup: '랜드마인 바벨을 등지고 45도 측면 타격 스탠스를 잡은 뒤 뒷손으로 바벨 슬리브 끝을 가슴 옆에 쥡니다.',
-                        action: '엉덩이를 뒤로 접는 힙 힌지(Hip Hinge)를 주어 체중을 뒷다리 둔근에 묵직하게 얹습니다.',
-                        cue: '타격 박스에 서듯 스탠스를 잡고 엉덩이 힌지를 접어 뒷다리에 얹는다'
-                    },
-                    {
-                        title: '뒷발 피벗 & 상체 지체(Torso Lag)',
-                        setup: '바벨을 쥔 어깨와 흉추는 회전하지 않고 찰나의 순간 뒤에 남겨둡니다.',
-                        action: '뒷발로 지면을 비틀어 차면서 후족 고관절을 타겟 방향으로 폭발적으로 피벗(Pivot) 회전시킵니다.',
-                        cue: '뒷발로 지면을 비틀어 찍으며 골반을 먼저 돌리고 상체는 뒤에 남긴다'
-                    },
-                    {
-                        title: '45도 대각선 펀치 & 앞다리 락',
-                        setup: '회전하는 골반의 모멘텀을 어깨와 팔로 연결합니다.',
-                        action: '대각선 45도 상방으로 바벨을 펀치하듯 밀어치며, 앞다리(Lead Leg) 무릎을 펴 지면을 강하게 받칩니다.',
-                        cue: '골반 회전력을 받아 45도 위로 지르며 앞다리로 지면을 강하게 받친다'
-                    },
-                    {
-                        title: '피니시 브레이킹 1초 정지',
-                        setup: '바벨을 완전히 뻗은 타격 임팩트-피니시 지점에서 상체가 앞으로 쏠리지 않게 제어합니다.',
-                        action: '앞다리 블로킹과 코어 복압으로 브레이킹을 걸어 1초간 단단히 정지한 후 복귀합니다.',
-                        cue: '완전히 뻗은 타격 자세에서 체중이 쏠리지 않게 앞다리와 배에 힘을 준다'
-                    }
-                ]
+                desc: '후족 고관절 피벗 회전력에서 전족 블로킹 및 대각선 밀기로 이어지는 타격 파워를 재현합니다.',
+                s1: { t: '힙 힌지 및 측면 스탠스', b: '랜드마인 바벨을 등지고 45도 스탠스를 잡은 뒤 엉덩이 힌지를 접어 후족에 체중을 얹습니다.', c: '코칭 큐: "타격 박스에 서듯 뒷엉덩이에 체중을 싣는다"' },
+                s2: { t: '고관절 피벗 & 토소 래그', b: '뒷발로 지면을 비틀어 차며 골반을 먼저 돌리고, 바벨을 쥔 상체는 뒤에 남깁니다.', c: '코칭 큐: "골반을 먼저 돌리고 가슴은 찰나의 순간 뒤에 둔다"' },
+                s3: { t: '대각선 45도 펀치 & 전족 락', b: '골반 회전력을 받아 바벨을 대각선 상방으로 밀어치며 앞무릎을 펴 지면을 받칩니다.', c: '코칭 큐: "45도 위로 지르며 앞다리로 수직 벽을 세운다"' },
+                s4: { t: '피니시 코어 브레이킹', b: '바벨을 완전히 뻗은 지점에서 상체가 무너지지 않게 코어와 앞다리로 1초 고정합니다.', c: '코칭 큐: "뻗은 자세에서 체중이 앞으로 쏠리지 않게 잠근다"' }
             },
             {
-                id: 'h_stepback_shovel',
+                id: 'ex5', position: 'hitter', posLabel: '타자', category: 'D', catLabel: 'D타입 [기능향상]', tool: 'medball', toolLabel: '회전형 메디신볼 (2~4kg)',
                 title: '스텝백 샤블 패스 (Step-Back Shovel Pass)',
-                position: 'hitter',
-                posLabel: '타자 (Hitter)',
-                category: 'D',
-                catLabel: 'D: 기능향상 및 실전 부하',
-                tool: '메디신볼',
-                prescription: '양측 4~5회 × 3세트 (최대 의도 던지기)',
-                ytQuery: 'Medicine Ball Step Back Shovel Pass Baseball Hitting',
-                desc: '스텝백 중심 이동으로 탄성에너지를 적재한 후 아래에서 위로 퍼올리는 배트 파스(Bat Path) 파워를 훈련합니다.',
-                biomech: '후방 스텝을 통한 신장-단축 주기(SSC)는 대둔근에 탄성 에너지를 저장하고, 골반-흉추-팔 순서의 순차적 회전(Sequencing)을 유도합니다.',
-                phases: [
-                    {
-                        title: '타격 스탠스 & 메디신볼 하단 그립',
-                        setup: '타겟 벽 측면에 타격 스탠스로 서서 2~4kg 회전형 메디신볼을 양손으로 아래에서 감싸 쥡니다.',
-                        action: '공을 가슴과 뒷고관절 사이에 위치시키고 시선은 타겟 벽을 주시합니다.',
-                        cue: '배팅 케이지에 서듯 공을 감싸 쥐고 타깃 벽을 주시한다'
-                    },
-                    {
-                        title: '스텝백 엉덩이 로딩 & 꼬임',
-                        setup: '상체가 뒤로 눕지 않도록 척추 각도를 유지합니다.',
-                        action: '뒤쪽 발을 한 걸음 뒤로 딛는 스텝백을 수행하며 체중을 후족 고관절에 싣고 상체를 더 뒤로 비틉니다.',
-                        cue: '뒷발을 뒤로 딛으며 엉덩이를 꼬아 충전하고 공은 가슴 뒤에 남겨둔다'
-                    },
-                    {
-                        title: '골반 리드 & 아래에서 위로 퍼올리기',
-                        setup: '후족 발바닥으로 지면을 강하게 밀어낼 준비를 합니다.',
-                        action: '골반을 폭발적으로 먼저 회전시킨 뒤, 늦게 따라오는 메디신볼을 아래에서 위로 퍼올리듯(Shovel) 벽에 던집니다.',
-                        cue: '골반을 먼저 끌고 들어온 뒤 늦게 따라오는 공을 아래에서 위로 퍼올려 던진다'
-                    },
-                    {
-                        title: '전족 수직 벽 브레이킹 피니시',
-                        setup: '공을 던진 직후 수평 이동 에너지를 수직 회전력으로 전환합니다.',
-                        action: '앞다리 무릎을 단단하게 펴 수직 벽(Lead Leg Bracing)을 세우고 상체 피니시 자세를 고정합니다.',
-                        cue: '공을 던진 직후 앞다리를 딱 뻗어 수직 벽을 만들고 피니시를 고정한다'
-                    }
-                ]
+                desc: '스텝백 중심 이동으로 탄성에너지를 적재한 뒤 아래에서 위로 퍼올리는 배트 파스 파워를 훈련합니다.',
+                s1: { t: '타격 스탠스 & 언더 그립', b: '타겟 벽 측면에 서서 메디신볼을 양손으로 아래에서 감싸 쥐고 고관절 옆에 둡니다.', c: '코칭 큐: "배팅 케이지에 서듯 공을 감싸 쥐고 벽을 본다"' },
+                s2: { t: '스텝백 둔근 로딩', b: '뒷발을 한 걸음 뒤로 딛으며 후족 고관절에 체중을 싣고 상체를 반대쪽으로 비틉니다.', c: '코칭 큐: "뒷발을 뒤로 딛으며 엉덩이를 꼬아 에너지를 충전한다"' },
+                s3: { t: '골반 선행 회전 & 샤블 투사', b: '뒷발로 지면을 차며 골반을 먼저 회전시키고 늦게 따라오는 공을 위로 퍼올려 던집니다.', c: '코칭 큐: "골반을 먼저 끌고 들어온 뒤 공을 위로 퍼올린다"' },
+                s4: { t: '전족 브레이킹 피니시', b: '던진 직후 앞무릎을 단단히 펴 수평 에너지를 수직으로 전환하며 자세를 고정합니다.', c: '코칭 큐: "공을 놓은 직후 앞다리를 딱 뻗어 균형을 잡는다"' }
             },
             {
-                id: 'h_pallof_chop',
-                title: '하프 닐링 팔로프 프레스 & 찹 (Pallof Press & Chop)',
-                position: 'hitter',
-                posLabel: '타자 (Hitter)',
-                category: 'C',
-                catLabel: 'C: 근육활성화 및 신경근 재교육',
-                tool: 'J-Bands/튜빙',
-                prescription: '양측 6~8회 × 3세트 (항회전 코어 제어)',
-                ytQuery: 'Half Kneeling Pallof Press Chop Baseball Core',
-                desc: '좁은 하체 베이스 위에서 몸통이 옆으로 끌려가지 않게 버티는 항회전(Anti-Rotation) 및 대각선 가속 제어력을 기릅니다.',
-                biomech: '강력한 타구 속도를 내기 위해서는 회전 파워만큼이나 임팩트 순간 몸통 축이 무너지지 않게 잡아주는 복사근의 브레이킹 능력이 필수입니다.',
-                phases: [
-                    {
-                        title: '하프 닐링 정렬 & 명치 앞 그립',
-                        setup: '밴드 앵커를 옆에 두고 바깥쪽 무릎을 바닥에 대는 하프 닐링 자세를 취해 좁은 지지면을 만듭니다.',
-                        action: '양손으로 밴드 손잡이를 쥐고 명치 앞에 당겨 놓으며 엉덩이와 배에 힘을 주어 골반을 정면으로 정렬합니다.',
-                        cue: '골반과 어깨가 돌아가지 않게 배와 엉덩이를 단단히 조인다'
-                    },
-                    {
-                        title: '전방 팔로프 프레스(항회전 버티기)',
-                        setup: '밴드가 옆에서 잡아당기는 회전 저항을 코어로 인지합니다.',
-                        action: '숨을 내쉬면서 양팔을 가슴 앞으로 똑바로 뻗어 몸통이 끌려가지 않게 버팁니다.',
-                        cue: '몸통이 옆으로 돌아가지 않게 버티며 양팔을 앞으로 쭉 민다'
-                    },
-                    {
-                        title: '대각선 사선 찹(Diagonal Chop)',
-                        setup: '팔을 앞으로 뻗은 상태에서 어깨가 으쓱하지 않게 유지합니다.',
-                        action: '위쪽에서 아래쪽 반대편 골반 방향으로 배트를 휘두르듯 대각선으로 강하게 내립니다.',
-                        cue: '갈비뼈와 골반을 대각선으로 꽉 조이며 사선으로 내린다'
-                    },
-                    {
-                        title: '2초 등척성 정지 후 통제 복귀',
-                        setup: '대각선 끝지점에서 하체 무릎이 흔들리지 않게 고정합니다.',
-                        action: '몸통의 축을 유지하며 2초간 정지한 뒤 천천히 명치 앞 시작 자세로 돌아옵니다.',
-                        cue: '끝지점에서 흔들림 없이 2초 딱 멈췄다가 천천히 돌아온다'
-                    }
-                ]
+                id: 'ex6', position: 'general', posLabel: '공통·일반', category: 'A', catLabel: 'A타입 [통증보호/MFR]', tool: 'roller', toolLabel: '폼롤러 / 마사지공',
+                title: '흉추 신전 폼롤링 & 후방 관절낭 MFR',
+                desc: '라운드 숄더와 흉추 잠김으로 인한 어깨 전방 찝힘을 완화하는 1단계 필수 이완 루틴입니다.',
+                s1: { t: '흉추 중부 폼롤러 세팅', b: '날개뼈 하단(흉추 7~8번) 아래에 폼롤러를 가로로 대고 양손으로 머리를 받칩니다.', c: '코칭 큐: "허리가 꺾이지 않게 갈비뼈를 배꼽 쪽으로 내린다"' },
+                s2: { t: '호흡 동반 흉추 신전', b: '코로 깊게 들이마시고 입으로 길게 내쉬며 등 상부만 폼롤러 위로 부드럽게 젖힙니다.', c: '코칭 큐: "내쉬는 숨에 가슴뼈가 천장으로 열리는 느낌을 준다"' },
+                s3: { t: '마사지공 후면 삼각근 압박', b: '벽에 기대어 어깨 뒤쪽(극하근·소원근)에 마사지공을 대고 지그시 압박합니다.', c: '코칭 큐: "통증이 시원한 지점(TP)에서 15초간 호흡한다"' },
+                s4: { t: '능동적 내회전 가동 추가', b: '공을 압박한 상태에서 팔을 90도로 들고 손바닥을 바닥 쪽으로 천천히 내립니다.', c: '코칭 큐: "어깨가 앞으로 말리지 않게 눌러둔 채 팔만 내린다"' }
             },
             {
-                id: 'h_bat_speed_drill',
-                title: '오버/언더 배트 스피드 드릴 (변형 배트 훈련)',
-                position: 'hitter',
-                posLabel: '타자 (Hitter)',
-                category: 'D',
-                catLabel: 'D: 기능향상 및 실전 부하',
-                tool: '맨몸/배트',
-                prescription: '각 5회 × 3~5라운드 (타구 발사각 제어)',
-                ytQuery: 'Overload Underload Bat Speed Training Baseball',
-                desc: '중량 변형 배트(무거운 배트와 가벼운 배트)를 번갈아 스윙하여 신경근 발화 속도를 끌어올리고 존별 대응성을 높입니다.',
-                biomech: '과부하 배트는 회전 근력과 배트 경로(Bat Path) 안정성을, 저부하 배트는 근신경계의 최대 수축 속도를 자극하여 배트 스피드를 극대화합니다.',
-                phases: [
-                    {
-                        title: '타격 박스 어드레스 & 그립 세팅',
-                        setup: '타격 박스에 서서 양발 너비를 어깨보다 넓게 잡고 배트를 손가락 마디에 가볍게 쥡니다.',
-                        action: '손목과 어깨의 불필요한 힘을 빼고 하체 지면 반발력을 사용할 준비를 합니다.',
-                        cue: '손에 힘을 빼고 하체로 지면을 누를 준비를 한다'
-                    },
-                    {
-                        title: '네거티브 로딩 & 탑 핸드 유지',
-                        setup: '머리의 시선 높이가 위아래로 흔들리지 않게 고정합니다.',
-                        action: '앞발을 살짝 들며 체중을 뒷고관절에 싣고 배트 노브(손잡이 끝)를 포수 쪽으로 살짝 기울여 꼬임을 만듭니다.',
-                        cue: '뒷엉덩이를 접으며 배트 손잡이를 뒤에 남겨 에너지를 모은다'
-                    },
-                    {
-                        title: '존 진입 배트 휩(Whip) 폭발 가속',
-                        setup: '골반 회전이 시작되면서 뒷팔꿈치가 옆구리 쪽으로 붙어 들어옵니다.',
-                        action: '스트라이크 존 안에서 배트 헤드가 처지지 않게 길게 끌고 나오며 임팩트 구간에서 폭발적으로 가속합니다.',
-                        cue: '배트 헤드가 떨어지지 않게 존 안에서 길게 채찍처럼 휘두른다'
-                    },
-                    {
-                        title: '하이 피니시 & 앞다리 감속 홀드',
-                        setup: '스윙 후 배트가 등 뒤로 넘어갈 때까지 상체 회전 축을 유지합니다.',
-                        action: '앞다리 무릎을 펴 브레이킹을 걸고 피니시 자세에서 1초간 균형을 잡고 멈춥니다.',
-                        cue: '스윙 후 상체가 앞으로 무너지지 않게 앞다리로 버틴다'
-                    }
-                ]
-            },
-            {
-                id: 'h_thoracic_foam_ext',
-                title: '흉추 폼롤러 신전 (Thoracic Extension)',
-                position: 'hitter',
-                posLabel: '타자 (Hitter)',
-                category: 'B',
-                catLabel: 'B: 가동범위 제한 해소',
-                tool: '폼롤러/마사지공',
-                prescription: '8회 × 3세트 (스윙 회전 가동성 확보)',
-                ytQuery: 'Thoracic Spine Extension Foam Roller Mobility',
-                desc: '굽은 등을 펴주고 흉추의 신전 및 회전 가동범위를 확보하여 부드럽고 큰 스윙 궤적을 만들어줍니다.',
-                biomech: '흉추가 굽어 있으면 스윙 시 상체가 일찍 열리거나 허리에 과부하가 걸립니다. 허리를 고정한 상태에서 흉추만 분절적으로 펴주는 것이 핵심입니다.',
-                phases: [
-                    {
-                        title: '날개뼈 하단 폼롤러 위치 세팅',
-                        setup: '바닥에 누워 날개뼈 아래쪽(등 중앙)에 폼롤러를 가로로 대고 양 무릎을 세워 발바닥을 붙입니다.',
-                        action: '양손은 깍지를 끼어 머리 뒤통수를 받치고 팔꿈치를 얼굴 쪽으로 모아 날개뼈 사이를 열어줍니다.',
-                        cue: '허리가 아닌 등 중앙 날개뼈 아래에 폼롤러를 정확히 댄다'
-                    },
-                    {
-                        title: '골반 후방 경사 및 복압 잠금',
-                        setup: '허리가 바닥에서 과도하게 들리지 않도록 제어합니다.',
-                        action: '엉덩이를 바닥에 붙인 상태에서 배꼽을 등 쪽으로 당겨 갈비뼈가 위로 들뜨지 않게 잠급니다.',
-                        cue: '허리가 꺾이지 않게 배에 힘을 주고 엉덩이를 바닥에 붙인다'
-                    },
-                    {
-                        title: '호기를 통한 흉추 후방 신전',
-                        setup: '코로 숨을 깊게 들이마셔 등 뒤쪽을 부풀립니다.',
-                        action: '입으로 숨을 길게 내쉬면서 폼롤러를 축으로 가슴과 머리를 바닥 방향으로 천천히 젖혀 등을 펴줍니다.',
-                        cue: '숨을 길게 내쉬며 가슴을 천장 쪽으로 활짝 열어 뒤로 젖힌다'
-                    },
-                    {
-                        title: '분절 이동 및 3초 이완 반복',
-                        setup: '젖힌 상태에서 목에 힘이 들어가지 않게 손으로 머리를 편하게 받칩니다.',
-                        action: '3초간 가슴 앞쪽과 등이 펴지는 느낌을 유지한 뒤 상체를 일으켜 폼롤러 위치를 2cm 위로 옮겨 반복합니다.',
-                        cue: '3초간 시원하게 펴준 뒤 폼롤러 위치를 조금씩 옮겨 반복한다'
-                    }
-                ]
-            },
-            {
-                id: 'h_9090_shinbox',
-                title: '90/90 신박스 고관절 전환 (90/90 Shinbox Switch)',
-                position: 'hitter',
-                posLabel: '타자 (Hitter)',
-                category: 'B',
-                catLabel: 'B: 가동범위 제한 해소',
-                tool: '맨몸/배트',
-                prescription: '좌우 8회 × 3세트 (하체 회전 가동성)',
-                ytQuery: '90 90 Shinbox Hip Switch Mobility Drill',
-                desc: '타격 시 앞·뒤 고관절의 내회전과 외회전 가동범위를 동시에 넓혀 골반이 막힘없이 폭발적으로 회전하도록 돕습니다.',
-                biomech: '타격은 양쪽 고관절이 동시에 반대 방향(앞다리는 내회전, 뒷다리는 내회전→외회전)으로 빠르게 회전하는 움직임입니다. 신박스 전환은 이를 가장 안전하게 훈련합니다.',
-                phases: [
-                    {
-                        title: '90/90 신박스 좌식 정렬',
-                        setup: '바닥에 앉아 앞다리와 뒷다리 무릎을 모두 90도 직각으로 꺾어 바닥에 내려놓습니다.',
-                        action: '양손을 가슴 앞에 모으거나 균형이 어려우면 배트를 수직으로 짚어 척추를 곧게 세웁니다.',
-                        cue: '양 무릎이 직각이 되게 꺾어 앉고 허리를 반듯하게 세운다'
-                    },
-                    {
-                        title: '발뒤꿈치 축 고관절 리프트',
-                        setup: '발뒤꿈치가 바닥에서 미끄러지지 않도록 지면을 누릅니다.',
-                        action: '고관절 힘만으로 양 무릎을 천장 방향으로 들어 올리며 엉덩이 깊은 곳의 회전 긴장을 느낍니다.',
-                        cue: '발뒤꿈치를 축으로 고정하고 무릎을 크게 벌리며 들어 올린다'
-                    },
-                    {
-                        title: '반대쪽 90/90 방향 전환',
-                        setup: '상체가 뒤로 너무 눕지 않도록 코어 힘을 유지합니다.',
-                        action: '양 무릎을 반대쪽 바닥으로 천천히 내려놓아 좌우 고관절의 내·외회전 방향을 완벽히 바꿉니다.',
-                        cue: '상체 중심을 잡으면서 반대쪽으로 부드럽게 무릎을 넘긴다'
-                    },
-                    {
-                        title: '상체 전방 힌지 숙이기 2초 홀드',
-                        setup: '전환된 자세에서 앞다리 정강이와 가슴이 평행이 되게 맞춥니다.',
-                        action: '허리를 편 상태로 상체를 앞으로 살짝 숙여 앞쪽 엉덩이 바깥쪽을 2초간 늘려준 뒤 다시 전환합니다.',
-                        cue: '등이 굽지 않게 가슴을 펴고 앞으로 숙여 엉덩이를 늘린다'
-                    }
-                ]
-            },
-            {
-                id: 'h_clamshell_glute',
-                title: '조개껍질 둔근 활성화 (Banded Clamshell)',
-                position: 'hitter',
-                posLabel: '타자 (Hitter)',
-                category: 'C',
-                catLabel: 'C: 근육활성화 및 신경근 재교육',
-                tool: 'J-Bands/튜빙',
-                prescription: '좌우 15회 × 3세트 (하체 축 고정)',
-                ytQuery: 'Banded Clamshell Exercise Glute Medius Baseball',
-                desc: '타격 로딩 및 스윙 시 무릎이 안쪽으로 무너지는 현상을 방지하고 지면을 밀어내는 중둔근을 활성화합니다.',
-                biomech: '중둔근은 한 다리 지지 및 체중 이동 시 골반의 수평을 유지하고 하체 회전 파워의 지지대 역할을 수행합니다.',
-                phases: [
-                    {
-                        title: '옆으로 눕기 & 미니 밴드 세팅',
-                        setup: '양 무릎 바로 위에 미니 루프 밴드를 끼우고 옆으로 누워 고관절을 45도, 무릎을 90도로 굽힙니다.',
-                        action: '머리부터 발뒤꿈치까지 일직선이 되게 맞추고 위쪽 골반이 뒤로 넘어가지 않게 고정합니다.',
-                        cue: '위쪽 골반이 뒤로 눕지 않게 앞으로 살짝 숙여 고정한다'
-                    },
-                    {
-                        title: '발뒤꿈치 밀착 및 코어 잠금',
-                        setup: '아래쪽 옆구리가 바닥에 처지지 않게 살짝 띄워 코어에 힘을 줍니다.',
-                        action: '양쪽 발뒤꿈치를 서로 단단히 붙인 상태를 유지하며 벌릴 준비를 합니다.',
-                        cue: '양 발뒤꿈치를 딱 붙이고 배에 살짝 힘을 주어 골반을 잠근다'
-                    },
-                    {
-                        title: '조개껍질 무릎 외회전 벌리기',
-                        setup: '허리가 비틀리지 않도록 골반을 돌처럼 고정합니다.',
-                        action: '위쪽 엉덩이 옆근육 힘만으로 위쪽 무릎을 조개껍질이 열리듯 천장 쪽으로 벌려 올립니다.',
-                        cue: '골반은 움직이지 말고 엉덩이 옆 힘으로만 무릎을 벌린다'
-                    },
-                    {
-                        title: '최대 수축 2초 정지 & 천천히 하강',
-                        setup: '밴드의 탄성이 가장 강해진 최고점에서 엉덩이 수축을 집중합니다.',
-                        action: '최고점에서 2초간 멈춘 뒤 밴드에 끌려가지 않게 3초간 버티며 무릎을 내립니다.',
-                        cue: '최고점에서 2초 꽉 조이고 천천히 저항을 버티며 내린다'
-                    }
-                ]
-            },
-            {
-                id: 'h_single_leg_rdl',
-                title: '원렉 루마니안 데드리프트 (Single-Leg RDL)',
-                position: 'hitter',
-                posLabel: '타자 (Hitter)',
-                category: 'D',
-                catLabel: 'D: 기능향상 및 실전 부하',
-                tool: '메디신볼',
-                prescription: '좌우 8회 × 3세트 (후면 사슬 및 균형)',
-                ytQuery: 'Single Leg RDL Medicine Ball Baseball Athlete',
-                desc: '하체 후면 사슬(둔근·햄스트링)의 폭발적 근력과 타격·주루 시 단일 지지 균형 감각을 동시에 강화합니다.',
-                biomech: '편측 하체 훈련은 양측성 스쿼트에서 숨겨진 좌우 근력 불균형을 교정하고, 지면을 수직으로 누르는 힘을 극대화합니다.',
-                phases: [
-                    {
-                        title: '메디신볼 파지 및 한 다리 정렬',
-                        setup: '양손으로 4~6kg 메디신볼을 허벅지 앞에 쥐고 한 다리로 서서 지지하는 무릎을 10도 살짝 굽힙니다.',
-                        action: '가슴을 펴고 날개뼈를 살짝 모아 등이 둥글게 말리지 않도록 척추를 중립으로 세웁니다.',
-                        cue: '지지하는 발바닥 전체로 지면을 꽉 움켜쥐고 가슴을 편다'
-                    },
-                    {
-                        title: '고관절 힌지 후방 이동 하강',
-                        setup: '골반이 옆으로 열리지 않고 두 엉덩이가 지면과 수평을 유지하도록 신경 씁니다.',
-                        action: '엉덩이를 뒤쪽 벽으로 밀어내면서 상체를 숙이고 반대쪽 다리를 뒤로 길게 뻗어 T자를 만듭니다.',
-                        cue: '뒤로 뻗는 발뒤꿈치로 뒤쪽 벽을 민다는 느낌으로 숙인다'
-                    },
-                    {
-                        title: '햄스트링·둔근 신장 텐션 인지',
-                        setup: '메디신볼이 정강이 중앙 높이까지 내려왔을 때 허리가 굽지 않았는지 확인합니다.',
-                        action: '지지하는 다리의 허벅지 뒤쪽과 엉덩이가 팽팽하게 늘어나는 지점에서 1초간 멈춥니다.',
-                        cue: '허벅지 뒤쪽이 팽팽하게 당기는 지점에서 중심을 잡는다'
-                    },
-                    {
-                        title: '지면 반발력 직립 복귀',
-                        setup: '발뒤꿈치와 엄지발가락 뿌리로 지면을 강하게 누를 준비를 합니다.',
-                        action: '지지하는 엉덩이 힘으로 골반을 앞으로 밀어 넣으며 힘차게 시작 자세로 일어납니다.',
-                        cue: '발바닥으로 땅을 강하게 밀어내며 엉덩이를 조여 일어난다'
-                    }
-                ]
-            },
-            {
-                id: 'h_medball_rot_throw',
-                title: '메디신볼 로테이셔널 월 쓰로우 (Rotational Wall Throw)',
-                position: 'hitter',
-                posLabel: '타자 (Hitter)',
-                category: 'D',
-                catLabel: 'D: 기능향상 및 실전 부하',
-                tool: '메디신볼',
-                prescription: '양측 5회 × 3세트 (타구 속도 극대화)',
-                ytQuery: 'Med Ball Rotational Wall Throw Baseball Hitting',
-                desc: '하체 지면 반발력에서 골반-흉추-팔로 이어지는 타격 회전 운동사슬(Kinetic Chain)의 폭발적 스피드를 훈련합니다.',
-                biomech: '지면에서 생성된 회전 에너지를 손끝까지 지연 없이 전달하는 투사 훈련으로, 실제 배트 스윙과 가장 유사한 신경근 패턴을 만듭니다.',
-                phases: [
-                    {
-                        title: '벽면 측면 타격 스탠스 세팅',
-                        setup: '콘크리트 또는 튼튼한 벽에서 1.5m 떨어져 측면 타격 스탠스로 서서 3~4kg 메디신볼을 양손으로 쥡니다.',
-                        action: '뒷손은 공 뒤쪽을 받치고 앞손은 공 옆면을 감싸 타격 그립과 유사한 손 위치를 만듭니다.',
-                        cue: '타격 박스에 선 것처럼 양발을 단단히 딛고 공을 쥔다'
-                    },
-                    {
-                        title: '후족 로딩 및 상·하체 분리 코일링',
-                        setup: '머리는 중앙에 고정하고 시선은 공을 던질 벽의 타겟 지점을 응시합니다.',
-                        action: '체중을 뒷고관절에 싣고 상체와 공을 뒤쪽 엉덩이 옆으로 비틀어 탄성 에너지를 충전합니다.',
-                        cue: '뒷엉덩이에 체중을 싣고 상체를 뒤로 비틀어 팽팽히 감는다'
-                    },
-                    {
-                        title: '골반 회전 리드 & 폭발적 벽 투사',
-                        setup: '뒷발 엄지발가락으로 지면을 비틀어 차며 회전을 개시합니다.',
-                        action: '골반이 먼저 벽을 향해 돌아나온 직후 상체와 팔을 휘둘러 벽을 뚫을 듯 강하게 공을 던집니다.',
-                        cue: '골반이 먼저 돌아나온 힘으로 공을 벽에 강하게 쏘아 던진다'
-                    },
-                    {
-                        title: '앞다리 블로킹 & 리바운드 캐치',
-                        setup: '던진 직후 앞다리 무릎을 펴 상체가 앞으로 무너지지 않게 벽을 세웁니다.',
-                        action: '벽에서 튕겨 나오는 공을 안정적으로 받아내며 다음 반복을 위한 균형을 잡습니다.',
-                        cue: '앞다리로 지면을 딱 받쳐 균형을 잡고 튕긴 공을 받아낸다'
-                    }
-                ]
-            },
-            {
-                id: 'h_oblique_breath_stab',
-                title: '측면 복사근 호흡 안정화 (옆구리 부상 보호 1단계)',
-                position: 'hitter',
-                posLabel: '타자 (Hitter)',
-                category: 'A',
-                catLabel: 'A: 통증 조절 및 보호',
-                tool: '폼롤러/마사지공',
-                prescription: '10회 호흡 × 3세트 (급성기 통증 관리)',
-                ytQuery: '90 90 Hip Lift Breathing Oblique Core Stability',
-                desc: '스윙 중 옆구리(내·외복사근)에 찌릿한 통증이 발생했을 때, 무리한 회전 대신 횡격막 호흡으로 심부 코어를 안전하게 회복합니다.',
-                biomech: '복사근은 갈비뼈를 하강시키고 복압을 형성하는 호흡근입니다. 급성 손상 시 강제 스트레칭을 피하고 360도 호흡 안정화로 치유 환경을 조성합니다.',
-                phases: [
-                    {
-                        title: '90/90 발 올리기 자세 정렬',
-                        setup: '바닥에 누워 양발을 의자나 폼롤러 위에 올려 고관절과 무릎이 모두 90도가 되게 만듭니다.',
-                        action: '양손을 갈비뼈 아래 양쪽 옆구리에 가볍게 올려 호흡 시 움직임을 느낄 준비를 합니다.',
-                        cue: '허리가 바닥에 편안히 닿도록 다리를 의자 위에 올린다'
-                    },
-                    {
-                        title: '미세 골반 후방 경사 세팅',
-                        setup: '엉덩이를 바닥에서 들지 않고 꼬리뼈만 1cm 살짝 말아 올립니다.',
-                        action: '허벅지 뒤쪽(햄스트링)에 가벼운 힘이 들어오면서 갈비뼈와 골반이 나란히 정렬되게 합니다.',
-                        cue: '꼬리뼈를 살짝 말아 허리가 바닥에서 뜨지 않게 붙인다'
-                    },
-                    {
-                        title: '360도 횡격막 코 흡기',
-                        setup: '목과 어깨에 힘이 들어가지 않게 턱을 살짝 당깁니다.',
-                        action: '코로 4초간 숨을 마시며 가슴이 아닌 양손이 닿은 옆구리와 등 뒤쪽이 풍선처럼 부풀게 합니다.',
-                        cue: '양손바닥을 옆구리 힘으로 밀어낸다는 느낌으로 숨을 마신다'
-                    },
-                    {
-                        title: '6초 긴 호기 & 갈비뼈 하강 조임',
-                        setup: '마신 공기를 입술 사이로 천천히 뱉어낼 준비를 합니다.',
-                        action: '6초간 길게 숨을 내쉬며 갈비뼈가 아래로 내려와 복사근이 부드럽게 조여지는 느낌을 2초 유지합니다.',
-                        cue: '촛불을 멀리 불듯 길게 내쉬며 갈비뼈를 아래로 닫아준다'
-                    }
-                ]
-            },
-            {
-                id: 'h_hamstring_eccentric',
-                title: '햄스트링 폼롤러 및 신장성 제어 (주루·스윙 부상 예방)',
-                position: 'hitter',
-                posLabel: '타자 (Hitter)',
-                category: 'A',
-                catLabel: 'A: 통증 조절 및 보호',
-                tool: '폼롤러/마사지공',
-                prescription: '8회 × 3세트 (하체 급성 부상 예방)',
-                ytQuery: 'Hamstring Foam Roll Eccentric Bridge Slider Baseball',
-                desc: '타격 후 1루 전력 질주 및 급정거 시 허벅지 뒤쪽(햄스트링) 근육이 찢어지는 부상을 예방하는 이완 및 신장성 제어 루틴입니다.',
-                biomech: '햄스트링 손상은 스프린트 감속기에서 근육이 늘어나면서 부하를 견딜 때 발생합니다. 근막 이완 후 편심성 슬라이딩으로 내구성을 높입니다.',
-                phases: [
-                    {
-                        title: '폼롤러 허벅지 후면 근막 이완',
-                        setup: '바닥에 앉아 폼롤러 위에 한쪽 허벅지 뒤쪽을 올리고 반대쪽 다리를 포개어 압력을 조절합니다.',
-                        action: '양손으로 바닥을 짚고 엉덩이를 살짝 띄워 엉덩이 밑부터 무릎 위까지 30초간 천천히 문지릅니다.',
-                        cue: '뻐근하게 뭉친 지점을 찾으면 10초간 멈춰 지그시 눌러준다'
-                    },
-                    {
-                        title: '누워서 폼롤러 힙 브릿지 세팅',
-                        setup: '바닥에 편하게 누워 양 발뒤꿈치를 폼롤러 위에 올리고 무릎을 90도로 굽힙니다.',
-                        action: '배에 힘을 주고 엉덩이를 들어 올려 어깨부터 무릎까지 일직선 브릿지 자세를 만듭니다.',
-                        cue: '허리가 꺾이지 않게 배와 엉덩이를 조여 골반을 들어 올린다'
-                    },
-                    {
-                        title: '4초 느린 편심성 무릎 펴기(슬라이딩)',
-                        setup: '엉덩이가 바닥에 닿지 않도록 코어 긴장을 끝까지 유지합니다.',
-                        action: '폼롤러를 발뒤꿈치로 굴리면서 4초 동안 아주 천천히 무릎을 펴 다리를 앞으로 뻗어냅니다.',
-                        cue: '4초를 세면서 허벅지 뒤쪽 힘으로 버티며 천천히 다리를 편다'
-                    },
-                    {
-                        title: '엉덩이 하강 및 안전 복귀',
-                        setup: '무릎이 거의 펴진 끝지점에서 허벅지 뒤쪽의 강한 텐션을 느낍니다.',
-                        action: '엉덩이를 부드럽게 바닥에 내려놓은 뒤 무릎을 굽혀 폼롤러를 다시 당겨와 다음 반복을 준비합니다.',
-                        cue: '다리를 다 편 뒤 엉덩이를 바닥에 내리고 안전하게 돌아온다'
-                    }
-                ]
+                id: 'ex7', position: 'general', posLabel: '공통·일반', category: 'B', catLabel: 'B타입 [가동범위 확보]', tool: 'band', toolLabel: '탄성 루프 밴드',
+                title: '고관절 90/90 스위칭 & 밴드 관절낭 가동술',
+                desc: '투구 디딤발과 타격 피벗 회전의 핵심인 고관절 내·외회전 가동범위를 즉각 확보합니다.',
+                s1: { t: '90/90 좌식 정렬', b: '앞다리와 뒷다리의 무릎 각도를 모두 90도로 만들고 척추를 곧게 세워 앉습니다.', c: '코칭 큐: "양쪽 엉덩이 뼈가 바닥에서 너무 뜨지 않게 세운다"' },
+                s2: { t: '앞다리 힙 힌지 전굴', b: '허리를 편 상태에서 배꼽을 앞다리 정강이 쪽으로 숙여 둔근 후면을 스트레칭합니다.', c: '코칭 큐: "등을 둥글게 말지 말고 가슴을 앞으로 민다"' },
+                s3: { t: '무릎 오픈 전환 (Switching)', b: '발뒤꿈치를 바닥에 고정한 채 양 무릎을 반대 방향으로 천천히 회전시켜 전환합니다.', c: '코칭 큐: "고관절 깊은 곳에서 뼈가 부드럽게 돌아가게 한다"' },
+                s4: { t: '전환 후 힙 익스텐션 업', b: '반대쪽 90/90 자세 완료 후 엉덩이를 들어 올려 고관절 전면을 완전히 펴줍니다.', c: '코칭 큐: "골반을 앞으로 밀어 고관절 앞쪽을 활짝 연다"' }
             }
         ];
 
-        /* 2. APPLICATION STATE & INITIALIZATION */
-        let appState = {
-            filters: {
-                pos: 'all',
-                cat: 'all',
-                tool: 'all',
-                search: ''
-            },
-            selectedId: 'p_pivot_pickoff',
-            timer: {
-                seconds: 180,
-                interval: null,
-                isRunning: false
+        let currentEx = MASTER_DB[0];
+        let timerInterval = null;
+        let remainingSeconds = 180;
+
+        function initApp() {
+            const isLicensed = localStorage.getItem('rehab_pro_licensed');
+            if (!isLicensed) {
+                document.getElementById('licenseModal').classList.remove('hidden');
             }
-        };
-
-        const STORAGE_LOGS_KEY = 'rehab_pro_baseball_logs_v2_clean';
-        const STORAGE_API_KEY = 'rehab_pro_gemini_api_key';
-
-        window.addEventListener('DOMContentLoaded', () => {
+            updateApiStatus();
+            renderExercises();
+            selectExercise(MASTER_DB[0].id);
+            renderHistory();
             lucide.createIcons();
-            applyFilters();
-            selectExercise(appState.selectedId);
-            updateHistoryBadge();
-            checkApiKeyStatus();
-        });
-
-        /* 3. FILTER & MASTER-DETAIL RENDERING ENGINE */
-        function setFilter(type, value) {
-            appState.filters[type] = value;
-
-            if (type === 'pos') {
-                document.querySelectorAll('.pos-btn').forEach(btn => {
-                    btn.className = 'pos-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition';
-                });
-                const active = document.getElementById(`pos-${value}`);
-                if (active) active.className = 'pos-btn px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-blue-600 text-white shadow-xs transition';
-            }
-
-            if (type === 'cat') {
-                document.querySelectorAll('.cat-btn').forEach(btn => {
-                    const id = btn.id;
-                    if (id === 'cat-all') btn.className = 'cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition';
-                    if (id === 'cat-A') btn.className = 'cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 transition';
-                    if (id === 'cat-B') btn.className = 'cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition';
-                    if (id === 'cat-C') btn.className = 'cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 transition';
-                    if (id === 'cat-D') btn.className = 'cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100 transition';
-                });
-                const active = document.getElementById(`cat-${value}`);
-                if (active) active.className = 'cat-btn px-3 py-1.5 rounded-xl text-xs font-extrabold bg-slate-900 text-white shadow-xs transition';
-            }
-
-            if (type === 'tool') {
-                document.querySelectorAll('.tool-btn').forEach(btn => {
-                    btn.className = 'tool-btn px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition';
-                });
-                const active = document.getElementById(`tool-${value}`);
-                if (active) active.className = 'tool-btn px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-slate-700 text-white transition';
-            }
-
-            applyFilters();
         }
 
-        function resetAllFilters() {
-            document.getElementById('searchInput').value = '';
-            setFilter('pos', 'all');
-            setFilter('cat', 'all');
-            setFilter('tool', 'all');
+        function verifyLicense() {
+            const val = document.getElementById('licenseInput').value.trim();
+            if (!val) return alert('라이선스 키를 입력해 주세요.');
+            localStorage.setItem('rehab_pro_licensed', val);
+            document.getElementById('licenseModal').classList.add('hidden');
         }
 
-        function applyFilters() {
-            const q = document.getElementById('searchInput').value.toLowerCase().trim();
-            appState.filters.search = q;
+        function toggleModal(id, show) {
+            const el = document.getElementById(id);
+            if (show) el.classList.remove('hidden');
+            else el.classList.add('hidden');
+        }
 
-            const filtered = EXERCISE_MASTER_DB.filter(ex => {
-                const matchPos = appState.filters.pos === 'all' || ex.position === appState.filters.pos;
-                const matchCat = appState.filters.cat === 'all' || ex.category === appState.filters.cat;
-                const matchTool = appState.filters.tool === 'all' || ex.tool === appState.filters.tool;
-                const matchSearch = !q ||
-                    ex.title.toLowerCase().includes(q) ||
-                    ex.desc.toLowerCase().includes(q) ||
-                    ex.tool.toLowerCase().includes(q) ||
-                    ex.phases.some(p => p.cue.toLowerCase().includes(q) || p.title.toLowerCase().includes(q));
-                return matchPos && matchCat && matchTool && matchSearch;
+        function saveApiKey() {
+            const key = document.getElementById('apiKeyInput').value.trim();
+            if (!key) return alert('API Key를 입력해 주세요.');
+            localStorage.setItem('rehab_gemini_key', key);
+            updateApiStatus();
+            toggleModal('apiModal', false);
+            alert('Gemini API Key가 안전하게 저장되었습니다.');
+        }
+
+        function updateApiStatus() {
+            const key = localStorage.getItem('rehab_gemini_key');
+            const badge = document.getElementById('apiStatusText');
+            if (key) {
+                badge.innerText = 'API 연동됨 ✓';
+                badge.classList.add('text-emerald-700');
+                document.getElementById('apiKeyInput').value = key;
+            } else {
+                badge.innerText = 'API 키 설정';
+            }
+        }
+
+        function switchTab(tab) {
+            ['library', 'ai', 'history'].forEach(t => {
+                document.getElementById(`section-${t}`).classList.add('hidden');
+                const btn = document.getElementById(`tab-${t}`);
+                btn.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 flex items-center';
             });
-
-            document.getElementById('filteredCount').innerText = filtered.length;
-            renderExerciseList(filtered);
+            document.getElementById(`section-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-${tab}`).className = 'px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white shadow-sm flex items-center';
         }
 
-        function getCategoryBadgeClass(cat) {
-            switch (cat) {
-                case 'A': return 'bg-blue-100 text-blue-800';
-                case 'B': return 'bg-emerald-100 text-emerald-800';
-                case 'C': return 'bg-amber-100 text-amber-800';
-                case 'D': return 'bg-purple-100 text-purple-800';
-                default: return 'bg-slate-100 text-slate-800';
-            }
-        }
-
-        function renderExerciseList(list) {
+        function renderExercises() {
+            const pos = document.getElementById('posFilter').value;
+            const cat = document.getElementById('catFilter').value;
+            const tool = document.getElementById('toolFilter').value;
+            const query = document.getElementById('searchInput').value.toLowerCase();
             const container = document.getElementById('exerciseList');
             container.innerHTML = '';
 
-            if (list.length === 0) {
-                container.innerHTML = `
-                    <div class="clean-card rounded-2xl p-8 text-center space-y-2">
-                        <p class="text-xs font-extrabold text-slate-600">조건에 일치하는 운동이 없습니다.</p>
-                        <button onclick="resetAllFilters()" class="text-xs text-blue-600 font-bold underline">전체 필터 초기화</button>
-                    </div>`;
+            const filtered = MASTER_DB.filter(ex => {
+                const mPos = pos === 'all' || ex.position === pos;
+                const mCat = cat === 'all' || ex.category === cat;
+                const mTool = tool === 'all' || ex.tool === tool;
+                const mQuery = !query || ex.title.toLowerCase().includes(query) || ex.desc.toLowerCase().includes(query);
+                return mPos && mCat && mTool && mQuery;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="p-6 text-center text-xs text-slate-400 clean-card rounded-xl">조건에 맞는 운동이 없습니다.</div>`;
                 return;
             }
 
-            list.forEach(ex => {
-                const isSelected = ex.id === appState.selectedId;
-                const card = document.createElement('div');
-                card.className = `clean-card p-3.5 rounded-2xl cursor-pointer transition-all hover:border-blue-400 ${isSelected ? 'item-selected' : ''}`;
-                card.onclick = () => selectExercise(ex.id);
-
-                const posBadge = ex.position === 'pitcher'
-                    ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                    : 'bg-indigo-50 text-indigo-700 border border-indigo-200';
-                const catShort = ex.catLabel.split(':')[0];
-
-                card.innerHTML = `
-                    <div class="flex items-center justify-between gap-1.5 mb-1.5">
-                        <div class="flex items-center space-x-1.5">
-                            <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold ${posBadge}">${ex.position === 'pitcher' ? '투수' : '타자'}</span>
-                            <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold ${getCategoryBadgeClass(ex.category)}">${catShort}타입</span>
-                        </div>
-                        <span class="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">${ex.tool}</span>
+            filtered.forEach(ex => {
+                const active = ex.id === currentEx.id;
+                const div = document.createElement('div');
+                div.className = `p-4 rounded-xl cursor-pointer transition border ${active ? 'bg-blue-50/70 border-blue-500 shadow-sm' : 'bg-white border-slate-200 hover:border-slate-300'}`;
+                div.onclick = () => selectExercise(ex.id);
+                div.innerHTML = `
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-[11px] font-bold text-blue-700">${ex.posLabel} · ${ex.catLabel}</span>
+                        <span class="text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded">${ex.toolLabel.split(' ')[0]}</span>
                     </div>
-                    <h4 class="font-extrabold text-slate-900 text-xs sm:text-sm leading-snug">${ex.title}</h4>
-                    <p class="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">${ex.desc}</p>
+                    <h4 class="font-bold text-slate-900 text-sm">${ex.title}</h4>
+                    <p class="text-xs text-slate-500 mt-1 line-clamp-1">${ex.desc}</p>
                 `;
-                container.appendChild(card);
+                container.appendChild(div);
             });
         }
 
         function selectExercise(id) {
-            const ex = EXERCISE_MASTER_DB.find(item => item.id === id);
-            if (!ex) return;
+            currentEx = MASTER_DB.find(e => e.id === id) || MASTER_DB[0];
+            renderExercises();
+            document.getElementById('detailBadge').innerText = `${currentEx.posLabel} · ${currentEx.catLabel}`;
+            document.getElementById('detailTool').innerText = currentEx.toolLabel;
+            document.getElementById('detailTitle').innerText = currentEx.title;
+            document.getElementById('detailDesc').innerText = currentEx.desc;
+            document.getElementById('detailYoutubeLink').href = `https://www.youtube.com/results?search_query=${encodeURIComponent(currentEx.title + ' 운동 방법')}`;
 
-            appState.selectedId = id;
-            applyFilters();
-
-            // Header Badges & Info
-            const posBadge = document.getElementById('detailPosBadge');
-            posBadge.innerText = ex.posLabel;
-            posBadge.className = ex.position === 'pitcher'
-                ? 'px-2.5 py-1 rounded-lg text-xs font-extrabold bg-blue-100 text-blue-800'
-                : 'px-2.5 py-1 rounded-lg text-xs font-extrabold bg-indigo-100 text-indigo-800';
-
-            const catBadge = document.getElementById('detailCatBadge');
-            catBadge.innerText = ex.catLabel;
-            catBadge.className = `px-2.5 py-1 rounded-lg text-xs font-extrabold ${getCategoryBadgeClass(ex.category)}`;
-
-            document.getElementById('detailToolBadge').innerText = ex.tool;
-            document.getElementById('detailTitle').innerText = ex.title;
-            document.getElementById('detailDesc').innerText = ex.desc;
-            document.getElementById('detailPrescription').innerText = `처방 기준: ${ex.prescription}`;
-            document.getElementById('detailBiomech').innerText = ex.biomech;
-
-            // YouTube Search Deep Link
-            const ytUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(ex.ytQuery)}`;
-            document.getElementById('youtubeDemoLink').href = ytUrl;
-
-            // 4 Structured Phases
-            ex.phases.forEach((p, idx) => {
-                const n = idx + 1;
-                document.getElementById(`p${n}Title`).innerText = p.title;
-                document.getElementById(`p${n}Setup`).innerText = p.setup;
-                document.getElementById(`p${n}Action`).innerText = p.action;
-                document.getElementById(`p${n}Cue`).innerText = `"${p.cue}"`;
+            ['s1', 's2', 's3', 's4'].forEach(step => {
+                document.getElementById(`${step}Title`).innerText = currentEx[step].t;
+                document.getElementById(`${step}Body`).innerText = currentEx[step].b;
+                document.getElementById(`${step}Cue`).innerText = currentEx[step].c;
             });
-
-            // Sync Timer Title
-            document.getElementById('timerTargetTitle').innerText = ex.title;
-            lucide.createIcons();
-        }
-
-        /* 4. GEMINI API KEY MANAGEMENT & AI COACHING CHATBOT */
-        function checkApiKeyStatus() {
-            const savedKey = localStorage.getItem(STORAGE_API_KEY);
-            const dot = document.getElementById('apiKeyStatusDot');
-            if (savedKey && savedKey.trim().length > 10) {
-                dot.className = 'w-2 h-2 rounded-full bg-emerald-500';
-            } else {
-                dot.className = 'w-2 h-2 rounded-full bg-amber-400';
-            }
-        }
-
-        function openApiKeyModal() {
-            const savedKey = localStorage.getItem(STORAGE_API_KEY) || '';
-            document.getElementById('geminiApiKeyInput').value = savedKey;
-            document.getElementById('apiKeyModal').classList.remove('hidden');
-            lucide.createIcons();
-        }
-
-        function closeApiKeyModal() {
-            document.getElementById('apiKeyModal').classList.add('hidden');
-        }
-
-        function saveApiKey() {
-            const val = document.getElementById('geminiApiKeyInput').value.trim();
-            if (!val) {
-                showToast('유효한 Gemini API Key를 입력해 주세요.');
-                return;
-            }
-            localStorage.setItem(STORAGE_API_KEY, val);
-            checkApiKeyStatus();
-            closeApiKeyModal();
-            showToast('개인 Gemini API Key가 브라우저에 안전하게 저장되었습니다.');
-        }
-
-        function deleteApiKey() {
-            localStorage.removeItem(STORAGE_API_KEY);
-            document.getElementById('geminiApiKeyInput').value = '';
-            checkApiKeyStatus();
-            showToast('저장된 API Key가 삭제되었습니다.');
-        }
-
-        function openAiModal() {
-            document.getElementById('aiModal').classList.remove('hidden');
-            lucide.createIcons();
-        }
-
-        function closeAiModal() {
-            document.getElementById('aiModal').classList.add('hidden');
-        }
-
-        function formatMarkdownToHtml(mdText) {
-            let html = mdText
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;');
-
-            // Headers
-            html = html.replace(/^### (.*$)/gim, '<h4 class="text-sm font-extrabold text-indigo-800 mt-4 mb-1.5 border-b border-indigo-100 pb-1">$1</h4>');
-            html = html.replace(/^## (.*$)/gim, '<h3 class="text-base font-black text-slate-900 mt-4 mb-2">$1</h3>');
-            // Bold
-            html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-extrabold text-slate-900">$1</strong>');
-            // Bullet lists
-            html = html.replace(/^\* (.*$)/gim, '<li class="ml-4 list-disc text-slate-700 my-0.5">$1</li>');
-            html = html.replace(/^- (.*$)/gim, '<li class="ml-4 list-disc text-slate-700 my-0.5">$1</li>');
-            // Newlines
-            html = html.replace(/\n/g, '<br>');
-            return html;
-        }
-
-        async function submitAiConsultation() {
-            const apiKey = localStorage.getItem(STORAGE_API_KEY);
-            if (!apiKey || apiKey.trim().length < 10) {
-                showToast('먼저 상단의 [API 키 관리]에서 본인의 Gemini API Key를 입력해 주세요.');
-                openApiKeyModal();
-                return;
-            }
-
-            const pos = document.getElementById('aiPositionSelect').value;
-            const q1 = document.getElementById('q1Pain').value.trim();
-            const q2 = document.getElementById('q2Symptom').value.trim();
-            const q3 = document.getElementById('q3Strength').value.trim();
-            const q4 = document.getElementById('q4Mobility').value.trim();
-
-            if (!q1 && !q2 && !q3 && !q4) {
-                showToast('최소 1개 이상의 문진 항목을 입력해 주세요.');
-                return;
-            }
-
-            const btn = document.getElementById('aiSubmitBtn');
-            const out = document.getElementById('aiResponseContent');
-
-            btn.disabled = true;
-            btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>AI 코칭 분석 중...</span>`;
-            lucide.createIcons();
-
-            out.innerHTML = `
-                <div class="py-8 text-center space-y-2">
-                    <div class="inline-block w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                    <p class="text-xs font-bold text-slate-600">선수 상태와 운동사슬(Kinetic Chain) 데이터를 분석하여 4단계 맞춤 루틴을 구성하고 있습니다...</p>
-                </div>
-            `;
-
-            const systemPrompt = `당신은 '리햅프로(Rehab Pro)' 야구선수 전문 퍼포먼스 및 컨디셔닝 수석 코치입니다.
-반드시 아래 규칙을 지켜 한국어로 답변하세요:
-1. 어려운 해부학/의학 용어를 피하고 야구 현장에서 트레이너와 선수가 즉시 이해할 수 있는 쉬운 말로 설명하세요.
-2. 의료 행위(진단/치료)로 오인되지 않도록 피지컬 컨디셔닝 및 부상 예방 가이드 관점으로 작성하세요.
-3. 반드시 [1단계: 굳은 근육 풀기(이완)] -> [2단계: 관절 가동범위 넓히기] -> [3단계: 근육 활성화 및 안정화] -> [4단계: 실전 야구 기능향상]의 4단계 구조로 처방하세요.
-4. 플라이오케어 볼, J-Bands/튜빙, 랜드마인, 메디신볼, 폼롤러/마사지공 등 다양한 현장 소도구를 활용한 운동과 권장 세트/반복수, 핵심 코칭 큐(Cue)를 명확히 제시하세요.`;
-
-            const userPrompt = `[야구선수 맞춤형 컨디셔닝 문진]
-- 포지션: ${pos}
-- 1. 통증 위치 및 강도: ${q1 || '특이 통증 없음 (예방 및 퍼포먼스 목적)'}
-- 2. 구체적 증상 및 불편 동작: ${q2 || '없음'}
-- 3. 강화를 원하는 부위: ${q3 || '전신 야구 회전 파워 및 안정성'}
-- 4. 가동성이 필요한 부위: ${q4 || '흉추 및 고관절 회전 가동성'}
-
-위 4가지 문진 결과를 바탕으로 현장에서 즉시 실행할 수 있는 맞춤형 4단계 트레이닝 루틴과 소도구 활용 가이드를 작성해 주세요.`;
-
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }]
-                        }],
-                        generationConfig: {
-                            temperature: 0.65,
-                            maxOutputTokens: 2048
-                        }
-                    })
-                });
-
-                const data = await response.json();
-
-                if (!response.ok) {
-                    const errMsg = data?.error?.message || 'API 호출 중 오류가 발생했습니다. API 키를 확인해 주세요.';
-                    throw new Error(errMsg);
-                }
-
-                const replyText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (!replyText) {
-                    throw new Error('AI 응답을 생성하지 못했습니다. 다시 시도해 주세요.');
-                }
-
-                out.innerHTML = `<div class="prose prose-sm max-w-none text-slate-800 leading-relaxed">${formatMarkdownToHtml(replyText)}</div>`;
-                showToast('AI 맞춤형 4단계 컨디셔닝 처방이 완료되었습니다.');
-            } catch (error) {
-                out.innerHTML = `
-                    <div class="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs space-y-1">
-                        <strong class="font-extrabold block">AI 분석 오류 안내</strong>
-                        <p>${error.message}</p>
-                        <p class="text-[11px] text-red-500 mt-1">※ 입력하신 Gemini API Key가 유효한지, 또는 할당량이 남아있는지 확인해 주세요.</p>
-                    </div>
-                `;
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = `<i data-lucide="send" class="w-3.5 h-3.5"></i><span>AI 맞춤 운동 처방받기</span>`;
-                lucide.createIcons();
-            }
-        }
-
-        /* 5. 3-MINUTE SESSION INTERVAL TIMER */
-        function openTimerModal() {
-            document.getElementById('timerModal').classList.remove('hidden');
-            lucide.createIcons();
-        }
-
-        function closeTimerModal() {
-            pauseSessionTimer();
-            document.getElementById('timerModal').classList.add('hidden');
         }
 
         function startSessionTimer() {
-            if (appState.timer.isRunning) return;
-            appState.timer.isRunning = true;
-            appState.timer.interval = setInterval(() => {
-                if (appState.timer.seconds > 0) {
-                    appState.timer.seconds--;
-                    updateTimerUI();
-                } else {
-                    pauseSessionTimer();
-                    showToast('3분 4단계 세션이 완료되었습니다! 훈련 기록을 저장해 보세요.');
+            clearInterval(timerInterval);
+            remainingSeconds = 180;
+            document.getElementById('timerPanel').classList.remove('hidden');
+            updateTimerUI();
+            timerInterval = setInterval(() => {
+                remainingSeconds--;
+                updateTimerUI();
+                if (remainingSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    completeSession();
                 }
             }, 1000);
         }
 
-        function pauseSessionTimer() {
-            appState.timer.isRunning = false;
-            clearInterval(appState.timer.interval);
-        }
-
-        function resetSessionTimer() {
-            pauseSessionTimer();
-            appState.timer.seconds = 180;
-            updateTimerUI();
-        }
-
-        function jumpTimerStage(sec) {
-            pauseSessionTimer();
-            appState.timer.seconds = sec;
-            updateTimerUI();
-        }
-
         function updateTimerUI() {
-            const sec = appState.timer.seconds;
-            const m = Math.floor(sec / 60).toString().padStart(2, '0');
-            const s = (sec % 60).toString().padStart(2, '0');
-            document.getElementById('timerClock').innerText = `${m}:${s}`;
-
-            const pct = (sec / 180) * 100;
-            const bar = document.getElementById('timerBar');
-            bar.style.width = `${pct}%`;
-
-            const indicator = document.getElementById('timerPhaseIndicator');
-            if (sec > 135) {
-                indicator.innerText = '1단계: 준비 및 부하 설정 (45초 구간)';
-                bar.className = 'bg-blue-600 h-full transition-all duration-500';
-            } else if (sec > 90) {
-                indicator.innerText = '2단계: 운동사슬 연결 및 분리 (45초 구간)';
-                bar.className = 'bg-emerald-600 h-full transition-all duration-500';
-            } else if (sec > 45) {
-                indicator.innerText = '3단계: 폭발적 힘의 발현 (45초 구간)';
-                bar.className = 'bg-amber-500 h-full transition-all duration-500';
-            } else {
-                indicator.innerText = '4단계: 감속 및 브레이킹 유지 (45초 구간)';
-                bar.className = 'bg-purple-600 h-full transition-all duration-500';
-            }
+            const m = String(Math.floor(remainingSeconds / 60)).padStart(2, '0');
+            const s = String(remainingSeconds % 60).padStart(2, '0');
+            document.getElementById('timerDisplay').innerText = `${m}:${s}`;
         }
 
-        /* 6. LOCALSTORAGE WORKOUT HISTORY LOGGING */
-        function saveWorkoutLog() {
-            const ex = EXERCISE_MASTER_DB.find(item => item.id === appState.selectedId);
-            if (!ex) return;
+        function stopSessionTimer() {
+            clearInterval(timerInterval);
+            document.getElementById('timerPanel').classList.add('hidden');
+        }
 
-            const logs = JSON.parse(localStorage.getItem(STORAGE_LOGS_KEY) || '[]');
-            const now = new Date();
-            const timeStr = `${now.getFullYear()}.${(now.getMonth() + 1).toString().padStart(2, '0')}.${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-
+        function completeSession() {
+            stopSessionTimer();
+            const logs = JSON.parse(localStorage.getItem('rehab_session_logs') || '[]');
             logs.unshift({
-                id: Date.now(),
-                title: ex.title,
-                pos: ex.position === 'pitcher' ? '투수' : '타자',
-                cat: ex.catLabel.split(':')[0],
-                tool: ex.tool,
-                time: timeStr
+                time: new Date().toLocaleString('ko-KR'),
+                exercise: currentEx.title,
+                category: currentEx.catLabel
             });
-
-            localStorage.setItem(STORAGE_LOGS_KEY, JSON.stringify(logs.slice(0, 50)));
-            updateHistoryBadge();
-            showToast(`[${ex.title}] 훈련 완료 기록이 저장되었습니다.`);
+            localStorage.setItem('rehab_session_logs', JSON.stringify(logs));
+            renderHistory();
+            alert(`[${currentEx.title}] 3분 컨디셔닝 세션이 완료되어 이력에 저장되었습니다.`);
         }
 
-        function updateHistoryBadge() {
-            const logs = JSON.parse(localStorage.getItem(STORAGE_LOGS_KEY) || '[]');
-            document.getElementById('historyBadge').innerText = logs.length;
-        }
-
-        function openHistoryModal() {
-            const container = document.getElementById('historyListContainer');
-            const logs = JSON.parse(localStorage.getItem(STORAGE_LOGS_KEY) || '[]');
-            container.innerHTML = '';
-
+        function renderHistory() {
+            const logs = JSON.parse(localStorage.getItem('rehab_session_logs') || '[]');
+            document.getElementById('historyCount').innerText = logs.length;
+            const list = document.getElementById('historyList');
             if (logs.length === 0) {
-                container.innerHTML = `<div class="py-12 text-center text-slate-400">저장된 훈련 완료 기록이 없습니다.<br>운동을 선택하고 [훈련 완료 기록] 버튼을 눌러보세요.</div>`;
-            } else {
-                logs.forEach(log => {
-                    const row = document.createElement('div');
-                    row.className = 'bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between gap-2';
-                    row.innerHTML = `
-                        <div>
-                            <div class="flex items-center space-x-1.5 mb-0.5">
-                                <span class="text-[10px] font-extrabold text-blue-700 bg-blue-100 px-1.5 py-0.2 rounded">${log.pos} · ${log.cat}타입</span>
-                                <span class="text-[10px] text-slate-500 font-semibold">${log.tool}</span>
-                            </div>
-                            <strong class="text-slate-900 font-extrabold block">${log.title}</strong>
-                        </div>
-                        <span class="text-[11px] text-slate-400 font-mono shrink-0">${log.time}</span>
-                    `;
-                    container.appendChild(row);
-                });
+                list.innerHTML = '<p class="text-slate-400 py-6 text-center">아직 완료된 세션 기록이 없습니다.</p>';
+                return;
+            }
+            list.innerHTML = logs.map(l => `
+                <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
+                    <div>
+                        <span class="font-bold text-slate-900">${l.exercise}</span>
+                        <span class="ml-2 text-[11px] text-blue-700 font-semibold">${l.category}</span>
+                    </div>
+                    <span class="text-[11px] text-slate-400">${l.time}</span>
+                </div>
+            `).join('');
+        }
+
+        function clearHistory() {
+            localStorage.removeItem('rehab_session_logs');
+            renderHistory();
+        }
+
+        async function generateAiPrescription() {
+            const apiKey = localStorage.getItem('rehab_gemini_key');
+            if (!apiKey) {
+                toggleModal('apiModal', true);
+                return alert('먼저 상단에서 Gemini API Key를 설정해 주세요.');
             }
 
-            document.getElementById('historyModal').classList.remove('hidden');
-            lucide.createIcons();
+            const pain = document.getElementById('qPain').value.trim();
+            const symptom = document.getElementById('qSymptom').value.trim();
+            const strength = document.getElementById('qStrength').value.trim();
+            const mobility = document.getElementById('qMobility').value.trim();
+
+            if (!pain && !symptom && !strength && !mobility) {
+                return alert('최소 1가지 이상의 문진 항목을 입력해 주세요.');
+            }
+
+            const btn = document.getElementById('aiSubmitBtn');
+            const resultArea = document.getElementById('aiResultArea');
+            btn.disabled = true;
+            btn.innerHTML = '<span>전문 프로토콜 & 시연 영상 링크 생성 중...</span>';
+            resultArea.innerHTML = '<div class="py-12 text-center text-xs text-blue-600 font-bold animate-pulse">스포츠 의학 근거 데이터 기반 4단계 처방표를 작성하고 있습니다...</div>';
+
+            const systemPrompt = `당신은 스포츠 의학 및 야구/피트니스 컨디셔닝 수석 디렉터입니다.
+사용자 입력을 바탕으로 4단계 프로토콜(1단계 통증보호/MFR, 2단계 가동범위 확보, 3단계 근육활성화, 4단계 기능향상) 맞춤 운동을 처방하세요.
+[필수 규칙]
+1. 서론과 인사말을 생략하고 핵심만 압축하여 텍스트가 중간에 절대 끊기지 않게 완결하세요.
+2. 추천 운동마다 반드시 아래 마크다운 표 형식으로 출력하고, 마지막 열에 유튜브 검색 딥링크를 정확히 포함하세요.
+표 형식:
+| 단계 | 추천 운동명 | 활용 소도구 | 세트/횟수 및 핵심 코칭 큐 | 실전 시연 영상 |
+|---|---|---|---|---|
+| 1단계 | 운동명 | 소도구 | 10회 3세트 / 핵심 큐 | [▶ 영상 보기](https://www.youtube.com/results?search_query=운동명+재활+운동) |
+3. 의료 행위가 아닌 비의료 피지컬 컨디셔닝 가이드임을 마지막에 1줄 명시하세요.`;
+
+            const userQuery = `1. 통증: ${pain || '없음'}\n2. 증상: ${symptom || '없음'}\n3. 강화 부위: ${strength || '전신 밸런스'}\n4. 가동성 부위: ${mobility || '흉추 및 고관절'}`;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        contents: [{ parts: [{ text: userQuery }] }],
+                        generationConfig: { maxOutputTokens: 8192, temperature: 0.4 }
+                    })
+                });
+                const data = await response.json();
+                if (data.error) throw new Error(data.error.message);
+                const mdText = data.candidates?.[0]?.content?.parts?.[0]?.text || '응답을 생성하지 못했습니다.';
+                resultArea.innerHTML = marked.parse(mdText);
+            } catch (err) {
+                resultArea.innerHTML = `<div class="p-4 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 font-semibold">오류 발생: ${err.message} (API Key를 다시 확인해 주세요)</div>`;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i data-lucide="sparkles" class="w-4 h-4 mr-1.5"></i> 맞춤형 4단계 루틴 & 시연 영상 URL 생성하기';
+                lucide.createIcons();
+            }
         }
 
-        function closeHistoryModal() {
-            document.getElementById('historyModal').classList.add('hidden');
-        }
-
-        function clearWorkoutHistory() {
-            localStorage.removeItem(STORAGE_LOGS_KEY);
-            updateHistoryBadge();
-            openHistoryModal();
-            showToast('모든 훈련 기록이 초기화되었습니다.');
-        }
-
-        /* 7. TOAST NOTIFICATION HELPER */
-        function showToast(msg) {
-            const toast = document.getElementById('toastNotification');
-            document.getElementById('toastMessage').innerText = msg;
-            toast.classList.remove('translate-y-24', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-24', 'opacity-0');
-            }, 3200);
-        }
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
+"""
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html_code)
+
+print("index.html generated successfully.")
